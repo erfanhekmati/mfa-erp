@@ -4,11 +4,22 @@ import {
   Sheet,
   SheetContent,
   SheetTitle,
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
   cn,
 } from "@repo/ui";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
+import { createPortal } from "react-dom";
 import { navItems, type NavItem } from "./nav-config";
 import { NavIcon } from "./nav-icons";
 
@@ -68,7 +79,7 @@ function NavLeaf({
       </Link>
     );
   }
-  return (
+  const link = (
     <Link
       href={href}
       className={cn(
@@ -79,7 +90,6 @@ function NavLeaf({
           : "text-foreground hover:bg-sidebar-accent/80",
       )}
       onClick={onNavigate}
-      title={collapsed && item.icon ? item.label : undefined}
     >
       {item.icon ? (
         <NavIcon name={item.icon} className="size-5 shrink-0" />
@@ -94,6 +104,19 @@ function NavLeaf({
       </span>
     </Link>
   );
+
+  if (collapsed && !sub) {
+    return (
+      <Tooltip>
+        <TooltipTrigger asChild>{link}</TooltipTrigger>
+        <TooltipContent side="left" align="center">
+          {item.label}
+        </TooltipContent>
+      </Tooltip>
+    );
+  }
+
+  return link;
 }
 
 export function Sidebar({
@@ -114,8 +137,19 @@ export function Sidebar({
     more: false,
   });
   const [flyoutOpen, setFlyoutOpen] = useState<string | null>(null);
+  const [flyoutPos, setFlyoutPos] = useState<{
+    top: number;
+    left: number;
+  } | null>(null);
+  const [mounted, setMounted] = useState(false);
+  const closeHoverTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const flyoutMenuRef = useRef<HTMLDivElement | null>(null);
 
   const showCollapsed = collapsed && !isMobile;
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const toggle = useCallback((itemId: string) => {
     setExpanded((prev) => ({ ...prev, [itemId]: !prev[itemId] }));
@@ -123,10 +157,60 @@ export function Sidebar({
 
   const closeFlyout = useCallback(() => setFlyoutOpen(null), []);
 
+  const clearCloseHoverTimer = useCallback(() => {
+    if (closeHoverTimerRef.current) {
+      clearTimeout(closeHoverTimerRef.current);
+      closeHoverTimerRef.current = null;
+    }
+  }, []);
+
+  useEffect(() => () => clearCloseHoverTimer(), [clearCloseHoverTimer]);
+
+  const updateFlyoutPosition = useCallback(() => {
+    if (!flyoutOpen || !showCollapsed) return;
+    const el = document.getElementById(`${id}-flyout-trigger-${flyoutOpen}`);
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    setFlyoutPos({ top: rect.top, left: rect.left });
+  }, [flyoutOpen, showCollapsed, id]);
+
+  useLayoutEffect(() => {
+    if (!flyoutOpen || !showCollapsed) {
+      setFlyoutPos(null);
+      return;
+    }
+    updateFlyoutPosition();
+  }, [flyoutOpen, showCollapsed, updateFlyoutPosition]);
+
+  useEffect(() => {
+    if (!flyoutOpen || !showCollapsed) return;
+    const nav = rootRef.current?.querySelector("nav");
+    const main = document.querySelector("main");
+    const onMove = () => updateFlyoutPosition();
+    window.addEventListener("resize", onMove);
+    nav?.addEventListener("scroll", onMove, { passive: true });
+    main?.addEventListener("scroll", onMove, { passive: true });
+    const aside = rootRef.current;
+    const ro =
+      aside &&
+      typeof ResizeObserver !== "undefined"
+        ? new ResizeObserver(onMove)
+        : null;
+    if (aside && ro) ro.observe(aside);
+    return () => {
+      window.removeEventListener("resize", onMove);
+      nav?.removeEventListener("scroll", onMove);
+      main?.removeEventListener("scroll", onMove);
+      ro?.disconnect();
+    };
+  }, [flyoutOpen, showCollapsed, updateFlyoutPosition]);
+
   useEffect(() => {
     if (!flyoutOpen) return;
     const handler = (e: MouseEvent) => {
-      if (rootRef.current?.contains(e.target as Node)) return;
+      const t = e.target as Node;
+      if (rootRef.current?.contains(t)) return;
+      if (flyoutMenuRef.current?.contains(t)) return;
       closeFlyout();
     };
     document.addEventListener("mousedown", handler);
@@ -202,13 +286,33 @@ export function Sidebar({
     </div>
   );
 
+  const flyoutItem =
+    flyoutOpen && showCollapsed
+      ? navItems.find((i) => i.id === flyoutOpen)
+      : undefined;
+
   const navBlock = (
-    <nav className="flex-1 overflow-y-auto overflow-x-hidden px-2 py-3" aria-label="اصلی">
+    <nav className="flex-1 overflow-y-auto px-2 py-3" aria-label="اصلی">
       <ul className="space-y-1">
         {navItems.map((item) => (
           <li key={item.id} className="relative">
             {item.children?.length ? (
-              <>
+              <div
+                id={`${id}-flyout-trigger-${item.id}`}
+                className="relative"
+                onMouseEnter={() => {
+                  if (!showCollapsed) return;
+                  clearCloseHoverTimer();
+                  setFlyoutOpen(item.id);
+                }}
+                onMouseLeave={() => {
+                  if (!showCollapsed) return;
+                  clearCloseHoverTimer();
+                  closeHoverTimerRef.current = setTimeout(() => {
+                    setFlyoutOpen((open) => (open === item.id ? null : open));
+                  }, 200);
+                }}
+              >
                 <button
                   type="button"
                   className={cn(
@@ -268,35 +372,7 @@ export function Sidebar({
                     ))}
                   </ul>
                 ) : null}
-                {showCollapsed && flyoutOpen === item.id && item.children ? (
-                  <div
-                    className="absolute end-full top-0 z-[60] me-1.5 min-w-[11rem] rounded-lg border border-border bg-background p-1.5 shadow-lg"
-                    role="menu"
-                    aria-label={item.label}
-                  >
-                    {item.children.map((child) => (
-                      <Link
-                        key={child.id}
-                        href={child.href ?? "#"}
-                        className={cn(
-                          "block rounded-md px-2.5 py-2 text-sm transition-colors",
-                          child.href &&
-                            isPathActive(pathname, child.href)
-                            ? "bg-sidebar-accent font-medium text-foreground"
-                            : "text-foreground hover:bg-accent",
-                        )}
-                        role="menuitem"
-                        onClick={() => {
-                          closeFlyout();
-                          onNavigate?.();
-                        }}
-                      >
-                        {child.label}
-                      </Link>
-                    ))}
-                  </div>
-                ) : null}
-              </>
+              </div>
             ) : (
               <NavLeaf
                 item={item}
@@ -315,11 +391,57 @@ export function Sidebar({
     </nav>
   );
 
+  const flyoutPortal =
+    mounted &&
+    showCollapsed &&
+    flyoutOpen &&
+    flyoutItem?.children?.length &&
+    flyoutPos &&
+    typeof document !== "undefined"
+      ? createPortal(
+          <div
+            ref={flyoutMenuRef}
+            className="fixed z-[60] min-w-[11rem] rounded-lg border border-border bg-background p-1.5 shadow-lg"
+            style={{
+              top: flyoutPos.top,
+              left: flyoutPos.left - 6,
+              transform: "translateX(-100%)",
+            }}
+            role="menu"
+            aria-label={flyoutItem.label}
+            onMouseEnter={clearCloseHoverTimer}
+            onMouseLeave={() => setFlyoutOpen(null)}
+          >
+            {flyoutItem.children.map((child) => (
+              <Link
+                key={child.id}
+                href={child.href ?? "#"}
+                className={cn(
+                  "block rounded-md px-2.5 py-2 text-sm transition-colors",
+                  child.href && isPathActive(pathname, child.href)
+                    ? "bg-sidebar-accent font-medium text-foreground"
+                    : "text-foreground hover:bg-accent",
+                )}
+                role="menuitem"
+                onClick={() => {
+                  closeFlyout();
+                  onNavigate?.();
+                }}
+              >
+                {child.label}
+              </Link>
+            ))}
+          </div>,
+          document.body,
+        )
+      : null;
+
   const inner = (
-    <>
+    <TooltipProvider delayDuration={400} disableHoverableContent>
       {brandBlock}
       {navBlock}
-    </>
+      {flyoutPortal}
+    </TooltipProvider>
   );
 
   if (isMobile) {
