@@ -9,7 +9,9 @@
 * 🟢 You can import this file directly.
 */
 
+export const DiscountType = {
+  FIXED: 'FIXED',
+  PERCENT: 'PERCENT'
+} as const
 
-
-// This file is empty because there are no enums in the schema.
-export {}
+export type DiscountType = (typeof DiscountType)[keyof typeof DiscountType]

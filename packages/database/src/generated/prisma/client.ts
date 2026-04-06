@@ -29,8 +29,8 @@ export * from "./enums"
  * const prisma = new PrismaClient({
  *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
  * })
- * // Fetch zero or more Users
- * const users = await prisma.user.findMany()
+ * // Fetch zero or more Products
+ * const products = await prisma.product.findMany()
  * ```
  * 
  * Read more in our [docs](https://pris.ly/d/client).
@@ -39,4 +39,43 @@ export const PrismaClient = $Class.getPrismaClientClass()
 export type PrismaClient<LogOpts extends Prisma.LogLevel = never, OmitOpts extends Prisma.PrismaClientOptions["omit"] = Prisma.PrismaClientOptions["omit"], ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = $Class.PrismaClient<LogOpts, OmitOpts, ExtArgs>
 export { Prisma }
 
-
+/**
+ * Model Product
+ * 
+ */
+export type Product = Prisma.ProductModel
+/**
+ * Model Branch
+ * 
+ */
+export type Branch = Prisma.BranchModel
+/**
+ * Model ProviderPurchase
+ * 
+ */
+export type ProviderPurchase = Prisma.ProviderPurchaseModel
+/**
+ * Model User
+ * 
+ */
+export type User = Prisma.UserModel
+/**
+ * Model Profile
+ * 
+ */
+export type Profile = Prisma.ProfileModel
+/**
+ * Model SalePlan
+ * 
+ */
+export type SalePlan = Prisma.SalePlanModel
+/**
+ * Model SalePlanAllocation
+ * 
+ */
+export type SalePlanAllocation = Prisma.SalePlanAllocationModel
+/**
+ * Model SalePlanAssignment
+ * 
+ */
+export type SalePlanAssignment = Prisma.SalePlanAssignmentModel

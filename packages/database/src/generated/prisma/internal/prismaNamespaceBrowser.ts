@@ -51,7 +51,14 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
-
+  Product: 'Product',
+  Branch: 'Branch',
+  ProviderPurchase: 'ProviderPurchase',
+  User: 'User',
+  Profile: 'Profile',
+  SalePlan: 'SalePlan',
+  SalePlanAllocation: 'SalePlanAllocation',
+  SalePlanAssignment: 'SalePlanAssignment'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -68,4 +75,210 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 } as const)
 
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
+
+
+export const ProductScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  name: 'name',
+  description: 'description',
+  unit: 'unit',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ProductScalarFieldEnum = (typeof ProductScalarFieldEnum)[keyof typeof ProductScalarFieldEnum]
+
+
+export const BranchScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  name: 'name',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type BranchScalarFieldEnum = (typeof BranchScalarFieldEnum)[keyof typeof BranchScalarFieldEnum]
+
+
+export const ProviderPurchaseScalarFieldEnum = {
+  id: 'id',
+  provider: 'provider',
+  productId: 'productId',
+  branchId: 'branchId',
+  quantity: 'quantity',
+  unitPrice: 'unitPrice',
+  sumPrice: 'sumPrice',
+  taxAndDuties: 'taxAndDuties',
+  freight: 'freight',
+  totalAmount: 'totalAmount',
+  description: 'description',
+  purchasedAt: 'purchasedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ProviderPurchaseScalarFieldEnum = (typeof ProviderPurchaseScalarFieldEnum)[keyof typeof ProviderPurchaseScalarFieldEnum]
+
+
+export const UserScalarFieldEnum = {
+  id: 'id',
+  firstName: 'firstName',
+  lastName: 'lastName',
+  phoneNumber: 'phoneNumber',
+  passwordHash: 'passwordHash',
+  isProfileCompleted: 'isProfileCompleted',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const ProfileScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  email: 'email',
+  birthday: 'birthday',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ProfileScalarFieldEnum = (typeof ProfileScalarFieldEnum)[keyof typeof ProfileScalarFieldEnum]
+
+
+export const SalePlanScalarFieldEnum = {
+  id: 'id',
+  productId: 'productId',
+  createdByUserId: 'createdByUserId',
+  salePrice: 'salePrice',
+  discountAmount: 'discountAmount',
+  discountType: 'discountType',
+  startAt: 'startAt',
+  endAt: 'endAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SalePlanScalarFieldEnum = (typeof SalePlanScalarFieldEnum)[keyof typeof SalePlanScalarFieldEnum]
+
+
+export const SalePlanAllocationScalarFieldEnum = {
+  id: 'id',
+  salePlanId: 'salePlanId',
+  providerPurchaseId: 'providerPurchaseId',
+  quantity: 'quantity',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SalePlanAllocationScalarFieldEnum = (typeof SalePlanAllocationScalarFieldEnum)[keyof typeof SalePlanAllocationScalarFieldEnum]
+
+
+export const SalePlanAssignmentScalarFieldEnum = {
+  id: 'id',
+  salePlanId: 'salePlanId',
+  assigneeUserId: 'assigneeUserId',
+  assignedByUserId: 'assignedByUserId',
+  allocatedQuantity: 'allocatedQuantity',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SalePlanAssignmentScalarFieldEnum = (typeof SalePlanAssignmentScalarFieldEnum)[keyof typeof SalePlanAssignmentScalarFieldEnum]
+
+
+export const SortOrder = {
+  asc: 'asc',
+  desc: 'desc'
+} as const
+
+export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+export const NullsOrder = {
+  first: 'first',
+  last: 'last'
+} as const
+
+export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+export const ProductOrderByRelevanceFieldEnum = {
+  id: 'id',
+  code: 'code',
+  name: 'name',
+  description: 'description',
+  unit: 'unit'
+} as const
+
+export type ProductOrderByRelevanceFieldEnum = (typeof ProductOrderByRelevanceFieldEnum)[keyof typeof ProductOrderByRelevanceFieldEnum]
+
+
+export const BranchOrderByRelevanceFieldEnum = {
+  id: 'id',
+  code: 'code',
+  name: 'name'
+} as const
+
+export type BranchOrderByRelevanceFieldEnum = (typeof BranchOrderByRelevanceFieldEnum)[keyof typeof BranchOrderByRelevanceFieldEnum]
+
+
+export const ProviderPurchaseOrderByRelevanceFieldEnum = {
+  id: 'id',
+  provider: 'provider',
+  productId: 'productId',
+  branchId: 'branchId',
+  description: 'description'
+} as const
+
+export type ProviderPurchaseOrderByRelevanceFieldEnum = (typeof ProviderPurchaseOrderByRelevanceFieldEnum)[keyof typeof ProviderPurchaseOrderByRelevanceFieldEnum]
+
+
+export const UserOrderByRelevanceFieldEnum = {
+  id: 'id',
+  firstName: 'firstName',
+  lastName: 'lastName',
+  phoneNumber: 'phoneNumber',
+  passwordHash: 'passwordHash'
+} as const
+
+export type UserOrderByRelevanceFieldEnum = (typeof UserOrderByRelevanceFieldEnum)[keyof typeof UserOrderByRelevanceFieldEnum]
+
+
+export const ProfileOrderByRelevanceFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  email: 'email'
+} as const
+
+export type ProfileOrderByRelevanceFieldEnum = (typeof ProfileOrderByRelevanceFieldEnum)[keyof typeof ProfileOrderByRelevanceFieldEnum]
+
+
+export const SalePlanOrderByRelevanceFieldEnum = {
+  id: 'id',
+  productId: 'productId',
+  createdByUserId: 'createdByUserId'
+} as const
+
+export type SalePlanOrderByRelevanceFieldEnum = (typeof SalePlanOrderByRelevanceFieldEnum)[keyof typeof SalePlanOrderByRelevanceFieldEnum]
+
+
+export const SalePlanAllocationOrderByRelevanceFieldEnum = {
+  id: 'id',
+  salePlanId: 'salePlanId',
+  providerPurchaseId: 'providerPurchaseId'
+} as const
+
+export type SalePlanAllocationOrderByRelevanceFieldEnum = (typeof SalePlanAllocationOrderByRelevanceFieldEnum)[keyof typeof SalePlanAllocationOrderByRelevanceFieldEnum]
+
+
+export const SalePlanAssignmentOrderByRelevanceFieldEnum = {
+  id: 'id',
+  salePlanId: 'salePlanId',
+  assigneeUserId: 'assigneeUserId',
+  assignedByUserId: 'assignedByUserId'
+} as const
+
+export type SalePlanAssignmentOrderByRelevanceFieldEnum = (typeof SalePlanAssignmentOrderByRelevanceFieldEnum)[keyof typeof SalePlanAssignmentOrderByRelevanceFieldEnum]
 

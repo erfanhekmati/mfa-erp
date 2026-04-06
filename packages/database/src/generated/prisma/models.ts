@@ -8,4 +8,12 @@
  *
  * 🟢 You can import this file directly.
  */
+export type * from './models/Product'
+export type * from './models/Branch'
+export type * from './models/ProviderPurchase'
+export type * from './models/User'
+export type * from './models/Profile'
+export type * from './models/SalePlan'
+export type * from './models/SalePlanAllocation'
+export type * from './models/SalePlanAssignment'
 export type * from './commonInputTypes'
