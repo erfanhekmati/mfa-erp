@@ -1,15 +1,16 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Vazirmatn } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
-  subsets: ["latin"],
+const vazirmatn = Vazirmatn({
+  subsets: ["arabic", "latin"],
   variable: "--font-sans",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "ERP Dashboard",
-  description: "Modiran Foolad Azar ERP",
+  title: "داشبورد ERP",
+  description: "سامانه برنامه‌ریزی منابع سازمان مدیران فولاد آذر",
 };
 
 export default function RootLayout({
@@ -18,8 +19,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.variable}>{children}</body>
+    <html lang="fa" dir="rtl">
+      <body className={vazirmatn.variable}>{children}</body>
     </html>
   );
 }
