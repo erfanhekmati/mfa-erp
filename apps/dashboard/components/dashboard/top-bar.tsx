@@ -1,20 +1,21 @@
 "use client";
 
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { Fragment } from "react";
+import { getBreadcrumbs } from "../../lib/breadcrumb";
 import styles from "./top-bar.module.css";
 
 type TopBarProps = {
-  title: string;
   sidebarId: string;
   sidebarOpen: boolean;
   onMenuClick: () => void;
 };
 
-export function TopBar({
-  title,
-  sidebarId,
-  sidebarOpen,
-  onMenuClick,
-}: TopBarProps) {
+export function TopBar({ sidebarId, sidebarOpen, onMenuClick }: TopBarProps) {
+  const pathname = usePathname() ?? "/";
+  const crumbs = getBreadcrumbs(pathname);
+
   return (
     <header className={styles.bar}>
       <button
@@ -36,7 +37,38 @@ export function TopBar({
           <path d="M4 6h16M4 12h16M4 18h16" />
         </svg>
       </button>
-      <div className={styles.title}>{title}</div>
+      <nav className={styles.breadcrumbNav} aria-label="مسیر صفحه">
+        <ol className={styles.breadcrumbList}>
+          {crumbs.map((c, i) => {
+            const isLast = i === crumbs.length - 1;
+            return (
+              <Fragment key={`${c.label}-${i}`}>
+                {i > 0 ? (
+                  <li className={styles.sep} aria-hidden>
+                    /
+                  </li>
+                ) : null}
+                <li className={styles.crumb}>
+                  {c.href && !isLast ? (
+                    <Link href={c.href} className={styles.crumbLink}>
+                      {c.label}
+                    </Link>
+                  ) : (
+                    <span
+                      className={
+                        isLast ? styles.crumbCurrent : styles.crumbStatic
+                      }
+                      aria-current={isLast ? "page" : undefined}
+                    >
+                      {c.label}
+                    </span>
+                  )}
+                </li>
+              </Fragment>
+            );
+          })}
+        </ol>
+      </nav>
       <div className={styles.spacer} aria-hidden />
     </header>
   );

@@ -17,9 +17,17 @@ type SidebarProps = {
   onClose?: () => void;
 };
 
+function normalizePath(p: string) {
+  if (!p) return "/";
+  return p.length > 1 && p.endsWith("/") ? p.slice(0, -1) : p;
+}
+
+/** Exact match only — prefix matching would wrongly activate `/sales` when on `/sales/plan`. */
 function isPathActive(pathname: string, href: string) {
-  if (href === "/") return pathname === "/";
-  return pathname === href || pathname.startsWith(`${href}/`);
+  const p = normalizePath(pathname);
+  const h = normalizePath(href);
+  if (h === "/") return p === "/";
+  return p === h;
 }
 
 function NavLeaf({
@@ -142,6 +150,16 @@ export function Sidebar({
         {!showCollapsed || isMobile ? (
           <div className={styles.brand}>مدیران فولاد آذر</div>
         ) : null}
+        {isMobile && onClose ? (
+          <button
+            type="button"
+            className={styles.closeBtn}
+            onClick={onClose}
+            aria-label="بستن منو"
+          >
+            ×
+          </button>
+        ) : null}
         {!isMobile ? (
           <button
             type="button"
@@ -171,18 +189,6 @@ export function Sidebar({
           </button>
         ) : null}
       </div>
-      {onClose ? (
-        <div className={styles.closeRow}>
-          <button
-            type="button"
-            className={styles.closeBtn}
-            onClick={onClose}
-            aria-label="بستن منو"
-          >
-            ×
-          </button>
-        </div>
-      ) : null}
       <nav className={styles.nav} aria-label="اصلی">
         <ul className={styles.list}>
           {navItems.map((item) => (

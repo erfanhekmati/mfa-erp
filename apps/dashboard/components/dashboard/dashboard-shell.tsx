@@ -92,7 +92,6 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
       />
       <div className={styles.mainColumn}>
         <TopBar
-          title="داشبورد ERP"
           sidebarId={SIDEBAR_ID}
           sidebarOpen={sidebarOpen}
           onMenuClick={toggleSidebar}
