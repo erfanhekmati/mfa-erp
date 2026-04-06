@@ -6,6 +6,7 @@
   --sidebar-hover: rgba(0, 0, 0, 0.05);
   --sidebar-active: rgba(0, 0, 0, 0.08);
   --sidebar-width: 240px;
+  --sidebar-collapsed-width: 4.25rem;
   --topbar-height: 3.5rem;
   --muted-foreground: #666;
 }

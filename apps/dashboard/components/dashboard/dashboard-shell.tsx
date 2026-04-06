@@ -8,9 +8,34 @@ import styles from "./dashboard-shell.module.css";
 const SIDEBAR_ID = "dashboard-sidebar";
 const MOBILE_QUERY = "(max-width: 767px)";
 
+const STORAGE_COLLAPSED = "erp-sidebar-collapsed";
+
 export function DashboardShell({ children }: { children: React.ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+
+  useEffect(() => {
+    try {
+      if (localStorage.getItem(STORAGE_COLLAPSED) === "true") {
+        setSidebarCollapsed(true);
+      }
+    } catch {
+      /* ignore */
+    }
+  }, []);
+
+  const toggleSidebarCollapsed = useCallback(() => {
+    setSidebarCollapsed((c) => {
+      const next = !c;
+      try {
+        localStorage.setItem(STORAGE_COLLAPSED, String(next));
+      } catch {
+        /* ignore */
+      }
+      return next;
+    });
+  }, []);
 
   useEffect(() => {
     const mq = window.matchMedia(MOBILE_QUERY);
@@ -59,6 +84,9 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
       <Sidebar
         id={SIDEBAR_ID}
         open={sidebarOpenState}
+        collapsed={sidebarCollapsed}
+        onToggleCollapsed={toggleSidebarCollapsed}
+        isMobile={isMobile}
         onNavigate={onNavigate}
         onClose={isMobile ? closeSidebar : undefined}
       />
