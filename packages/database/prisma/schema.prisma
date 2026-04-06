@@ -6,3 +6,157 @@ generator client {
 datasource db {
   provider = "mysql"
 }
+
+enum DiscountType {
+  FIXED
+  PERCENT
+}
+
+model Product {
+  id          String   @id @default(cuid())
+  code        String   @unique
+  name        String
+  description String?  @db.Text
+  unit        String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  providerPurchases ProviderPurchase[]
+  salePlans         SalePlan[]
+
+  @@map("products")
+}
+
+model Branch {
+  id        String   @id @default(cuid())
+  code      String   @unique
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  providerPurchases ProviderPurchase[]
+
+  @@map("branches")
+}
+
+model ProviderPurchase {
+  id           String   @id @default(cuid())
+  provider     String
+  productId    String
+  product      Product  @relation(fields: [productId], references: [id], onDelete: Restrict)
+  branchId     String
+  branch       Branch   @relation(fields: [branchId], references: [id], onDelete: Restrict)
+
+  quantity     Decimal  @db.Decimal(18, 4)
+  unitPrice    Decimal  @db.Decimal(18, 4)
+  sumPrice     Decimal  @db.Decimal(18, 4)
+
+  taxAndDuties Decimal  @default(0) @db.Decimal(18, 4)
+  freight      Decimal  @default(0) @db.Decimal(18, 4)
+  totalAmount  Decimal  @db.Decimal(18, 4)
+
+  description  String?  @db.Text
+
+  purchasedAt  DateTime @default(now())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([provider])
+  @@index([productId])
+  @@index([branchId])
+  salePlanAllocations SalePlanAllocation[]
+
+  @@map("provider_purchases")
+}
+
+model User {
+  id                 String   @id @default(cuid())
+  firstName          String
+  lastName           String
+  phoneNumber        String   @unique
+  passwordHash       String
+  isProfileCompleted Boolean  @default(false)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  profile            Profile?
+  createdSalePlans   SalePlan[]
+  salePlanAssignmentsAsAssignee SalePlanAssignment[] @relation("SalePlanAssignmentAssignee")
+  salePlanAssignmentsAsAssigner SalePlanAssignment[] @relation("SalePlanAssignmentAssigner")
+
+  @@map("users")
+}
+
+model Profile {
+  id        String    @id @default(cuid())
+  userId    String    @unique
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  email     String?   @unique
+  birthday  DateTime? @db.Date
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@map("profiles")
+}
+
+model SalePlan {
+  id              String   @id @default(cuid())
+  productId       String
+  product         Product  @relation(fields: [productId], references: [id], onDelete: Restrict)
+  createdByUserId String
+  createdBy       User     @relation(fields: [createdByUserId], references: [id], onDelete: Restrict)
+
+  salePrice       Decimal  @db.Decimal(18, 4)
+  discountAmount  Decimal  @db.Decimal(18, 4)
+  discountType    DiscountType
+
+  startAt DateTime
+  endAt   DateTime
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  allocations SalePlanAllocation[]
+  assignments SalePlanAssignment[]
+
+  @@index([productId])
+  @@index([createdByUserId])
+  @@index([startAt, endAt])
+  @@map("sale_plans")
+}
+
+model SalePlanAllocation {
+  id                 String   @id @default(cuid())
+  salePlanId         String
+  salePlan           SalePlan         @relation(fields: [salePlanId], references: [id], onDelete: Cascade)
+  providerPurchaseId String
+  providerPurchase   ProviderPurchase @relation(fields: [providerPurchaseId], references: [id], onDelete: Restrict)
+  quantity           Decimal  @db.Decimal(18, 4)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([salePlanId, providerPurchaseId])
+  @@index([providerPurchaseId])
+  @@map("sale_plan_allocations")
+}
+
+model SalePlanAssignment {
+  id               String   @id @default(cuid())
+  salePlanId       String
+  salePlan         SalePlan @relation(fields: [salePlanId], references: [id], onDelete: Cascade)
+  assigneeUserId   String
+  assignee         User     @relation("SalePlanAssignmentAssignee", fields: [assigneeUserId], references: [id], onDelete: Restrict)
+  assignedByUserId String
+  assignedBy       User     @relation("SalePlanAssignmentAssigner", fields: [assignedByUserId], references: [id], onDelete: Restrict)
+
+  allocatedQuantity Decimal @db.Decimal(18, 4)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([salePlanId, assigneeUserId])
+  @@index([assigneeUserId])
+  @@index([assignedByUserId])
+  @@map("sale_plan_assignments")
+}
