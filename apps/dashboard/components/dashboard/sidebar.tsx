@@ -327,7 +327,6 @@ export function Sidebar({
                   }
                   aria-controls={`${id}-sub-${item.id}`}
                   id={`${id}-btn-${item.id}`}
-                  title={showCollapsed ? item.label : undefined}
                 >
                   {item.icon ? (
                     <NavIcon name={item.icon} className="size-5 shrink-0" />
@@ -401,36 +400,47 @@ export function Sidebar({
       ? createPortal(
           <div
             ref={flyoutMenuRef}
-            className="fixed z-[60] min-w-[11rem] rounded-lg border border-border bg-background p-1.5 shadow-lg"
+            className="fixed z-[60] min-w-[11rem] overflow-hidden rounded-lg border border-border bg-background shadow-lg"
             style={{
               top: flyoutPos.top,
               left: flyoutPos.left - 6,
               transform: "translateX(-100%)",
             }}
             role="menu"
-            aria-label={flyoutItem.label}
+            aria-labelledby={`${id}-flyout-heading-${flyoutItem.id}`}
             onMouseEnter={clearCloseHoverTimer}
             onMouseLeave={() => setFlyoutOpen(null)}
           >
-            {flyoutItem.children.map((child) => (
-              <Link
-                key={child.id}
-                href={child.href ?? "#"}
-                className={cn(
-                  "block rounded-md px-2.5 py-2 text-sm transition-colors",
-                  child.href && isPathActive(pathname, child.href)
-                    ? "bg-sidebar-accent font-medium text-foreground"
-                    : "text-foreground hover:bg-accent",
-                )}
-                role="menuitem"
-                onClick={() => {
-                  closeFlyout();
-                  onNavigate?.();
-                }}
-              >
-                {child.label}
-              </Link>
-            ))}
+            <div
+              id={`${id}-flyout-heading-${flyoutItem.id}`}
+              className="border-b border-border bg-muted/50 px-3 py-2"
+              role="presentation"
+            >
+              <span className="block text-xs font-semibold leading-snug text-muted-foreground">
+                {flyoutItem.label}
+              </span>
+            </div>
+            <div className="flex flex-col gap-0.5 p-1.5">
+              {flyoutItem.children.map((child) => (
+                <Link
+                  key={child.id}
+                  href={child.href ?? "#"}
+                  className={cn(
+                    "block rounded-md px-2.5 py-2 text-sm transition-colors",
+                    child.href && isPathActive(pathname, child.href)
+                      ? "bg-sidebar-accent font-medium text-foreground"
+                      : "text-foreground hover:bg-accent",
+                  )}
+                  role="menuitem"
+                  onClick={() => {
+                    closeFlyout();
+                    onNavigate?.();
+                  }}
+                >
+                  {child.label}
+                </Link>
+              ))}
+            </div>
           </div>,
           document.body,
         )
