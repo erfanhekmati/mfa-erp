@@ -20,7 +20,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fa" dir="rtl">
-      <body className={vazirmatn.variable}>{children}</body>
+      <body className={`${vazirmatn.variable} font-sans`}>{children}</body>
     </html>
   );
 }

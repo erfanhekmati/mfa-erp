@@ -3,7 +3,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { Sidebar } from "./sidebar";
 import { TopBar } from "./top-bar";
-import styles from "./dashboard-shell.module.css";
 
 const SIDEBAR_ID = "dashboard-sidebar";
 const MOBILE_QUERY = "(max-width: 767px)";
@@ -49,54 +48,33 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
     if (!isMobile) setSidebarOpen(false);
   }, [isMobile]);
 
-  const closeSidebar = useCallback(() => setSidebarOpen(false), []);
   const toggleSidebar = useCallback(() => setSidebarOpen((o) => !o), []);
 
   const onNavigate = useCallback(() => {
     if (isMobile) setSidebarOpen(false);
   }, [isMobile]);
 
-  useEffect(() => {
-    if (isMobile && sidebarOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [isMobile, sidebarOpen]);
-
   const sidebarOpenState = !isMobile || sidebarOpen;
 
   return (
-    <div className={styles.root}>
-      {isMobile ? (
-        <button
-          type="button"
-          className={styles.backdrop}
-          data-visible={sidebarOpen ? "true" : "false"}
-          aria-hidden={!sidebarOpen}
-          aria-label="بستن منو"
-          onClick={closeSidebar}
-        />
-      ) : null}
+    <div className="flex min-h-screen w-full bg-background">
       <Sidebar
         id={SIDEBAR_ID}
         open={sidebarOpenState}
+        drawerOpen={sidebarOpen}
+        onDrawerOpenChange={setSidebarOpen}
         collapsed={sidebarCollapsed}
         onToggleCollapsed={toggleSidebarCollapsed}
         isMobile={isMobile}
         onNavigate={onNavigate}
-        onClose={isMobile ? closeSidebar : undefined}
       />
-      <div className={styles.mainColumn}>
+      <div className="relative z-0 flex min-h-screen min-w-0 flex-1 flex-col">
         <TopBar
           sidebarId={SIDEBAR_ID}
           sidebarOpen={sidebarOpen}
           onMenuClick={toggleSidebar}
         />
-        <main className={styles.main}>{children}</main>
+        <main className="flex-1 overflow-auto px-4 py-4 md:px-5">{children}</main>
       </div>
     </div>
   );
