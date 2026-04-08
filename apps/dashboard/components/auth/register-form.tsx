@@ -25,10 +25,12 @@ export function RegisterForm() {
   }
 
   return (
-    <Card className="w-full max-w-md border-border shadow-lg">
-      <CardHeader className="space-y-1 pb-4 text-center">
-        <CardTitle className="text-2xl font-bold tracking-tight">ثبت‌نام</CardTitle>
-        <CardDescription className="text-pretty">
+    <Card className="w-full rounded-2xl border-border/80 bg-card/85 shadow-2xl ring-1 ring-black/5 backdrop-blur-md supports-[backdrop-filter]:bg-card/70">
+      <CardHeader className="space-y-2 pb-4 text-center lg:text-right">
+        <CardTitle className="text-2xl font-bold tracking-tight sm:text-[1.65rem]">
+          ثبت‌نام
+        </CardTitle>
+        <CardDescription className="text-pretty text-[0.9375rem] leading-relaxed">
           اطلاعات خود را وارد کنید تا حساب کاربری ایجاد شود.
         </CardDescription>
       </CardHeader>
@@ -134,7 +136,11 @@ export function RegisterForm() {
             </div>
           </div>
 
-          <Button type="submit" className="w-full" size="lg">
+          <Button
+            type="submit"
+            className="w-full bg-gradient-to-l from-zinc-900 to-zinc-800 shadow-lg shadow-zinc-900/20 hover:from-zinc-800 hover:to-zinc-700"
+            size="lg"
+          >
             ایجاد حساب کاربری
           </Button>
         </CardContent>

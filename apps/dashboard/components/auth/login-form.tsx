@@ -35,17 +35,19 @@ export function LoginForm() {
   }
 
   return (
-    <Card className="w-full max-w-md border-border shadow-lg">
-      <CardHeader className="space-y-1 pb-4 text-center">
-        <CardTitle className="text-2xl font-bold tracking-tight">ورود</CardTitle>
-        <CardDescription className="text-pretty">
+    <Card className="w-full rounded-2xl border-border/80 bg-card/85 shadow-2xl ring-1 ring-black/5 backdrop-blur-md supports-[backdrop-filter]:bg-card/70">
+      <CardHeader className="space-y-2 pb-4 text-center lg:text-right">
+        <CardTitle className="text-2xl font-bold tracking-tight sm:text-[1.65rem]">
+          ورود
+        </CardTitle>
+        <CardDescription className="text-pretty text-[0.9375rem] leading-relaxed">
           با شماره موبایل و رمز عبور یا کد یکبار مصرف وارد شوید.
         </CardDescription>
       </CardHeader>
       <form onSubmit={handleSubmit}>
         <CardContent className="space-y-5">
           <div
-            className="flex rounded-lg border border-border bg-muted/40 p-1"
+            className="flex rounded-xl border border-border/80 bg-muted/50 p-1 shadow-inner"
             role="tablist"
             aria-label="روش ورود"
           >
@@ -113,86 +115,91 @@ export function LoginForm() {
             </div>
           </div>
 
-          {method === "password" ? (
-            <div className="space-y-2">
-              <label
-                htmlFor="login-password"
-                className="text-sm font-medium leading-none"
-              >
-                رمز عبور
-              </label>
-              <div className="relative">
-                <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">
-                  <Lock1 size={18} variant="Bulk" aria-hidden />
-                </span>
-                <Input
-                  id="login-password"
-                  name="password"
-                  type="password"
-                  dir="ltr"
-                  autoComplete="current-password"
-                  placeholder="••••••••"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="!max-w-none pr-10"
-                />
-              </div>
-            </div>
-          ) : (
-            <div className="space-y-3">
-              {!otpSent ? (
-                <Button
-                  type="button"
-                  variant="outline"
-                  className="w-full"
-                  onClick={handleSendOtp}
+          {/* Fixed min height keeps card size stable when switching tabs / OTP step */}
+          <div className="flex min-h-[5rem] flex-col justify-start">
+            {method === "password" ? (
+              <div className="space-y-2">
+                <label
+                  htmlFor="login-password"
+                  className="text-sm font-medium leading-none"
                 >
-                  ارسال کد تأیید
-                </Button>
-              ) : (
-                <>
-                  <div className="space-y-2">
-                    <label
-                      htmlFor="login-otp"
-                      className="text-sm font-medium leading-none"
-                    >
-                      کد تأیید
-                    </label>
-                    <Input
-                      id="login-otp"
-                      name="otp"
-                      type="text"
-                      dir="ltr"
-                      inputMode="numeric"
-                      autoComplete="one-time-code"
-                      placeholder="کد ۶ رقمی"
-                      maxLength={6}
-                      value={otp}
-                      onChange={(e) => setOtp(e.target.value.replace(/\D/g, ""))}
-                      className="!max-w-none text-center text-lg tracking-[0.35em]"
-                    />
-                  </div>
-                  <p className="text-center text-xs text-muted-foreground">
-                    کد به شمارهٔ بالا ارسال شد.{" "}
-                    <button
-                      type="button"
-                      className="font-medium text-foreground underline-offset-4 hover:underline"
-                      onClick={() => {
-                        setOtpSent(false);
-                        setOtp("");
-                      }}
-                    >
-                      تغییر شماره
-                    </button>
-                  </p>
-                </>
-              )}
-            </div>
-          )}
+                  رمز عبور
+                </label>
+                <div className="relative">
+                  <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">
+                    <Lock1 size={18} variant="Bulk" aria-hidden />
+                  </span>
+                  <Input
+                    id="login-password"
+                    name="password"
+                    type="password"
+                    dir="ltr"
+                    autoComplete="current-password"
+                    placeholder="••••••••"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="!max-w-none pr-10"
+                  />
+                </div>
+              </div>
+            ) : (
+              <div className="space-y-3">
+                {!otpSent ? (
+                  <Button
+                    type="button"
+                    variant="outline"
+                    className="w-full"
+                    onClick={handleSendOtp}
+                  >
+                    ارسال کد تأیید
+                  </Button>
+                ) : (
+                  <>
+                    <div className="space-y-2">
+                      <label
+                        htmlFor="login-otp"
+                        className="text-sm font-medium leading-none"
+                      >
+                        کد تأیید
+                      </label>
+                      <Input
+                        id="login-otp"
+                        name="otp"
+                        type="text"
+                        dir="ltr"
+                        inputMode="numeric"
+                        autoComplete="one-time-code"
+                        placeholder="کد ۶ رقمی"
+                        maxLength={6}
+                        value={otp}
+                        onChange={(e) =>
+                          setOtp(e.target.value.replace(/\D/g, ""))
+                        }
+                        className="!max-w-none text-center text-lg tracking-[0.35em]"
+                      />
+                    </div>
+                    <p className="text-center text-xs text-muted-foreground">
+                      کد به شمارهٔ بالا ارسال شد.{" "}
+                      <button
+                        type="button"
+                        className="font-medium text-foreground underline-offset-4 hover:underline"
+                        onClick={() => {
+                          setOtpSent(false);
+                          setOtp("");
+                        }}
+                      >
+                        تغییر شماره
+                      </button>
+                    </p>
+                  </>
+                )}
+              </div>
+            )}
+          </div>
 
           <Button
             type="submit"
-            className="w-full"
+            className="w-full bg-gradient-to-l from-zinc-900 to-zinc-800 shadow-lg shadow-zinc-900/20 hover:from-zinc-800 hover:to-zinc-700"
             size="lg"
             disabled={
               method === "otp" &&
