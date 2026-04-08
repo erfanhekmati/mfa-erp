@@ -20,6 +20,8 @@
     "@nestjs/cli": "^11.0.16",
     "@nestjs/schematics": "^11.0.9",
     "@repo/eslint-config": "workspace:*",
+    "@types/bcrypt": "^6.0.0",
+    "@types/cookie-parser": "^1.4.10",
     "@types/express": "^5.0.3",
     "@types/node": "^22.15.3",
     "eslint": "^9.39.1",
