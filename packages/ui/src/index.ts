@@ -40,6 +40,18 @@ export {
   TooltipTrigger,
 } from "./components/ui/tooltip";
 export {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectScrollDownButton,
+  SelectScrollUpButton,
+  SelectSeparator,
+  SelectTrigger,
+  SelectValue,
+} from "./components/ui/select";
+export {
   Table,
   TableBody,
   TableCaption,

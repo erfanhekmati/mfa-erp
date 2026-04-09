@@ -3,6 +3,12 @@
 import {
   Button,
   Input,
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
   Table,
   TableBody,
   TableCell,
@@ -117,19 +123,24 @@ export function PurchaseProjectsList() {
           <label htmlFor="filter-branch" className="text-sm font-medium">
             شعبه
           </label>
-          <select
-            id="filter-branch"
-            value={branch}
-            onChange={(e) => setBranch(e.target.value)}
-            className="block w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground shadow-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          <Select
+            value={branch === "" ? "__all__" : branch}
+            onValueChange={(v) => setBranch(v === "__all__" ? "" : v)}
           >
-            <option value="">همه شعبه‌ها</option>
-            {branchOptions.map((b) => (
-              <option key={b} value={b}>
-                {b}
-              </option>
-            ))}
-          </select>
+            <SelectTrigger id="filter-branch" className="text-right" dir="rtl">
+              <SelectValue placeholder="همه شعبه‌ها" />
+            </SelectTrigger>
+            <SelectContent position="popper" dir="rtl" className="text-right">
+              <SelectGroup>
+                <SelectItem value="__all__">همه شعبه‌ها</SelectItem>
+                {branchOptions.map((b) => (
+                  <SelectItem key={b} value={b}>
+                    {b}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
         </div>
         <div className="space-y-2">
           <label htmlFor="date-from" className="text-sm font-medium">

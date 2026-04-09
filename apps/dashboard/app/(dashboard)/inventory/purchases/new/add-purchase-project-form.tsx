@@ -7,6 +7,11 @@ import {
   CardHeader,
   CardTitle,
   Input,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
 } from "@repo/ui";
 import { useState } from "react";
 import {
@@ -65,15 +70,23 @@ export function AddPurchaseProjectForm() {
               >
                 کالا
               </label>
-              <select
-                id="productId"
-                name="productId"
-                value={values.productId}
-                onChange={(e) => setField("productId", e.target.value)}
-                className="block w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground shadow-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              <Select
+                value={values.productId || "__empty__"}
+                onValueChange={(v) =>
+                  setField("productId", v === "__empty__" ? "" : v)
+                }
               >
-                <option value="">انتخاب کنید</option>
-              </select>
+                <SelectTrigger
+                  id="productId"
+                  className="!max-w-none text-right"
+                  dir="rtl"
+                >
+                  <SelectValue placeholder="انتخاب کنید" />
+                </SelectTrigger>
+                <SelectContent position="popper" dir="rtl" className="text-right">
+                  <SelectItem value="__empty__">انتخاب کنید</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
 
             <div className="space-y-2">
@@ -83,15 +96,23 @@ export function AddPurchaseProjectForm() {
               >
                 شعبه
               </label>
-              <select
-                id="branchId"
-                name="branchId"
-                value={values.branchId}
-                onChange={(e) => setField("branchId", e.target.value)}
-                className="block w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground shadow-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              <Select
+                value={values.branchId || "__empty__"}
+                onValueChange={(v) =>
+                  setField("branchId", v === "__empty__" ? "" : v)
+                }
               >
-                <option value="">انتخاب کنید</option>
-              </select>
+                <SelectTrigger
+                  id="branchId"
+                  className="!max-w-none text-right"
+                  dir="rtl"
+                >
+                  <SelectValue placeholder="انتخاب کنید" />
+                </SelectTrigger>
+                <SelectContent position="popper" dir="rtl" className="text-right">
+                  <SelectItem value="__empty__">انتخاب کنید</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
 
             <div className="space-y-2">
