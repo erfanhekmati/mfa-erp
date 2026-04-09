@@ -69,6 +69,15 @@ export function PurchaseProjectsList() {
 
   const branchOptions = useMemo(() => getUniqueBranchNames(), []);
 
+  const hasActiveFilters =
+    branch !== "" || dateFrom !== "" || dateTo !== "";
+
+  function clearFilters() {
+    setBranch("");
+    setDateFrom("");
+    setDateTo("");
+  }
+
   const filtered = useMemo(() => {
     return MOCK_PURCHASE_PROJECTS.filter(
       (row) =>
@@ -118,56 +127,67 @@ export function PurchaseProjectsList() {
         />
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        <div className="space-y-2">
-          <label htmlFor="filter-branch" className="text-sm font-medium">
-            شعبه
-          </label>
-          <Select
-            value={branch === "" ? "__all__" : branch}
-            onValueChange={(v) => setBranch(v === "__all__" ? "" : v)}
-          >
-            <SelectTrigger id="filter-branch" className="text-right" dir="rtl">
-              <SelectValue placeholder="همه شعبه‌ها" />
-            </SelectTrigger>
-            <SelectContent position="popper" dir="rtl" className="text-right">
-              <SelectGroup>
-                <SelectItem value="__all__">همه شعبه‌ها</SelectItem>
-                {branchOptions.map((b) => (
-                  <SelectItem key={b} value={b}>
-                    {b}
-                  </SelectItem>
-                ))}
-              </SelectGroup>
-            </SelectContent>
-          </Select>
+      <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between lg:gap-6">
+        <div className="grid flex-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="space-y-2">
+            <label htmlFor="filter-branch" className="text-sm font-medium">
+              شعبه
+            </label>
+            <Select
+              value={branch === "" ? "__all__" : branch}
+              onValueChange={(v) => setBranch(v === "__all__" ? "" : v)}
+            >
+              <SelectTrigger id="filter-branch" className="text-right" dir="rtl">
+                <SelectValue placeholder="همه شعبه‌ها" />
+              </SelectTrigger>
+              <SelectContent position="popper" dir="rtl" className="text-right">
+                <SelectGroup>
+                  <SelectItem value="__all__">همه شعبه‌ها</SelectItem>
+                  {branchOptions.map((b) => (
+                    <SelectItem key={b} value={b}>
+                      {b}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="space-y-2">
+            <label htmlFor="date-from" className="text-sm font-medium">
+              از تاریخ
+            </label>
+            <Input
+              id="date-from"
+              type="date"
+              dir="ltr"
+              value={dateFrom}
+              onChange={(e) => setDateFrom(e.target.value)}
+              className="!max-w-none text-left"
+            />
+          </div>
+          <div className="space-y-2">
+            <label htmlFor="date-to" className="text-sm font-medium">
+              تا تاریخ
+            </label>
+            <Input
+              id="date-to"
+              type="date"
+              dir="ltr"
+              value={dateTo}
+              onChange={(e) => setDateTo(e.target.value)}
+              className="!max-w-none text-left"
+            />
+          </div>
         </div>
-        <div className="space-y-2">
-          <label htmlFor="date-from" className="text-sm font-medium">
-            از تاریخ
-          </label>
-          <Input
-            id="date-from"
-            type="date"
-            dir="ltr"
-            value={dateFrom}
-            onChange={(e) => setDateFrom(e.target.value)}
-            className="!max-w-none text-left"
-          />
-        </div>
-        <div className="space-y-2">
-          <label htmlFor="date-to" className="text-sm font-medium">
-            تا تاریخ
-          </label>
-          <Input
-            id="date-to"
-            type="date"
-            dir="ltr"
-            value={dateTo}
-            onChange={(e) => setDateTo(e.target.value)}
-            className="!max-w-none text-left"
-          />
-        </div>
+        <Button
+          type="button"
+          variant="outline"
+          className="w-full shrink-0 lg:w-auto"
+          disabled={!hasActiveFilters}
+          onClick={clearFilters}
+        >
+          پاک کردن فیلترها
+        </Button>
       </div>
 
       <Table>
