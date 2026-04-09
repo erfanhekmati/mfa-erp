@@ -22,27 +22,25 @@ const SelectTrigger = React.forwardRef<
       "focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
       "disabled:cursor-not-allowed disabled:opacity-50",
       "[&>span]:line-clamp-1",
+      "data-[state=open]:[&_svg.chevron-icon]:rotate-180",
       className,
     )}
     {...props}
   >
     {children}
     <SelectPrimitive.Icon asChild>
-      <span className="flex size-8 shrink-0 items-center justify-center rounded-md border border-border/80 bg-muted/40 text-muted-foreground">
-        <svg
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          aria-hidden
-        >
-          <path d="m6 9 6 6 6-6" />
-        </svg>
-      </span>
+      <svg
+        className="chevron-icon size-4 shrink-0 text-muted-foreground transition-transform duration-200 ease-out"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden
+      >
+        <path d="m6 9 6 6 6-6" />
+      </svg>
     </SelectPrimitive.Icon>
   </SelectPrimitive.Trigger>
 ));
