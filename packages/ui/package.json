@@ -28,6 +28,7 @@
     "@radix-ui/react-tooltip": "^1.2.8",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "jalaali-js": "^1.2.8",
     "react": "^19.2.4",
     "react-date-object": "^2.1.9",
     "react-dom": "^19.2.4",

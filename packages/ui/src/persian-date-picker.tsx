@@ -1,15 +1,18 @@
 "use client";
 
+import { useId } from "react";
 import DatePicker from "react-multi-date-picker";
 import type DateObject from "react-date-object";
-import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
 import TimePicker from "react-multi-date-picker/plugins/time_picker";
 import "react-multi-date-picker/styles/layouts/prime.css";
 import "react-multi-date-picker/styles/colors/teal.css";
 import {
+  formatGregorianDateToPersianDisplay,
+  formatGregorianDatetimeToPersianDisplay,
   gregorianDateStringToPickerValue,
   gregorianDatetimeLocalToPickerValue,
+  persianCalendar,
   pickerToGregorianDateString,
   pickerToGregorianDatetimeLocal,
 } from "./lib/jalali-bridge";
@@ -46,6 +49,23 @@ function PickerChevronIcon() {
   );
 }
 
+function ChipRemoveIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      className="size-4"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+    >
+      <path d="M18 6 6 18M6 6l12 12" />
+    </svg>
+  );
+}
+
 const triggerClassName = cn(
   "flex h-10 w-full cursor-pointer items-center justify-between gap-2 rounded-lg border border-input bg-background px-3 py-2 text-start text-sm shadow-sm ring-offset-background transition-colors",
   "hover:border-input/90 hover:bg-muted/30",
@@ -62,6 +82,11 @@ export type PersianDatePickerProps = {
   disabled?: boolean;
   className?: string;
   inputClassName?: string;
+  /**
+   * `chip`: when a date is selected, show a removable chip (×) instead of the
+   * full-width trigger; click the chip to change the date.
+   */
+  variant?: "field" | "chip";
 };
 
 export function PersianDatePicker({
@@ -73,16 +98,22 @@ export function PersianDatePicker({
   disabled,
   className,
   inputClassName,
+  variant = "field",
 }: PersianDatePickerProps) {
+  const instanceId = useId();
+  const pickerKey = `${id ?? instanceId}-${value || "empty"}`;
+
   return (
     <div dir="rtl" className={cn("w-full", className)}>
       {name ? (
         <input type="hidden" name={name} value={value} readOnly tabIndex={-1} />
       ) : null}
       <DatePicker
+        key={pickerKey}
         disabled={disabled}
         editable={false}
-        calendar={persian}
+        onOpenPickNewDate={false}
+        calendar={persianCalendar}
         locale={persian_fa}
         format="YYYY/MM/DD"
         value={value ? gregorianDateStringToPickerValue(value) ?? undefined : undefined}
@@ -100,6 +131,47 @@ export function PersianDatePicker({
         }}
         render={(displayValue, openCalendar) => {
           const text = pickerDisplayString(displayValue);
+          const hasValue = value.trim() !== "";
+          const fieldLabel = hasValue
+            ? formatGregorianDateToPersianDisplay(value)
+            : text || placeholder;
+          if (variant === "chip" && value) {
+            const chipLabel = formatGregorianDateToPersianDisplay(value);
+            return (
+              <div className="flex min-h-10 w-full items-center">
+                <div
+                  className={cn(
+                    "inline-flex max-w-full items-center gap-0.5 rounded-md border border-input bg-muted/50 py-1 pl-1 pr-1 text-sm text-foreground shadow-sm ring-offset-background",
+                    inputClassName,
+                  )}
+                >
+                  <button
+                    type="button"
+                    id={id}
+                    disabled={disabled}
+                    className="min-w-0 max-w-[min(100%,14rem)] truncate rounded px-2 py-1.5 text-start hover:bg-muted/80"
+                    onClick={() => openCalendar()}
+                    aria-haspopup="dialog"
+                  >
+                    {chipLabel}
+                  </button>
+                  <button
+                    type="button"
+                    disabled={disabled}
+                    className="inline-flex size-8 shrink-0 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                    aria-label="پاک کردن"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      onChange("");
+                    }}
+                  >
+                    <ChipRemoveIcon />
+                  </button>
+                </div>
+              </div>
+            );
+          }
           return (
             <button
               type="button"
@@ -112,10 +184,10 @@ export function PersianDatePicker({
               <span
                 className={cn(
                   "min-w-0 flex-1 truncate",
-                  !text && "text-muted-foreground",
+                  !hasValue && "text-muted-foreground",
                 )}
               >
-                {text || placeholder}
+                {fieldLabel}
               </span>
               <PickerChevronIcon />
             </button>
@@ -135,6 +207,7 @@ export type PersianDateTimePickerProps = {
   disabled?: boolean;
   className?: string;
   inputClassName?: string;
+  variant?: "field" | "chip";
 };
 
 export function PersianDateTimePicker({
@@ -146,16 +219,22 @@ export function PersianDateTimePicker({
   disabled,
   className,
   inputClassName,
+  variant = "field",
 }: PersianDateTimePickerProps) {
+  const instanceId = useId();
+  const pickerKey = `${id ?? instanceId}-${value || "empty"}`;
+
   return (
     <div dir="rtl" className={cn("w-full", className)}>
       {name ? (
         <input type="hidden" name={name} value={value} readOnly tabIndex={-1} />
       ) : null}
       <DatePicker
+        key={pickerKey}
         disabled={disabled}
         editable={false}
-        calendar={persian}
+        onOpenPickNewDate={false}
+        calendar={persianCalendar}
         locale={persian_fa}
         format="YYYY/MM/DD HH:mm"
         plugins={[<TimePicker key="time" position="bottom" hideSeconds />]}
@@ -176,6 +255,47 @@ export function PersianDateTimePicker({
         }}
         render={(displayValue, openCalendar) => {
           const text = pickerDisplayString(displayValue);
+          const hasValue = value.trim() !== "";
+          const fieldLabel = hasValue
+            ? formatGregorianDatetimeToPersianDisplay(value)
+            : text || placeholder;
+          if (variant === "chip" && value) {
+            const chipLabel = formatGregorianDatetimeToPersianDisplay(value);
+            return (
+              <div className="flex min-h-10 w-full items-center">
+                <div
+                  className={cn(
+                    "inline-flex max-w-full items-center gap-0.5 rounded-md border border-input bg-muted/50 py-1 pl-1 pr-1 text-sm text-foreground shadow-sm ring-offset-background",
+                    inputClassName,
+                  )}
+                >
+                  <button
+                    type="button"
+                    id={id}
+                    disabled={disabled}
+                    className="min-w-0 max-w-[min(100%,18rem)] truncate rounded px-2 py-1.5 text-start hover:bg-muted/80"
+                    onClick={() => openCalendar()}
+                    aria-haspopup="dialog"
+                  >
+                    {chipLabel}
+                  </button>
+                  <button
+                    type="button"
+                    disabled={disabled}
+                    className="inline-flex size-8 shrink-0 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                    aria-label="پاک کردن"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      onChange("");
+                    }}
+                  >
+                    <ChipRemoveIcon />
+                  </button>
+                </div>
+              </div>
+            );
+          }
           return (
             <button
               type="button"
@@ -188,10 +308,10 @@ export function PersianDateTimePicker({
               <span
                 className={cn(
                   "min-w-0 flex-1 truncate",
-                  !text && "text-muted-foreground",
+                  !hasValue && "text-muted-foreground",
                 )}
               >
-                {text || placeholder}
+                {fieldLabel}
               </span>
               <PickerChevronIcon />
             </button>

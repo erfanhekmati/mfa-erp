@@ -70,8 +70,11 @@ export type {
   PersianDateTimePickerProps,
 } from "./persian-date-picker";
 export {
+  formatGregorianDateToPersianDisplay,
+  formatGregorianDatetimeToPersianDisplay,
   gregorianDateStringToPickerValue,
   gregorianDatetimeLocalToPickerValue,
+  persianCalendar,
   pickerToGregorianDateString,
   pickerToGregorianDatetimeLocal,
 } from "./lib/jalali-bridge";
