@@ -57,7 +57,7 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
   const sidebarOpenState = !isMobile || sidebarOpen;
 
   return (
-    <div className="flex min-h-screen w-full bg-background">
+    <div className="flex h-screen min-h-0 w-full overflow-hidden bg-background">
       <Sidebar
         id={SIDEBAR_ID}
         open={sidebarOpenState}
@@ -68,13 +68,15 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
         isMobile={isMobile}
         onNavigate={onNavigate}
       />
-      <div className="relative z-0 flex min-h-screen min-w-0 flex-1 flex-col">
+      <div className="relative z-0 flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
         <TopBar
           sidebarId={SIDEBAR_ID}
           sidebarOpen={sidebarOpen}
           onMenuClick={toggleSidebar}
         />
-        <main className="flex-1 overflow-auto px-4 py-4 md:px-5">{children}</main>
+        <main className="min-h-0 flex-1 overflow-y-auto px-4 py-4 md:px-5">
+          {children}
+        </main>
       </div>
     </div>
   );
