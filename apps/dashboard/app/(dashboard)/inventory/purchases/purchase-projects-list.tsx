@@ -3,6 +3,7 @@
 import {
   Button,
   Input,
+  PersianDatePicker,
   Select,
   SelectContent,
   SelectGroup,
@@ -156,12 +157,10 @@ export function PurchaseProjectsList() {
             <label htmlFor="date-from" className="text-sm font-medium">
               از تاریخ
             </label>
-            <Input
+            <PersianDatePicker
               id="date-from"
-              type="date"
-              dir="ltr"
               value={dateFrom}
-              onChange={(e) => setDateFrom(e.target.value)}
+              onChange={setDateFrom}
               className="!max-w-none text-left"
             />
           </div>
@@ -169,12 +168,10 @@ export function PurchaseProjectsList() {
             <label htmlFor="date-to" className="text-sm font-medium">
               تا تاریخ
             </label>
-            <Input
+            <PersianDatePicker
               id="date-to"
-              type="date"
-              dir="ltr"
               value={dateTo}
-              onChange={(e) => setDateTo(e.target.value)}
+              onChange={setDateTo}
               className="!max-w-none text-left"
             />
           </div>

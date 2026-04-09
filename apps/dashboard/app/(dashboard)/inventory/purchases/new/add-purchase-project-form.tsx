@@ -7,6 +7,7 @@ import {
   CardHeader,
   CardTitle,
   Input,
+  PersianDateTimePicker,
   Select,
   SelectContent,
   SelectItem,
@@ -248,13 +249,11 @@ export function AddPurchaseProjectForm() {
               >
                 تاریخ خرید
               </label>
-              <Input
+              <PersianDateTimePicker
                 id="purchasedAt"
                 name="purchasedAt"
-                type="datetime-local"
-                dir="ltr"
                 value={values.purchasedAt}
-                onChange={(e) => setField("purchasedAt", e.target.value)}
+                onChange={(v) => setField("purchasedAt", v)}
                 className="!max-w-none text-left"
               />
             </div>
