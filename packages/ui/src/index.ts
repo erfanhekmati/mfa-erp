@@ -61,3 +61,17 @@ export {
   TableHeader,
   TableRow,
 } from "./table";
+export {
+  PersianDatePicker,
+  PersianDateTimePicker,
+} from "./persian-date-picker";
+export type {
+  PersianDatePickerProps,
+  PersianDateTimePickerProps,
+} from "./persian-date-picker";
+export {
+  gregorianDateStringToPickerValue,
+  gregorianDatetimeLocalToPickerValue,
+  pickerToGregorianDateString,
+  pickerToGregorianDatetimeLocal,
+} from "./lib/jalali-bridge";
