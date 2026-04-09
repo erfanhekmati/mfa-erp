@@ -1,5 +1,9 @@
-import { ComingSoon } from "../../../../components/coming-soon";
+import { PurchaseProjectsList } from "./purchase-projects-list";
 
 export default function PurchasesPage() {
-  return <ComingSoon />;
+  return (
+    <div className="pb-8">
+      <PurchaseProjectsList />
+    </div>
+  );
 }

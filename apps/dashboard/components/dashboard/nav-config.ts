@@ -30,7 +30,12 @@ export const navItems: NavItem[] = [
     label: "موجودی و خریدها",
     icon: "inventory",
     children: [
-      { id: "purchases", label: "خریدها", href: "/inventory/purchases" },
+      { id: "purchases", label: "پروژه‌ها", href: "/inventory/purchases" },
+      {
+        id: "purchase-project-add",
+        label: "اضافه کردن پروژه خرید",
+        href: "/inventory/purchases/new",
+      },
       { id: "products", label: "کالاها", href: "/inventory/products" },
     ],
   },
