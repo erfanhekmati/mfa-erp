@@ -2,6 +2,7 @@
 
 import {
   Button,
+  formatGregorianDateToPersianDisplay,
   Input,
   PersianDatePicker,
   Select,
@@ -18,7 +19,7 @@ import {
   TableRow,
 } from "@repo/ui";
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 import {
   getUniqueBranchNames,
   MOCK_PURCHASE_PROJECTS,
@@ -59,6 +60,44 @@ function rowMatchesDateRange(
   if (from && d < from) return false;
   if (to && d > to) return false;
   return true;
+}
+
+function FilterChip({
+  children,
+  onRemove,
+  removeLabel,
+}: {
+  children: ReactNode;
+  onRemove: () => void;
+  removeLabel: string;
+}) {
+  return (
+    <span className="inline-flex max-w-full items-center gap-0.5 rounded-md border border-input bg-muted/50 py-1 pl-1 pr-1 text-sm text-foreground shadow-sm">
+      <span className="min-w-0 truncate px-2 py-1">{children}</span>
+      <button
+        type="button"
+        className="inline-flex size-8 shrink-0 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+        aria-label={removeLabel}
+        onClick={(e) => {
+          e.preventDefault();
+          onRemove();
+        }}
+      >
+        <svg
+          viewBox="0 0 24 24"
+          className="size-4"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden
+        >
+          <path d="M18 6 6 18M6 6l12 12" />
+        </svg>
+      </button>
+    </span>
+  );
 }
 
 export function PurchaseProjectsList() {
@@ -187,6 +226,43 @@ export function PurchaseProjectsList() {
         </Button>
       </div>
 
+      <div
+        className="flex flex-col gap-3 border-b border-border pb-4 sm:flex-row sm:items-center sm:justify-between sm:gap-4"
+        dir="rtl"
+      >
+        <div className="flex min-w-0 flex-1 flex-wrap items-center gap-2">
+          {branch ? (
+            <FilterChip
+              onRemove={() => setBranch("")}
+              removeLabel="حذف فیلتر شعبه"
+            >
+              <span className="text-muted-foreground">شعبه:</span> {branch}
+            </FilterChip>
+          ) : null}
+          {dateFrom ? (
+            <FilterChip
+              onRemove={() => setDateFrom("")}
+              removeLabel="حذف فیلتر از تاریخ"
+            >
+              <span className="text-muted-foreground">از تاریخ:</span>{" "}
+              {formatGregorianDateToPersianDisplay(dateFrom)}
+            </FilterChip>
+          ) : null}
+          {dateTo ? (
+            <FilterChip
+              onRemove={() => setDateTo("")}
+              removeLabel="حذف فیلتر تا تاریخ"
+            >
+              <span className="text-muted-foreground">تا تاریخ:</span>{" "}
+              {formatGregorianDateToPersianDisplay(dateTo)}
+            </FilterChip>
+          ) : null}
+        </div>
+        <p className="shrink-0 text-sm text-muted-foreground tabular-nums">
+          {filtered.length.toLocaleString("fa-IR")} نتیجه
+        </p>
+      </div>
+
       <Table>
         <TableHeader>
           <TableRow>
@@ -229,8 +305,8 @@ export function PurchaseProjectsList() {
                 <TableCell className="text-right tabular-nums" dir="ltr">
                   {row.totalAmount}
                 </TableCell>
-                <TableCell className="text-right tabular-nums" dir="ltr">
-                  {row.purchasedAt}
+                <TableCell className="text-right tabular-nums" dir="rtl">
+                  {formatGregorianDateToPersianDisplay(row.purchasedAt)}
                 </TableCell>
               </TableRow>
             ))
