@@ -37,6 +37,11 @@ export const navItems: NavItem[] = [
         href: "/inventory/purchases/new",
       },
       { id: "products", label: "کالاها", href: "/inventory/products" },
+      {
+        id: "product-add",
+        label: "افزودن کالا",
+        href: "/inventory/products/new",
+      },
     ],
   },
   { id: "reports", label: "گزارش‌ها", href: "/reports", icon: "reports" },
