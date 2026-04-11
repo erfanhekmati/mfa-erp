@@ -196,6 +196,7 @@ export function SalePlansList() {
           className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4"
           dir="rtl"
         >
+          {/* Active filter chips: date range only (no creator filter). */}
           <div className="flex min-w-0 flex-1 flex-wrap items-center gap-2">
             {dateFrom ? (
               <FilterChip
