@@ -1,5 +1,9 @@
-import { ComingSoon } from "../../../../components/coming-soon";
+import { SalePlansList } from "./sale-plans-list";
 
 export default function SalesPlanPage() {
-  return <ComingSoon />;
+  return (
+    <div className="pb-8">
+      <SalePlansList />
+    </div>
+  );
 }
