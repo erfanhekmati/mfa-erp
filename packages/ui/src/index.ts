@@ -53,6 +53,7 @@ export {
 } from "./components/ui/select";
 export {
   Table,
+  type TableProps,
   TableBody,
   TableCaption,
   TableCell,

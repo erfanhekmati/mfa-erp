@@ -5,35 +5,30 @@ import {
   type TdHTMLAttributes,
   type ThHTMLAttributes,
 } from "react";
+import { cn } from "./lib/utils";
 
 const borderColor = "var(--border, #e5e5e5)";
-const muted = "var(--muted-foreground, #737373)";
 
-export const Table = forwardRef<
-  HTMLTableElement,
-  TableHTMLAttributes<HTMLTableElement>
->(function Table({ className, style, ...props }, ref) {
+export type TableProps = TableHTMLAttributes<HTMLTableElement> & {
+  /** Classes for the scroll/border wrapper around `<table>`. */
+  wrapperClassName?: string;
+};
+
+export const Table = forwardRef<HTMLTableElement, TableProps>(function Table(
+  { className, style, wrapperClassName, ...props },
+  ref,
+) {
   return (
     <div
-      style={{
-        width: "100%",
-        overflowX: "auto",
-        borderRadius: "6px",
-        border: `1px solid ${borderColor}`,
-      }}
+      className={cn(
+        "w-full overflow-x-auto rounded-md border border-border bg-background",
+        wrapperClassName,
+      )}
     >
       <table
         ref={ref}
-        className={className}
-        style={{
-          width: "100%",
-          borderCollapse: "collapse",
-          fontSize: "0.9375rem",
-          lineHeight: 1.5,
-          color: "var(--foreground, #171717)",
-          backgroundColor: "var(--background, #fff)",
-          ...style,
-        }}
+        className={cn("w-full border-collapse text-[0.9375rem] leading-normal text-foreground", className)}
+        style={style}
         {...props}
       />
     </div>
@@ -47,11 +42,8 @@ export const TableHeader = forwardRef<
   return (
     <thead
       ref={ref}
-      className={className}
-      style={{
-        backgroundColor: "var(--muted, #fafafa)",
-        ...style,
-      }}
+      className={cn("bg-muted", className)}
+      style={style}
       {...props}
     />
   );
@@ -62,7 +54,7 @@ export const TableBody = forwardRef<
   HTMLAttributes<HTMLTableSectionElement>
 >(function TableBody({ className, style, ...props }, ref) {
   return (
-    <tbody ref={ref} className={className} style={style} {...props} />
+    <tbody ref={ref} className={cn(className)} style={style} {...props} />
   );
 });
 
@@ -73,12 +65,8 @@ export const TableFooter = forwardRef<
   return (
     <tfoot
       ref={ref}
-      className={className}
-      style={{
-        backgroundColor: "var(--muted, #fafafa)",
-        fontWeight: 500,
-        ...style,
-      }}
+      className={cn("bg-muted font-medium", className)}
+      style={style}
       {...props}
     />
   );
@@ -91,7 +79,7 @@ export const TableRow = forwardRef<
   return (
     <tr
       ref={ref}
-      className={className}
+      className={cn(className)}
       style={{
         borderBottom: `1px solid ${borderColor}`,
         ...style,
@@ -108,15 +96,11 @@ export const TableHead = forwardRef<
   return (
     <th
       ref={ref}
-      className={className}
+      className={cn(
+        "px-3 py-2.5 text-left text-[0.8125rem] font-semibold uppercase tracking-wide text-muted-foreground",
+        className,
+      )}
       style={{
-        padding: "0.625rem 0.75rem",
-        textAlign: "left",
-        fontWeight: 600,
-        fontSize: "0.8125rem",
-        textTransform: "uppercase",
-        letterSpacing: "0.02em",
-        color: muted,
         borderBottom: `1px solid ${borderColor}`,
         ...style,
       }}
@@ -132,12 +116,8 @@ export const TableCell = forwardRef<
   return (
     <td
       ref={ref}
-      className={className}
-      style={{
-        padding: "0.625rem 0.75rem",
-        verticalAlign: "middle",
-        ...style,
-      }}
+      className={cn("px-3 py-2.5 align-middle", className)}
+      style={style}
       {...props}
     />
   );
@@ -150,14 +130,8 @@ export const TableCaption = forwardRef<
   return (
     <caption
       ref={ref}
-      className={className}
-      style={{
-        captionSide: "bottom",
-        padding: "0.5rem 0.75rem",
-        fontSize: "0.8125rem",
-        color: muted,
-        ...style,
-      }}
+      className={cn("caption-bottom px-3 py-2 text-[0.8125rem] text-muted-foreground", className)}
+      style={style}
       {...props}
     />
   );
