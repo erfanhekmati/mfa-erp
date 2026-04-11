@@ -210,7 +210,16 @@ export function LoginForm() {
           </Button>
         </CardContent>
       </form>
-      <CardFooter className="flex flex-col gap-2 border-t border-border/60 pt-6">
+      <CardFooter className="flex flex-col gap-3 border-t border-border/60 pt-6">
+        <p className="text-center text-sm text-muted-foreground">
+          رمز عبور را فراموش کرده‌اید؟{" "}
+          <Link
+            href="/forget-password"
+            className="font-medium text-foreground underline-offset-4 hover:underline"
+          >
+            بازیابی رمز عبور
+          </Link>
+        </p>
         <p className="text-center text-sm text-muted-foreground">
           حساب کاربری ندارید؟{" "}
           <Link

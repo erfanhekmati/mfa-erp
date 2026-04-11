@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { ShieldTick } from "iconsax-react";
 
-type AuthVariant = "login" | "register";
+type AuthVariant = "login" | "register" | "forget-password";
 
 const copy: Record<
   AuthVariant,
@@ -18,6 +18,12 @@ const copy: Record<
     title: "اولین قدم به سوی دیجیتال‌ سازی",
     subtitle:
       "با ایجاد حساب، به داشبورد مدیریت منابع مدیران فولاد آذر وصل می‌شوید؛ فرآیندها و گزارش‌ها در یک سامانه، امن و همیشه در دسترس.",
+  },
+  "forget-password": {
+    eyebrow: "بازیابی رمز عبور",
+    title: "دسترسی خود را بازیابی کنید",
+    subtitle:
+      "با وارد کردن شماره موبایل، کد تأیید دریافت کرده و رمز عبور جدید تعیین کنید.",
   },
 };
 
