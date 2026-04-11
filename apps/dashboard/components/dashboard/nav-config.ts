@@ -22,6 +22,11 @@ export const navItems: NavItem[] = [
     icon: "sales",
     children: [
       { id: "sales-plan", label: "برنامه فروش", href: "/sales/plan" },
+      {
+        id: "sales-plan-add",
+        label: "افزودن برنامه فروش",
+        href: "/sales/plan/new",
+      },
       { id: "sales-list", label: "فروش‌ها", href: "/sales" },
     ],
   },
