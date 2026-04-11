@@ -5,12 +5,6 @@ import {
   formatGregorianDateToPersianDisplay,
   Input,
   PersianDatePicker,
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
   Table,
   TableBody,
   TableCell,
@@ -21,8 +15,17 @@ import {
 import Link from "next/link";
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import {
+  listTableBodyRowClassName,
+  listTableCellClassName,
+  listTableHeadCellClassName,
+  listTableHeaderClassName,
+  listTableNumericInnerClassName,
+  listTablePaginationClassName,
+  listTableTagClassName,
+  listTableWrapperClassName,
+} from "../../../../components/dashboard/data-table-styles";
+import {
   discountTypeLabel,
-  getUniqueCreatedByNames,
   MOCK_SALE_PLANS,
   type MockSalePlan,
 } from "../../../../lib/mock-sale-plans";
@@ -40,11 +43,6 @@ function rowMatchesSearch(row: MockSalePlan, q: string) {
     .join(" ")
     .toLowerCase();
   return hay.includes(n);
-}
-
-function rowMatchesCreator(row: MockSalePlan, name: string) {
-  if (!name) return true;
-  return row.createdByName === name;
 }
 
 function rowMatchesDateRange(
@@ -98,18 +96,13 @@ function FilterChip({
 
 export function SalePlansList() {
   const [search, setSearch] = useState("");
-  const [creator, setCreator] = useState("");
   const [dateFrom, setDateFrom] = useState("");
   const [dateTo, setDateTo] = useState("");
   const [page, setPage] = useState(1);
 
-  const creatorOptions = useMemo(() => getUniqueCreatedByNames(), []);
-
-  const hasActiveFilters =
-    creator !== "" || dateFrom !== "" || dateTo !== "";
+  const hasActiveFilters = dateFrom !== "" || dateTo !== "";
 
   function clearFilters() {
-    setCreator("");
     setDateFrom("");
     setDateTo("");
   }
@@ -118,14 +111,13 @@ export function SalePlansList() {
     return MOCK_SALE_PLANS.filter(
       (row) =>
         rowMatchesSearch(row, search) &&
-        rowMatchesCreator(row, creator) &&
         rowMatchesDateRange(row, dateFrom, dateTo),
     );
-  }, [search, creator, dateFrom, dateTo]);
+  }, [search, dateFrom, dateTo]);
 
   useEffect(() => {
     setPage(1);
-  }, [search, creator, dateFrom, dateTo]);
+  }, [search, dateFrom, dateTo]);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
   const safePage = Math.min(page, totalPages);
@@ -157,37 +149,14 @@ export function SalePlansList() {
           type="search"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          placeholder="کالا، ثبت‌کننده..."
+          placeholder="کالا..."
           className="!max-w-none"
           autoComplete="off"
         />
       </div>
 
       <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between lg:gap-6">
-        <div className="grid flex-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          <div className="space-y-2">
-            <label htmlFor="filter-creator" className="text-sm font-medium">
-              ثبت‌کننده
-            </label>
-            <Select
-              value={creator === "" ? "__all__" : creator}
-              onValueChange={(v) => setCreator(v === "__all__" ? "" : v)}
-            >
-              <SelectTrigger id="filter-creator" className="text-right" dir="rtl">
-                <SelectValue placeholder="همه" />
-              </SelectTrigger>
-              <SelectContent position="popper" dir="rtl" className="text-right">
-                <SelectGroup>
-                  <SelectItem value="__all__">همه</SelectItem>
-                  {creatorOptions.map((c) => (
-                    <SelectItem key={c} value={c}>
-                      {c}
-                    </SelectItem>
-                  ))}
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-          </div>
+        <div className="grid flex-1 gap-4 sm:grid-cols-2">
           <div className="space-y-2">
             <label htmlFor="date-from" className="text-sm font-medium">
               از تاریخ شروع
@@ -222,98 +191,99 @@ export function SalePlansList() {
         </Button>
       </div>
 
-      <div
-        className="flex flex-col gap-3 border-b border-border pb-4 sm:flex-row sm:items-center sm:justify-between sm:gap-4"
-        dir="rtl"
-      >
-        <div className="flex min-w-0 flex-1 flex-wrap items-center gap-2">
-          {creator ? (
-            <FilterChip
-              onRemove={() => setCreator("")}
-              removeLabel="حذف فیلتر ثبت‌کننده"
-            >
-              <span className="text-muted-foreground">ثبت‌کننده:</span>{" "}
-              {creator}
-            </FilterChip>
-          ) : null}
-          {dateFrom ? (
-            <FilterChip
-              onRemove={() => setDateFrom("")}
-              removeLabel="حذف فیلتر از تاریخ"
-            >
-              <span className="text-muted-foreground">از تاریخ:</span>{" "}
-              {formatGregorianDateToPersianDisplay(dateFrom)}
-            </FilterChip>
-          ) : null}
-          {dateTo ? (
-            <FilterChip
-              onRemove={() => setDateTo("")}
-              removeLabel="حذف فیلتر تا تاریخ"
-            >
-              <span className="text-muted-foreground">تا تاریخ:</span>{" "}
-              {formatGregorianDateToPersianDisplay(dateTo)}
-            </FilterChip>
-          ) : null}
+      <div className="space-y-2">
+        <div
+          className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4"
+          dir="rtl"
+        >
+          <div className="flex min-w-0 flex-1 flex-wrap items-center gap-2">
+            {dateFrom ? (
+              <FilterChip
+                onRemove={() => setDateFrom("")}
+                removeLabel="حذف فیلتر از تاریخ"
+              >
+                <span className="text-muted-foreground">از تاریخ:</span>{" "}
+                {formatGregorianDateToPersianDisplay(dateFrom)}
+              </FilterChip>
+            ) : null}
+            {dateTo ? (
+              <FilterChip
+                onRemove={() => setDateTo("")}
+                removeLabel="حذف فیلتر تا تاریخ"
+              >
+                <span className="text-muted-foreground">تا تاریخ:</span>{" "}
+                {formatGregorianDateToPersianDisplay(dateTo)}
+              </FilterChip>
+            ) : null}
+          </div>
+          <p className="shrink-0 text-sm text-muted-foreground tabular-nums">
+            {filtered.length.toLocaleString("fa-IR")} نتیجه
+          </p>
         </div>
-        <p className="shrink-0 text-sm text-muted-foreground tabular-nums">
-          {filtered.length.toLocaleString("fa-IR")} نتیجه
-        </p>
-      </div>
 
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead className="!text-right !normal-case !tracking-normal">
-              کالا
-            </TableHead>
-            <TableHead className="!text-right !normal-case !tracking-normal">
-              ثبت‌کننده
-            </TableHead>
-            <TableHead className="!text-right !normal-case !tracking-normal">
-              قیمت فروش
-            </TableHead>
-            <TableHead className="!text-right !normal-case !tracking-normal">
-              تخفیف
-            </TableHead>
-            <TableHead className="!text-right !normal-case !tracking-normal">
-              نوع تخفیف
-            </TableHead>
-            <TableHead className="!text-right !normal-case !tracking-normal">
-              شروع
-            </TableHead>
-            <TableHead className="!text-right !normal-case !tracking-normal">
-              پایان
-            </TableHead>
+        <Table wrapperClassName={listTableWrapperClassName}>
+        <TableHeader className={listTableHeaderClassName}>
+          <TableRow
+            className="hover:bg-transparent"
+            style={{ borderBottom: "none" }}
+          >
+            <TableHead className={listTableHeadCellClassName}>کالا</TableHead>
+            <TableHead className={listTableHeadCellClassName}>ثبت‌کننده</TableHead>
+            <TableHead className={listTableHeadCellClassName}>قیمت فروش</TableHead>
+            <TableHead className={listTableHeadCellClassName}>تخفیف</TableHead>
+            <TableHead className={listTableHeadCellClassName}>نوع تخفیف</TableHead>
+            <TableHead className={listTableHeadCellClassName}>شروع</TableHead>
+            <TableHead className={listTableHeadCellClassName}>پایان</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {pageSlice.length === 0 ? (
-            <TableRow>
+            <TableRow style={{ borderBottom: "none" }} className="hover:bg-transparent">
               <TableCell
                 colSpan={7}
-                className="text-center text-muted-foreground"
+                className="bg-muted/15 py-14 text-center text-muted-foreground"
               >
                 موردی یافت نشد.
               </TableCell>
             </TableRow>
           ) : (
-            pageSlice.map((row) => (
-              <TableRow key={row.id}>
-                <TableCell className="text-right">{row.productName}</TableCell>
-                <TableCell className="text-right">{row.createdByName}</TableCell>
-                <TableCell className="text-right tabular-nums" dir="ltr">
-                  {row.salePrice}
+            pageSlice.map((row, index) => (
+              <TableRow key={row.id} className={listTableBodyRowClassName(index)}>
+                <TableCell className={`${listTableCellClassName} font-medium`}>
+                  {row.productName}
                 </TableCell>
-                <TableCell className="text-right tabular-nums" dir="ltr">
-                  {row.discountAmount}
+                <TableCell className={listTableCellClassName}>
+                  {row.createdByName}
                 </TableCell>
-                <TableCell className="text-right">
-                  {discountTypeLabel(row.discountType)}
+                <TableCell className={listTableCellClassName} dir="ltr">
+                  <span className={listTableNumericInnerClassName}>
+                    {row.salePrice}
+                  </span>
                 </TableCell>
-                <TableCell className="text-right tabular-nums" dir="rtl">
+                <TableCell className={listTableCellClassName} dir="ltr">
+                  <span className={listTableNumericInnerClassName}>
+                    {row.discountAmount}
+                  </span>
+                </TableCell>
+                <TableCell className={listTableCellClassName}>
+                  <span
+                    className={listTableTagClassName(
+                      row.discountType === "PERCENT" ? "accent" : "neutral",
+                    )}
+                  >
+                    {discountTypeLabel(row.discountType)}
+                  </span>
+                </TableCell>
+                <TableCell
+                  className={`${listTableCellClassName} tabular-nums text-foreground/90`}
+                  dir="rtl"
+                >
                   {formatGregorianDateToPersianDisplay(row.startAt)}
                 </TableCell>
-                <TableCell className="text-right tabular-nums" dir="rtl">
+                <TableCell
+                  className={`${listTableCellClassName} tabular-nums text-foreground/90`}
+                  dir="rtl"
+                >
                   {formatGregorianDateToPersianDisplay(row.endAt)}
                 </TableCell>
               </TableRow>
@@ -321,9 +291,10 @@ export function SalePlansList() {
           )}
         </TableBody>
       </Table>
+      </div>
 
       {filtered.length > 0 ? (
-        <div className="flex flex-col items-center justify-between gap-3 border-t border-border pt-4 sm:flex-row">
+        <div className={listTablePaginationClassName}>
           <p className="text-sm text-muted-foreground">
             صفحه {safePage} از {totalPages} — {filtered.length} مورد
           </p>

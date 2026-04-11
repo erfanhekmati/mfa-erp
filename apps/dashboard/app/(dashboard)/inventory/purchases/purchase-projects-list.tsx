@@ -21,6 +21,15 @@ import {
 import Link from "next/link";
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import {
+  listTableBodyRowClassName,
+  listTableCellClassName,
+  listTableHeadCellClassName,
+  listTableHeaderClassName,
+  listTableNumericInnerClassName,
+  listTablePaginationClassName,
+  listTableWrapperClassName,
+} from "../../../../components/dashboard/data-table-styles";
+import {
   getUniqueBranchNames,
   MOCK_PURCHASE_PROJECTS,
   type MockPurchaseProject,
@@ -226,86 +235,90 @@ export function PurchaseProjectsList() {
         </Button>
       </div>
 
-      <div
-        className="flex flex-col gap-3 border-b border-border pb-4 sm:flex-row sm:items-center sm:justify-between sm:gap-4"
-        dir="rtl"
-      >
-        <div className="flex min-w-0 flex-1 flex-wrap items-center gap-2">
-          {branch ? (
-            <FilterChip
-              onRemove={() => setBranch("")}
-              removeLabel="حذف فیلتر شعبه"
-            >
-              <span className="text-muted-foreground">شعبه:</span> {branch}
-            </FilterChip>
-          ) : null}
-          {dateFrom ? (
-            <FilterChip
-              onRemove={() => setDateFrom("")}
-              removeLabel="حذف فیلتر از تاریخ"
-            >
-              <span className="text-muted-foreground">از تاریخ:</span>{" "}
-              {formatGregorianDateToPersianDisplay(dateFrom)}
-            </FilterChip>
-          ) : null}
-          {dateTo ? (
-            <FilterChip
-              onRemove={() => setDateTo("")}
-              removeLabel="حذف فیلتر تا تاریخ"
-            >
-              <span className="text-muted-foreground">تا تاریخ:</span>{" "}
-              {formatGregorianDateToPersianDisplay(dateTo)}
-            </FilterChip>
-          ) : null}
+      <div className="space-y-2">
+        <div
+          className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4"
+          dir="rtl"
+        >
+          <div className="flex min-w-0 flex-1 flex-wrap items-center gap-2">
+            {branch ? (
+              <FilterChip
+                onRemove={() => setBranch("")}
+                removeLabel="حذف فیلتر شعبه"
+              >
+                <span className="text-muted-foreground">شعبه:</span> {branch}
+              </FilterChip>
+            ) : null}
+            {dateFrom ? (
+              <FilterChip
+                onRemove={() => setDateFrom("")}
+                removeLabel="حذف فیلتر از تاریخ"
+              >
+                <span className="text-muted-foreground">از تاریخ:</span>{" "}
+                {formatGregorianDateToPersianDisplay(dateFrom)}
+              </FilterChip>
+            ) : null}
+            {dateTo ? (
+              <FilterChip
+                onRemove={() => setDateTo("")}
+                removeLabel="حذف فیلتر تا تاریخ"
+              >
+                <span className="text-muted-foreground">تا تاریخ:</span>{" "}
+                {formatGregorianDateToPersianDisplay(dateTo)}
+              </FilterChip>
+            ) : null}
+          </div>
+          <p className="shrink-0 text-sm text-muted-foreground tabular-nums">
+            {filtered.length.toLocaleString("fa-IR")} نتیجه
+          </p>
         </div>
-        <p className="shrink-0 text-sm text-muted-foreground tabular-nums">
-          {filtered.length.toLocaleString("fa-IR")} نتیجه
-        </p>
-      </div>
 
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead className="!text-right !normal-case !tracking-normal">
-              تامین‌کننده
-            </TableHead>
-            <TableHead className="!text-right !normal-case !tracking-normal">
-              کالا
-            </TableHead>
-            <TableHead className="!text-right !normal-case !tracking-normal">
-              شعبه
-            </TableHead>
-            <TableHead className="!text-right !normal-case !tracking-normal">
-              مقدار
-            </TableHead>
-            <TableHead className="!text-right !normal-case !tracking-normal">
-              مبلغ کل
-            </TableHead>
-            <TableHead className="!text-right !normal-case !tracking-normal">
-              تاریخ خرید
-            </TableHead>
+        <Table wrapperClassName={listTableWrapperClassName}>
+        <TableHeader className={listTableHeaderClassName}>
+          <TableRow
+            className="hover:bg-transparent"
+            style={{ borderBottom: "none" }}
+          >
+            <TableHead className={listTableHeadCellClassName}>تامین‌کننده</TableHead>
+            <TableHead className={listTableHeadCellClassName}>کالا</TableHead>
+            <TableHead className={listTableHeadCellClassName}>شعبه</TableHead>
+            <TableHead className={listTableHeadCellClassName}>مقدار</TableHead>
+            <TableHead className={listTableHeadCellClassName}>مبلغ کل</TableHead>
+            <TableHead className={listTableHeadCellClassName}>تاریخ خرید</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {pageSlice.length === 0 ? (
-            <TableRow>
-              <TableCell colSpan={6} className="text-center text-muted-foreground">
+            <TableRow style={{ borderBottom: "none" }} className="hover:bg-transparent">
+              <TableCell
+                colSpan={6}
+                className="bg-muted/15 py-14 text-center text-muted-foreground"
+              >
                 موردی یافت نشد.
               </TableCell>
             </TableRow>
           ) : (
-            pageSlice.map((row) => (
-              <TableRow key={row.id}>
-                <TableCell className="text-right">{row.provider}</TableCell>
-                <TableCell className="text-right">{row.productName}</TableCell>
-                <TableCell className="text-right">{row.branchName}</TableCell>
-                <TableCell className="text-right tabular-nums" dir="ltr">
-                  {row.quantity}
+            pageSlice.map((row, index) => (
+              <TableRow key={row.id} className={listTableBodyRowClassName(index)}>
+                <TableCell className={`${listTableCellClassName} font-medium`}>
+                  {row.provider}
                 </TableCell>
-                <TableCell className="text-right tabular-nums" dir="ltr">
-                  {row.totalAmount}
+                <TableCell className={listTableCellClassName}>{row.productName}</TableCell>
+                <TableCell className={listTableCellClassName}>{row.branchName}</TableCell>
+                <TableCell className={listTableCellClassName} dir="ltr">
+                  <span className={listTableNumericInnerClassName}>
+                    {row.quantity}
+                  </span>
                 </TableCell>
-                <TableCell className="text-right tabular-nums" dir="rtl">
+                <TableCell className={listTableCellClassName} dir="ltr">
+                  <span className={listTableNumericInnerClassName}>
+                    {row.totalAmount}
+                  </span>
+                </TableCell>
+                <TableCell
+                  className={`${listTableCellClassName} tabular-nums text-foreground/90`}
+                  dir="rtl"
+                >
                   {formatGregorianDateToPersianDisplay(row.purchasedAt)}
                 </TableCell>
               </TableRow>
@@ -313,9 +326,10 @@ export function PurchaseProjectsList() {
           )}
         </TableBody>
       </Table>
+      </div>
 
       {filtered.length > 0 ? (
-        <div className="flex flex-col items-center justify-between gap-3 border-t border-border pt-4 sm:flex-row">
+        <div className={listTablePaginationClassName}>
           <p className="text-sm text-muted-foreground">
             صفحه {safePage} از {totalPages} — {filtered.length} مورد
           </p>
