@@ -116,7 +116,7 @@ export function CompleteProfileForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="mx-auto max-w-3xl space-y-6">
+    <form onSubmit={handleSubmit} className="max-w-3xl space-y-6">
       {/* Avatar */}
       <Card className="rounded-2xl border-border/70">
         <CardHeader className="pb-4">
