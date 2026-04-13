@@ -25,17 +25,14 @@ function formatFaNumberString(s: string): string {
 /** Theme tokens from tailwind.config (nav-*), not arbitrary hsl brackets. */
 const SECTION_ACCENT = {
   inventory: {
-    border: "border-t-nav-inventory",
     title: "text-nav-inventory",
     button: "border-nav-inventory/40 hover:bg-nav-inventory/10",
   },
   sales: {
-    border: "border-t-nav-sales",
     title: "text-nav-sales",
     button: "border-nav-sales/40 hover:bg-nav-sales/10",
   },
   reports: {
-    border: "border-t-nav-reports",
     title: "text-nav-reports",
     button: "border-nav-reports/40 hover:bg-nav-reports/10",
   },
@@ -60,12 +57,7 @@ function SectionShell({
 }) {
   const a = SECTION_ACCENT[section];
   return (
-    <Card
-      className={cn(
-        "overflow-hidden border-border/80 border-t-4 shadow-sm",
-        a.border,
-      )}
-    >
+    <Card className="overflow-hidden border-border/80 shadow-sm">
       <CardHeader className="flex flex-col gap-4 border-b border-border/50 bg-muted/25 px-4 pb-4 pt-5 sm:flex-row sm:items-center sm:justify-between sm:px-6">
         <div className="min-w-0 space-y-1">
           <CardTitle

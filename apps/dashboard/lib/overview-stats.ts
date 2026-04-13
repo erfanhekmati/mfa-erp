@@ -3,6 +3,10 @@ import {
   type MockPurchaseProject,
 } from "./mock-purchase-projects";
 import { MOCK_SALE_PLANS, type MockSalePlan } from "./mock-sale-plans";
+import {
+  SALE_PLAN_PRICE_LINE_POINTS,
+  SALE_PLAN_PRICE_LINE_PRODUCT_NAME,
+} from "./sale-plan-price-line-demo";
 
 function parseAmount(s: string): number {
   const n = Number(String(s).replace(/,/g, ""));
@@ -55,9 +59,16 @@ export type MonthTotal = {
 
 export type NamedTotal = { name: string; total: number };
 
-export type DiscountSplit = {
-  type: "PERCENT" | "FIXED";
-  count: number;
+/** سهم برنامه‌ها با تخفیف درصدی در مقابل مبلغ ثابت (۰–۱۰۰). */
+export type DiscountMixPercent = {
+  percentType: number;
+  fixedType: number;
+};
+
+export type SalePlanPricePoint = {
+  label: string;
+  price: number;
+  startAt: string;
 };
 
 export type OverviewStats = {
@@ -66,7 +77,9 @@ export type OverviewStats = {
   purchaseByBranch: NamedTotal[];
   purchaseByProvider: NamedTotal[];
   productPurchaseShare: NamedTotal[];
-  salePlansByDiscount: DiscountSplit[];
+  salePlanPriceLineProductName: string;
+  salePlanPriceLine: SalePlanPricePoint[];
+  discountMix: DiscountMixPercent;
   recentPurchases: MockPurchaseProject[];
   recentSalePlans: MockSalePlan[];
   expiringSalePlans: MockSalePlan[];
@@ -132,17 +145,23 @@ export function getOverviewStats(): OverviewStats {
 
   const expiringSalePlanCount = expiringSalePlans.length;
 
-  const discountCount = { PERCENT: 0, FIXED: 0 } as Record<
-    "PERCENT" | "FIXED",
-    number
-  >;
-  for (const r of MOCK_SALE_PLANS) {
-    discountCount[r.discountType] += 1;
-  }
-  const salePlansByDiscount: DiscountSplit[] = [
-    { type: "PERCENT", count: discountCount.PERCENT },
-    { type: "FIXED", count: discountCount.FIXED },
-  ];
+  const planTotal = MOCK_SALE_PLANS.length;
+  const percentTypeCount = MOCK_SALE_PLANS.filter(
+    (r) => r.discountType === "PERCENT",
+  ).length;
+  const fixedTypeCount = planTotal - percentTypeCount;
+  const discountMix: DiscountMixPercent = {
+    percentType: planTotal ? Math.round((percentTypeCount / planTotal) * 100) : 0,
+    fixedType: planTotal ? Math.round((fixedTypeCount / planTotal) * 100) : 0,
+  };
+
+  const salePlanPriceLine: SalePlanPricePoint[] = SALE_PLAN_PRICE_LINE_POINTS.map(
+    (row) => ({
+      startAt: row.startAt,
+      price: parseAmount(row.salePrice),
+      label: monthLabelFa(monthKey(row.startAt)),
+    }),
+  );
 
   const recentPurchases = [...MOCK_PURCHASE_PROJECTS].sort((a, b) =>
     b.purchasedAt.localeCompare(a.purchasedAt),
@@ -165,7 +184,9 @@ export function getOverviewStats(): OverviewStats {
     purchaseByBranch,
     purchaseByProvider,
     productPurchaseShare,
-    salePlansByDiscount,
+    salePlanPriceLineProductName: SALE_PLAN_PRICE_LINE_PRODUCT_NAME,
+    salePlanPriceLine,
+    discountMix,
     recentPurchases,
     recentSalePlans,
     expiringSalePlans,
