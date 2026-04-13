@@ -131,7 +131,8 @@ export function TopBar({ sidebarId, sidebarOpen, onMenuClick }: TopBarProps) {
           </button>
         </DropdownMenuTrigger>
 
-        <DropdownMenuContent dir="rtl" align="end" className="w-56">
+        <DropdownMenuContent align="end" className="w-56">
+          <div dir="rtl">
           <DropdownMenuLabel className="font-normal">
             <div className="flex items-center gap-2.5 py-1">
               <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-semibold text-primary-foreground">
@@ -213,6 +214,7 @@ export function TopBar({ sidebarId, sidebarOpen, onMenuClick }: TopBarProps) {
             </svg>
             خروج
           </DropdownMenuItem>
+          </div>
         </DropdownMenuContent>
       </DropdownMenu>
     </header>

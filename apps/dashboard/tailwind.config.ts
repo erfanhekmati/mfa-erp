@@ -53,6 +53,12 @@ const config: Config = {
           DEFAULT: "hsl(var(--brand-bar))",
           foreground: "hsl(var(--brand-bar-foreground))",
         },
+        /** Sidebar nav icon tokens — use `text-nav-sales`, `border-nav-inventory/40`, etc. (avoids arbitrary `hsl(var(...))` classes that confuse Tailwind extraction). */
+        "nav-overview": "hsl(var(--nav-icon-overview))",
+        "nav-sales": "hsl(var(--nav-icon-sales))",
+        "nav-inventory": "hsl(var(--nav-icon-inventory))",
+        "nav-reports": "hsl(var(--nav-icon-reports))",
+        "nav-base-info": "hsl(var(--nav-icon-base-info))",
       },
       ringOffsetColor: {
         background: "hsl(var(--background))",

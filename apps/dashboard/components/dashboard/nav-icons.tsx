@@ -9,11 +9,11 @@ import { cn } from "@repo/ui";
 import type { NavIconId } from "./nav-config";
 
 const iconColorClass: Record<NavIconId, string> = {
-  overview: "!text-[hsl(var(--nav-icon-overview))]",
-  sales: "!text-[hsl(var(--nav-icon-sales))]",
-  inventory: "!text-[hsl(var(--nav-icon-inventory))]",
-  reports: "!text-[hsl(var(--nav-icon-reports))]",
-  "base-info": "!text-[hsl(var(--nav-icon-base-info))]",
+  overview: "!text-nav-overview",
+  sales: "!text-nav-sales",
+  inventory: "!text-nav-inventory",
+  reports: "!text-nav-reports",
+  "base-info": "!text-nav-base-info",
 };
 
 const baseProps = {
