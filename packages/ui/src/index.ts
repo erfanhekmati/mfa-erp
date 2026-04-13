@@ -71,6 +71,26 @@ export type {
   PersianDateTimePickerProps,
 } from "./persian-date-picker";
 export {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "./components/ui/tabs";
+export {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuPortal,
+  DropdownMenuRadioGroup,
+  DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from "./components/ui/dropdown-menu";
+export {
   formatGregorianDateToPersianDisplay,
   formatGregorianDatetimeToPersianDisplay,
   gregorianDateStringToPickerValue,
