@@ -8,16 +8,16 @@ export const listTableWrapperClassName = cn(
   "dark:shadow-[0_2px_12px_-2px_rgb(0_0_0/0.45),0_8px_28px_-8px_rgb(0_0_0/0.35)]",
 );
 
-/** `<TableHeader className={...} />` — gradient strip behind column titles. */
+/** `<TableHeader className={...} />` — gradient strip tied to theme `--primary` (section color on default theme). */
 export const listTableHeaderClassName = cn(
-  "bg-gradient-to-l from-muted/70 via-muted/45 to-muted/30",
-  "dark:from-muted/40 dark:via-muted/28 dark:to-muted/15",
+  "border-b border-primary/25 bg-gradient-to-l from-primary/18 via-primary/11 to-primary/6",
+  "dark:from-primary/25 dark:via-primary/15 dark:to-primary/8 dark:border-primary/25",
 );
 
 /** Default `<TableHead />` cell for RTL list tables. */
 export const listTableHeadCellClassName = cn(
   "!text-right !normal-case !tracking-normal",
-  "border-b border-border/60 py-3.5 px-4 text-xs font-semibold text-muted-foreground",
+  "border-b border-primary/15 py-3.5 px-4 text-xs font-semibold text-primary",
 );
 
 /** Zebra + hover for body rows. Pass row index from map. */
