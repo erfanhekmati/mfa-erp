@@ -5,7 +5,16 @@ import {
   Note,
   ShoppingCart,
 } from "iconsax-react";
+import { cn } from "@repo/ui";
 import type { NavIconId } from "./nav-config";
+
+const iconColorClass: Record<NavIconId, string> = {
+  overview: "!text-[hsl(var(--nav-icon-overview))]",
+  sales: "!text-[hsl(var(--nav-icon-sales))]",
+  inventory: "!text-[hsl(var(--nav-icon-inventory))]",
+  reports: "!text-[hsl(var(--nav-icon-reports))]",
+  "base-info": "!text-[hsl(var(--nav-icon-base-info))]",
+};
 
 const baseProps = {
   size: 20,
@@ -24,7 +33,7 @@ export function NavIcon({
 }) {
   const props = {
     ...baseProps,
-    className,
+    className: cn(iconColorClass[name], className),
     "aria-hidden": ariaHidden,
   };
 

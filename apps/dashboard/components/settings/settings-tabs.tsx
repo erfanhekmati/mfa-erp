@@ -15,27 +15,26 @@ import {
   TabsTrigger,
 } from "@repo/ui";
 
+import { ThemePicker } from "./theme-picker";
+
+const tabTriggerClassName =
+  "rounded-none border-b-2 border-transparent px-4 py-2.5 text-sm font-medium text-muted-foreground transition-none data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:text-foreground data-[state=active]:shadow-none";
+
 export function SettingsTabs() {
   return (
     <Tabs defaultValue="general" dir="rtl">
-      <TabsList className="mb-6 flex h-auto w-full justify-start gap-1 rounded-none border-b bg-transparent p-0">
-        <TabsTrigger
-          value="general"
-          className="rounded-none border-b-2 border-transparent px-4 py-2.5 text-sm font-medium text-muted-foreground transition-none data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:text-foreground data-[state=active]:shadow-none"
-        >
+      <TabsList className="mb-6 flex h-auto w-full flex-wrap justify-start gap-1 rounded-none border-b bg-transparent p-0">
+        <TabsTrigger value="general" className={tabTriggerClassName}>
           عمومی
         </TabsTrigger>
-        <TabsTrigger
-          value="organization"
-          className="rounded-none border-b-2 border-transparent px-4 py-2.5 text-sm font-medium text-muted-foreground transition-none data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:text-foreground data-[state=active]:shadow-none"
-        >
+        <TabsTrigger value="organization" className={tabTriggerClassName}>
           اطلاعات سازمان
         </TabsTrigger>
-        <TabsTrigger
-          value="users"
-          className="rounded-none border-b-2 border-transparent px-4 py-2.5 text-sm font-medium text-muted-foreground transition-none data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:text-foreground data-[state=active]:shadow-none"
-        >
+        <TabsTrigger value="users" className={tabTriggerClassName}>
           کاربران
+        </TabsTrigger>
+        <TabsTrigger value="appearance" className={tabTriggerClassName}>
+          ظاهر
         </TabsTrigger>
       </TabsList>
 
@@ -202,6 +201,10 @@ export function SettingsTabs() {
             </CardContent>
           </Card>
         </div>
+      </TabsContent>
+
+      <TabsContent value="appearance">
+        <ThemePicker />
       </TabsContent>
     </Tabs>
   );

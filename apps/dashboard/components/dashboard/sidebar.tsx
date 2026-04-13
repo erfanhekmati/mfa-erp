@@ -235,19 +235,19 @@ export function Sidebar({
   const brandBlock = (
     <div
       className={cn(
-        "flex h-[var(--topbar-height)] min-h-[var(--topbar-height)] shrink-0 items-center justify-between gap-2 border-b border-sidebar-border px-2",
+        "flex h-[var(--topbar-height)] min-h-[var(--topbar-height)] shrink-0 items-center justify-between gap-2 border-b border-brandBar/20 bg-brandBar px-2 text-brandBar-foreground",
         showCollapsed && !isMobile && "justify-center px-1.5",
       )}
     >
       {!showCollapsed || isMobile ? (
-        <div className="min-w-0 flex-1 truncate px-1 text-sm font-semibold leading-snug text-sidebar-foreground">
+        <div className="min-w-0 flex-1 truncate px-1 text-sm font-semibold leading-snug text-brandBar-foreground">
           مدیران فولاد آذر
         </div>
       ) : null}
       {isMobile ? (
         <button
           type="button"
-          className="flex size-9 shrink-0 items-center justify-center rounded-lg border border-border bg-background text-xl leading-none text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+          className="flex size-9 shrink-0 items-center justify-center rounded-lg border border-brandBar-foreground/25 bg-brandBar-foreground/10 text-xl leading-none text-brandBar-foreground transition-colors hover:bg-brandBar-foreground/15"
           onClick={() => onDrawerOpenChange(false)}
           aria-label="بستن منو"
         >
@@ -258,7 +258,7 @@ export function Sidebar({
         <button
           type="button"
           className={cn(
-            "flex shrink-0 items-center justify-center rounded-lg border border-border bg-background text-foreground transition-colors hover:bg-accent",
+            "flex shrink-0 items-center justify-center rounded-lg border border-brandBar-foreground/25 bg-brandBar-foreground/10 text-brandBar-foreground transition-colors hover:bg-brandBar-foreground/15",
             showCollapsed ? "size-10" : "size-9",
           )}
           onClick={onToggleCollapsed}

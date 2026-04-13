@@ -43,10 +43,10 @@ export function TopBar({ sidebarId, sidebarOpen, onMenuClick }: TopBarProps) {
   const initials = getInitials(USER_NAME);
 
   return (
-    <header className="flex h-[var(--topbar-height)] min-h-[var(--topbar-height)] shrink-0 items-center gap-3 border-b border-border bg-background px-4">
+    <header className="flex h-[var(--topbar-height)] min-h-[var(--topbar-height)] shrink-0 items-center gap-3 border-b border-brandBar/20 bg-brandBar px-4 text-brandBar-foreground">
       <button
         type="button"
-        className="flex size-10 shrink-0 items-center justify-center rounded-lg border border-border bg-background md:hidden"
+        className="flex size-10 shrink-0 items-center justify-center rounded-lg border border-brandBar-foreground/25 bg-brandBar-foreground/10 md:hidden"
         aria-label={sidebarOpen ? "بستن منو" : "باز کردن منو"}
         aria-expanded={sidebarOpen}
         aria-controls={sidebarId}
@@ -65,27 +65,32 @@ export function TopBar({ sidebarId, sidebarOpen, onMenuClick }: TopBarProps) {
       </button>
 
       <Breadcrumb className="min-w-0 flex-1 overflow-hidden">
-        <BreadcrumbList className="text-xs sm:text-sm">
+        <BreadcrumbList className="text-xs text-brandBar-foreground/85 sm:text-sm">
           {crumbs.map((c, i) => {
             const isLast = i === crumbs.length - 1;
             return (
               <Fragment key={`${c.label}-${i}`}>
                 {i > 0 ? (
-                  <BreadcrumbSeparator className="text-border [&>span]:text-border">
+                  <BreadcrumbSeparator className="text-brandBar-foreground/40 [&>span]:text-brandBar-foreground/40">
                     /
                   </BreadcrumbSeparator>
                 ) : null}
                 <BreadcrumbItem>
                   {c.href && !isLast ? (
                     <BreadcrumbLink asChild>
-                      <Link href={c.href} className="text-muted-foreground">
+                      <Link
+                        href={c.href}
+                        className="text-brandBar-foreground/75 hover:text-brandBar-foreground"
+                      >
                         {c.label}
                       </Link>
                     </BreadcrumbLink>
                   ) : isLast ? (
-                    <BreadcrumbPage>{c.label}</BreadcrumbPage>
+                    <BreadcrumbPage className="text-brandBar-foreground">
+                      {c.label}
+                    </BreadcrumbPage>
                   ) : (
-                    <span className="text-muted-foreground">{c.label}</span>
+                    <span className="text-brandBar-foreground/75">{c.label}</span>
                   )}
                 </BreadcrumbItem>
               </Fragment>
@@ -99,20 +104,22 @@ export function TopBar({ sidebarId, sidebarOpen, onMenuClick }: TopBarProps) {
           <button
             type="button"
             dir="rtl"
-            className="flex shrink-0 items-center gap-2.5 rounded-lg border border-border bg-muted/60 px-2.5 py-1.5 text-start transition-colors hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="flex shrink-0 items-center gap-2.5 rounded-lg border border-brandBar-foreground/25 bg-brandBar-foreground/10 px-2.5 py-1.5 text-start text-brandBar-foreground transition-colors hover:bg-brandBar-foreground/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brandBar-foreground/40"
             aria-label="منوی کاربری"
           >
-            <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-semibold text-primary-foreground">
+            <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-brandBar-foreground text-xs font-semibold text-brandBar">
               {initials}
             </span>
             <span className="hidden flex-col leading-tight sm:flex">
-              <span className="text-sm font-medium text-foreground">
+              <span className="text-sm font-medium text-brandBar-foreground">
                 {USER_NAME}
               </span>
-              <span className="text-xs text-muted-foreground">{USER_ROLE}</span>
+              <span className="text-xs text-brandBar-foreground/75">
+                {USER_ROLE}
+              </span>
             </span>
             <svg
-              className="hidden size-3.5 shrink-0 text-muted-foreground sm:block"
+              className="hidden size-3.5 shrink-0 text-brandBar-foreground/75 sm:block"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"

@@ -49,6 +49,10 @@ const config: Config = {
           accent: "hsl(var(--sidebar-accent))",
           border: "hsl(var(--sidebar-border))",
         },
+        brandBar: {
+          DEFAULT: "hsl(var(--brand-bar))",
+          foreground: "hsl(var(--brand-bar-foreground))",
+        },
       },
       ringOffsetColor: {
         background: "hsl(var(--background))",
