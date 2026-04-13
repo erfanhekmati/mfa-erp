@@ -38,5 +38,19 @@ export function getBreadcrumbs(pathname: string): BreadcrumbItem[] {
     }
   }
 
+  const staticRoutes: Record<string, { parent?: string; label: string }> = {
+    "/settings": { label: "تنظیمات" },
+    "/customers": { label: "مشتریان" },
+    "/profile": { label: "پروفایل" },
+    "/reports": { label: "گزارش‌ها" },
+  };
+
+  if (staticRoutes[norm]) {
+    const route = staticRoutes[norm];
+    if (route.parent) crumbs.push({ label: route.parent });
+    crumbs.push({ label: route.label });
+    return crumbs;
+  }
+
   return [...crumbs, { label: "صفحه" }];
 }

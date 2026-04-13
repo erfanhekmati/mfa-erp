@@ -3,7 +3,7 @@ export type NavIconId =
   | "sales"
   | "inventory"
   | "reports"
-  | "more";
+  | "base-info";
 
 export type NavItem = {
   id: string;
@@ -51,12 +51,12 @@ export const navItems: NavItem[] = [
   },
   { id: "reports", label: "گزارش‌ها", href: "/reports", icon: "reports" },
   {
-    id: "more",
-    label: "بیشتر",
-    icon: "more",
+    id: "base-info",
+    label: "اطلاعات پایه",
+    icon: "base-info",
     children: [
-      { id: "customers", label: "مشتریان", href: "/customers" },
-      { id: "settings", label: "تنظیمات", href: "/settings" },
+      { id: "customer-add", label: "اضافه کردن مشتری", href: "/customers/new" },
+      { id: "product-add-base", label: "اضافه کردن کالا", href: "/inventory/products/new" },
     ],
   },
 ];

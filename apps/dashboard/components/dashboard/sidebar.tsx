@@ -134,7 +134,7 @@ export function Sidebar({
   const [expanded, setExpanded] = useState<Record<string, boolean>>({
     sales: false,
     inventory: false,
-    more: false,
+    "base-info": false,
   });
   const [flyoutOpen, setFlyoutOpen] = useState<string | null>(null);
   const [flyoutPos, setFlyoutPos] = useState<{

@@ -2,7 +2,7 @@ import {
   Box,
   Chart21,
   Element4,
-  More,
+  Note,
   ShoppingCart,
 } from "iconsax-react";
 import type { NavIconId } from "./nav-config";
@@ -37,7 +37,7 @@ export function NavIcon({
       return <Box {...props} />;
     case "reports":
       return <Chart21 {...props} />;
-    case "more":
-      return <More {...props} />;
+    case "base-info":
+      return <Note {...props} />;
   }
 }
