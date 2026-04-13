@@ -5,6 +5,8 @@
  */
 export type MockSalePlan = {
   id: string;
+  /** شعبه فروش — demo برای سهم فروش در نمای کلی */
+  branchName: "تهران" | "تبریز";
   productName: string;
   createdByName: string;
   salePrice: string;
@@ -18,6 +20,7 @@ export type MockSalePlan = {
 export const MOCK_SALE_PLANS: MockSalePlan[] = [
   {
     id: "sp_001",
+    branchName: "تهران",
     productName: "میلگرد A3 سایز ۱۴",
     createdByName: "علی رضایی",
     salePrice: "29500000",
@@ -28,6 +31,7 @@ export const MOCK_SALE_PLANS: MockSalePlan[] = [
   },
   {
     id: "sp_002",
+    branchName: "تبریز",
     productName: "تیرآهن IPE ۲۰۰",
     createdByName: "مریم احمدی",
     salePrice: "92000000",
@@ -38,6 +42,7 @@ export const MOCK_SALE_PLANS: MockSalePlan[] = [
   },
   {
     id: "sp_003",
+    branchName: "تهران",
     productName: "ورق سیاه ۶ میل",
     createdByName: "علی رضایی",
     salePrice: "51000000",
@@ -48,6 +53,7 @@ export const MOCK_SALE_PLANS: MockSalePlan[] = [
   },
   {
     id: "sp_004",
+    branchName: "تبریز",
     productName: "نبشی ۱۰۰",
     createdByName: "سارا کریمی",
     salePrice: "19800000",
@@ -58,6 +64,7 @@ export const MOCK_SALE_PLANS: MockSalePlan[] = [
   },
   {
     id: "sp_005",
+    branchName: "تهران",
     productName: "میلگرد A2 سایز ۱۲",
     createdByName: "مریم احمدی",
     salePrice: "56000000",
@@ -68,6 +75,7 @@ export const MOCK_SALE_PLANS: MockSalePlan[] = [
   },
   {
     id: "sp_006",
+    branchName: "تبریز",
     productName: "ورق گالوانیزه ۰.۶",
     createdByName: "حسین محمدی",
     salePrice: "27500000",
@@ -78,6 +86,7 @@ export const MOCK_SALE_PLANS: MockSalePlan[] = [
   },
   {
     id: "sp_007",
+    branchName: "تهران",
     productName: "کلاف ۵.۵ میل",
     createdByName: "علی رضایی",
     salePrice: "33000000",
@@ -88,6 +97,7 @@ export const MOCK_SALE_PLANS: MockSalePlan[] = [
   },
   {
     id: "sp_008",
+    branchName: "تبریز",
     productName: "ورق روغنی ۲ میل",
     createdByName: "سارا کریمی",
     salePrice: "18900000",
@@ -98,6 +108,7 @@ export const MOCK_SALE_PLANS: MockSalePlan[] = [
   },
   {
     id: "sp_009",
+    branchName: "تهران",
     productName: "تیرآهن INP ۱۶۰",
     createdByName: "مریم احمدی",
     salePrice: "61000000",
@@ -108,6 +119,7 @@ export const MOCK_SALE_PLANS: MockSalePlan[] = [
   },
   {
     id: "sp_010",
+    branchName: "تبریز",
     productName: "میلگرد A3 سایز ۱۸",
     createdByName: "حسین محمدی",
     salePrice: "44200000",
@@ -118,6 +130,7 @@ export const MOCK_SALE_PLANS: MockSalePlan[] = [
   },
   {
     id: "sp_011",
+    branchName: "تهران",
     productName: "نبشی ۸۰",
     createdByName: "سارا کریمی",
     salePrice: "15500000",
@@ -128,6 +141,7 @@ export const MOCK_SALE_PLANS: MockSalePlan[] = [
   },
   {
     id: "sp_012",
+    branchName: "تبریز",
     productName: "ورق سیاه ۱۰ میل",
     createdByName: "علی رضایی",
     salePrice: "51000000",

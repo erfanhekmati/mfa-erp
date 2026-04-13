@@ -33,7 +33,14 @@ function formatFa(n: number) {
   return Math.round(n).toLocaleString("fa-IR");
 }
 
-export function PurchaseBranchPieChart({ items }: { items: BranchSlice[] }) {
+export function PurchaseBranchPieChart({
+  items,
+  footerCaption = "سهم هر شعبه از جمع مبلغ کل خرید (ریال)",
+}: {
+  items: BranchSlice[];
+  /** زیر نمودار (مثلاً خرید در مقابل سهم فروش) */
+  footerCaption?: string;
+}) {
   const data = useMemo(
     () => items.map((x) => ({ name: x.name, value: x.total })),
     [items],
@@ -136,9 +143,7 @@ export function PurchaseBranchPieChart({ items }: { items: BranchSlice[] }) {
           ))}
         </ul>
       </div>
-      <p className="text-center text-[0.7rem] text-muted-foreground">
-        سهم هر شعبه از جمع مبلغ کل خرید (ریال)
-      </p>
+      <p className="text-center text-[0.7rem] text-muted-foreground">{footerCaption}</p>
     </div>
   );
 }

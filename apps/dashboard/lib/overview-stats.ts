@@ -75,6 +75,8 @@ export type OverviewStats = {
   kpis: OverviewKpis;
   purchaseByMonth: MonthTotal[];
   purchaseByBranch: NamedTotal[];
+  /** جمع قیمت فروش برنامه‌ها به ازای هر شعبه (ریال) */
+  saleShareByBranch: NamedTotal[];
   purchaseByProvider: NamedTotal[];
   productPurchaseShare: NamedTotal[];
   salePlanPriceLineProductName: string;
@@ -123,6 +125,15 @@ export function getOverviewStats(): OverviewStats {
     }));
 
   const purchaseByBranch: NamedTotal[] = [...branchTotals.entries()]
+    .map(([name, total]) => ({ name, total }))
+    .sort((a, b) => b.total - a.total);
+
+  const saleBranchTotals = new Map<string, number>();
+  for (const r of MOCK_SALE_PLANS) {
+    const amt = parseAmount(r.salePrice);
+    saleBranchTotals.set(r.branchName, (saleBranchTotals.get(r.branchName) ?? 0) + amt);
+  }
+  const saleShareByBranch: NamedTotal[] = [...saleBranchTotals.entries()]
     .map(([name, total]) => ({ name, total }))
     .sort((a, b) => b.total - a.total);
 
@@ -182,6 +193,7 @@ export function getOverviewStats(): OverviewStats {
     },
     purchaseByMonth,
     purchaseByBranch,
+    saleShareByBranch,
     purchaseByProvider,
     productPurchaseShare,
     salePlanPriceLineProductName: SALE_PLAN_PRICE_LINE_PRODUCT_NAME,

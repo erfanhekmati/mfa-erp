@@ -39,7 +39,7 @@ function normalizeSearch(s: string) {
 function rowMatchesSearch(row: MockSalePlan, q: string) {
   if (!q) return true;
   const n = normalizeSearch(q);
-  const hay = [row.productName, row.createdByName, row.id]
+  const hay = [row.productName, row.createdByName, row.branchName, row.id]
     .join(" ")
     .toLowerCase();
   return hay.includes(n);

@@ -319,13 +319,26 @@ export function OverviewDashboard({ stats }: { stats: OverviewStats }) {
           </CardContent>
         </Card>
 
-        <Card className="border-border/80 shadow-sm lg:col-span-2">
+        <Card className="border-border/80 shadow-sm">
           <CardHeader>
             <CardTitle className="text-base">خرید به تفکیک شعبه</CardTitle>
             <CardDescription>جمع مبلغ کل به ازای هر شعبه</CardDescription>
           </CardHeader>
           <CardContent>
             <PurchaseBranchPieChart items={stats.purchaseByBranch} />
+          </CardContent>
+        </Card>
+
+        <Card className="border-border/80 shadow-sm">
+          <CardHeader>
+            <CardTitle className="text-base">سهم فروش</CardTitle>
+            <CardDescription>جمع قیمت فروش برنامه‌ها به ازای هر شعبه</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <PurchaseBranchPieChart
+              items={stats.saleShareByBranch}
+              footerCaption="سهم هر شعبه از جمع قیمت فروش برنامه‌ها (ریال)"
+            />
           </CardContent>
         </Card>
 
