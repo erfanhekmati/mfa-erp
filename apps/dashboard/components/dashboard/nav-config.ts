@@ -24,7 +24,7 @@ export const navItems: NavItem[] = [
       { id: "sales-plan", label: "برنامه فروش", href: "/sales/plan" },
       {
         id: "sales-plan-add",
-        label: "افزودن برنامه فروش",
+        label: "برنامه فروش جدید",
         href: "/sales/plan/new",
       },
       { id: "sales-list", label: "فروش‌ها", href: "/sales" },
@@ -38,14 +38,8 @@ export const navItems: NavItem[] = [
       { id: "purchases", label: "پروژه‌ها", href: "/inventory/purchases" },
       {
         id: "purchase-project-add",
-        label: "اضافه کردن پروژه خرید",
+        label: "پروژه خرید جدید",
         href: "/inventory/purchases/new",
-      },
-      { id: "products", label: "کالاها", href: "/inventory/products" },
-      {
-        id: "product-add",
-        label: "افزودن کالا",
-        href: "/inventory/products/new",
       },
     ],
   },
@@ -55,8 +49,9 @@ export const navItems: NavItem[] = [
     label: "اطلاعات پایه",
     icon: "base-info",
     children: [
-      { id: "customer-add", label: "اضافه کردن مشتری", href: "/customers/new" },
-      { id: "product-add-base", label: "اضافه کردن کالا", href: "/inventory/products/new" },
+      { id: "customer-add", label: "مشتری جدید", href: "/customers/new" },
+      { id: "products", label: "کالاها", href: "/inventory/products" },
+      { id: "product-add-base", label: "کالای جدید", href: "/inventory/products/new" },
     ],
   },
 ];

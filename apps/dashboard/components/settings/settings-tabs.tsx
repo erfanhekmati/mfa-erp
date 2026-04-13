@@ -171,7 +171,7 @@ export function SettingsTabs() {
                   کاربران سامانه را مشاهده و مدیریت کنید.
                 </CardDescription>
               </div>
-              <Button size="sm">افزودن کاربر</Button>
+              <Button size="sm">کاربر جدید</Button>
             </CardHeader>
             <CardContent>
               <div className="rounded-lg border border-dashed border-border p-8 text-center">
@@ -195,7 +195,7 @@ export function SettingsTabs() {
                   کاربری یافت نشد
                 </p>
                 <p className="mt-1 text-xs text-muted-foreground">
-                  برای افزودن کاربر جدید دکمه «افزودن کاربر» را بزنید.
+                  برای ثبت کاربر جدید دکمه «کاربر جدید» را بزنید.
                 </p>
               </div>
             </CardContent>

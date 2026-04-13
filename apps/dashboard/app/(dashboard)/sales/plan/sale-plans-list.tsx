@@ -136,7 +136,7 @@ export function SalePlansList() {
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <h1 className="text-xl font-semibold tracking-tight">برنامه فروش</h1>
         <Button asChild className="w-full shrink-0 sm:w-auto">
-          <Link href="/sales/plan/new">افزودن برنامه فروش</Link>
+          <Link href="/sales/plan/new">برنامه فروش جدید</Link>
         </Button>
       </div>
 

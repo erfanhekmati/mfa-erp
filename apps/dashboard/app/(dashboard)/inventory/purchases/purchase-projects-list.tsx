@@ -157,7 +157,7 @@ export function PurchaseProjectsList() {
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <h1 className="text-xl font-semibold tracking-tight">پروژه‌ها</h1>
         <Button asChild className="w-full shrink-0 sm:w-auto">
-          <Link href="/inventory/purchases/new">اضافه کردن پروژه خرید</Link>
+          <Link href="/inventory/purchases/new">پروژه خرید جدید</Link>
         </Button>
       </div>
 
