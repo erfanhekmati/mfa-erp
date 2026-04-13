@@ -15,6 +15,7 @@ import {
   OverviewRecentPurchasesSection,
   OverviewRecentSalePlansSection,
 } from "./overview-activity-sections";
+import { PurchaseBranchPieChart } from "./purchase-branch-pie-chart";
 import { PurchaseTrendChart } from "./purchase-trend-chart";
 import { SalePlanPriceLineChart } from "./sale-plan-price-line-chart";
 
@@ -324,7 +325,7 @@ export function OverviewDashboard({ stats }: { stats: OverviewStats }) {
             <CardDescription>جمع مبلغ کل به ازای هر شعبه</CardDescription>
           </CardHeader>
           <CardContent>
-            <HorizontalBars items={stats.purchaseByBranch} />
+            <PurchaseBranchPieChart items={stats.purchaseByBranch} />
           </CardContent>
         </Card>
 
