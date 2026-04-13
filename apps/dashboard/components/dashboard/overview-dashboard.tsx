@@ -16,6 +16,7 @@ import {
   OverviewRecentPurchasesSection,
   OverviewRecentSalePlansSection,
 } from "./overview-activity-sections";
+import { PurchaseTrendChart } from "./purchase-trend-chart";
 
 /** Nav icon CSS variable names — same tokens as globals.css and sidebar. */
 const NAV_ICON_VARS = [
@@ -27,15 +28,6 @@ const NAV_ICON_VARS = [
 ] as const;
 
 type NavIconVarName = (typeof NAV_ICON_VARS)[number];
-
-/** SVG stroke colors as fixed strings (dynamic hsl in JSX breaks Tailwind CSS extraction). */
-const NAV_ICON_STROKE: Record<NavIconVarName, string> = {
-  "--nav-icon-overview": "hsl(var(--nav-icon-overview))",
-  "--nav-icon-sales": "hsl(var(--nav-icon-sales))",
-  "--nav-icon-inventory": "hsl(var(--nav-icon-inventory))",
-  "--nav-icon-reports": "hsl(var(--nav-icon-reports))",
-  "--nav-icon-base-info": "hsl(var(--nav-icon-base-info))",
-};
 
 type KpiTint = NavIconVarName | "primary";
 
@@ -103,99 +95,6 @@ function maxNamedTotal(items: { total: number }[]): number {
   let m = 0;
   for (const x of items) m = Math.max(m, x.total);
   return m || 1;
-}
-
-function PurchaseTrendChart({ points }: { points: { label: string; total: number }[] }) {
-  if (points.length === 0) {
-    return (
-      <p className="py-8 text-center text-sm text-muted-foreground">
-        داده‌ای برای نمایش نیست.
-      </p>
-    );
-  }
-  const max = Math.max(...points.map((p) => p.total), 1);
-  const w = 100;
-  const h = 44;
-  const pad = 4;
-  const innerW = w - pad * 2;
-  const innerH = h - pad * 2;
-  const step = points.length > 1 ? innerW / (points.length - 1) : 0;
-  const coords = points.map((p, i) => {
-    const x = pad + (points.length === 1 ? innerW / 2 : i * step);
-    const y = pad + innerH - (p.total / max) * innerH;
-    return `${x},${y}`;
-  });
-  const polyline = coords.join(" ");
-  const firstX = pad + (points.length === 1 ? innerW / 2 : 0);
-  const lastX = pad + (points.length === 1 ? innerW / 2 : (points.length - 1) * step);
-  const bottomY = pad + innerH;
-
-  return (
-    <div className="space-y-3">
-      <svg
-        viewBox={`0 0 ${w} ${h}`}
-        className="h-28 w-full"
-        preserveAspectRatio="none"
-        aria-hidden
-      >
-        <defs>
-          <linearGradient id="overview-trend-fill" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="hsl(var(--nav-icon-overview))" stopOpacity="0.28" />
-            <stop offset="35%" stopColor="hsl(var(--nav-icon-sales))" stopOpacity="0.2" />
-            <stop offset="55%" stopColor="hsl(var(--nav-icon-inventory))" stopOpacity="0.14" />
-            <stop offset="100%" stopColor="hsl(var(--nav-icon-base-info))" stopOpacity="0" />
-          </linearGradient>
-          <linearGradient id="overview-trend-stroke" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stopColor="hsl(var(--nav-icon-overview))" />
-            <stop offset="25%" stopColor="hsl(var(--nav-icon-sales))" />
-            <stop offset="50%" stopColor="hsl(var(--nav-icon-inventory))" />
-            <stop offset="75%" stopColor="hsl(var(--nav-icon-reports))" />
-            <stop offset="100%" stopColor="hsl(var(--nav-icon-base-info))" />
-          </linearGradient>
-        </defs>
-        {points.length > 1 ? (
-          <polygon
-            fill="url(#overview-trend-fill)"
-            points={`${polyline} ${lastX},${bottomY} ${firstX},${bottomY}`}
-          />
-        ) : null}
-        {points.length > 1 ? (
-          <polyline
-            fill="none"
-            stroke="url(#overview-trend-stroke)"
-            strokeWidth="1.75"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            points={polyline}
-          />
-        ) : null}
-        {points.map((p, i) => {
-          const x = pad + (points.length === 1 ? innerW / 2 : i * step);
-          const y =
-            pad + innerH - (p.total / max) * innerH;
-          const varName = NAV_ICON_VARS[i % NAV_ICON_VARS.length]!;
-          return (
-            <circle
-              key={p.label}
-              cx={x}
-              cy={y}
-              r="2.25"
-              className="fill-background"
-              stroke={NAV_ICON_STROKE[varName]}
-              strokeWidth="1.5"
-            />
-          );
-        })}
-      </svg>
-      <div className="flex flex-wrap justify-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
-        {points.map((p) => (
-          <span key={p.label} className="tabular-nums">
-            {p.label}: {formatFaAmount(p.total)}
-          </span>
-        ))}
-      </div>
-    </div>
-  );
 }
 
 function HorizontalBars({ items }: { items: { name: string; total: number }[] }) {
@@ -429,9 +328,9 @@ export function OverviewDashboard({ stats }: { stats: OverviewStats }) {
       </section>
 
       <section className="grid gap-6 lg:grid-cols-2" aria-label="نمودارها">
-        <Card className="border-border/80 border-t-4 border-t-nav-overview shadow-sm">
+        <Card className="border-border/80 border-t-4 border-t-primary shadow-sm">
           <CardHeader>
-            <CardTitle className="text-base">روند مبلغ خرید به تفکیک ماه</CardTitle>
+            <CardTitle className="text-base text-primary">روند مبلغ خرید به تفکیک ماه</CardTitle>
             <CardDescription>جمع مبلغ کل پروژه‌های خرید در هر ماه</CardDescription>
           </CardHeader>
           <CardContent>
