@@ -66,7 +66,8 @@
     --sidebar-foreground: 0 0% 9%;
     --sidebar-accent: 0 0% 96.1%;
     --sidebar-border: 0 0% 90%;
-    --brand-bar: 356 75% 44%;
+    /* نوار بالا و هدر سایدبار: سبز با کنتراست مناسب برای متن سفید */
+    --brand-bar: 142 71% 36%;
     --brand-bar-foreground: 0 0% 100%;
     --nav-icon-overview: 221 83% 53%;
     --nav-icon-sales: 142 71% 40%;
