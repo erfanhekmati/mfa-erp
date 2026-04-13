@@ -11,12 +11,10 @@ import {
 
 export type BranchSlice = { name: string; total: number };
 
-/** رنگ ثابت هر شعبه (بخش‌های دایره‌ای و راهنما). */
+/** رنگ ثابت هر شعبه (فقط تهران و تبریز). */
 const BRANCH_PIE_FILL: Record<string, string> = {
   تهران: "hsl(var(--nav-icon-sales))",
-  اصفهان: "hsl(var(--nav-icon-overview))",
-  کرج: "hsl(var(--nav-icon-inventory))",
-  اهواز: "hsl(var(--nav-icon-reports))",
+  تبریز: "hsl(var(--nav-icon-overview))",
 };
 
 const FALLBACK_FILLS = [
