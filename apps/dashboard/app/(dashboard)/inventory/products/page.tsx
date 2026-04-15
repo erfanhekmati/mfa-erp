@@ -1,5 +1,14 @@
-import { ComingSoon } from "../../../../components/coming-soon";
+import { ProductsList } from "./products-list";
+
+export const metadata = {
+  title: "کالاها | مدیران فولاد آذر",
+  description: "فهرست کالاها و واحدهای اندازه‌گیری.",
+};
 
 export default function ProductsPage() {
-  return <ComingSoon />;
+  return (
+    <div className="pb-8">
+      <ProductsList />
+    </div>
+  );
 }

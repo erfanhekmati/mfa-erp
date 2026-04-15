@@ -1,4 +1,4 @@
-import { ComingSoon } from "../../../../components/coming-soon";
+import { AddCustomerForm } from "../../../../components/customers/add-customer-form";
 
 export const metadata = {
   title: "مشتری جدید | مدیران فولاد آذر",
@@ -14,7 +14,7 @@ export default function AddCustomerPage() {
           اطلاعات مشتری جدید را وارد کنید.
         </p>
       </div>
-      <ComingSoon />
+      <AddCustomerForm />
     </div>
   );
 }
