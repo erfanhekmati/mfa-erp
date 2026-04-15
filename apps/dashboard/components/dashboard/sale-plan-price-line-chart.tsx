@@ -10,26 +10,40 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import {
+  CHART_DAY_MAX_X_TICKS,
+  SparseDayAxisTick,
+  visibleDayTickIndices,
+} from "./chart-x-axis-day";
+import { formatRialAxisTick } from "./chart-rial-axis";
 
 export type SalePlanPricePoint = { label: string; price: number };
+
+export type SalePlanPriceXAxisKind = "month" | "day" | "year";
 
 function formatFa(n: number) {
   return Math.round(n).toLocaleString("fa-IR");
 }
 
-function formatYAxis(v: number) {
-  if (v >= 1_000_000) {
-    return `${(v / 1_000_000).toLocaleString("fa-IR", { maximumFractionDigits: 0 })}M`;
-  }
-  return v.toLocaleString("fa-IR");
-}
-
 type TooltipPayloadItem = { value?: number };
 
-export function SalePlanPriceLineChart({ points }: { points: SalePlanPricePoint[] }) {
+export function SalePlanPriceLineChart({
+  points,
+  xAxisKind = "month",
+}: {
+  points: SalePlanPricePoint[];
+  xAxisKind?: SalePlanPriceXAxisKind;
+}) {
   const data = useMemo(
     () => points.map((p) => ({ name: p.label, price: p.price })),
     [points],
+  );
+
+  const sparseDayTicks =
+    xAxisKind === "day" && data.length > CHART_DAY_MAX_X_TICKS;
+  const dayTickVisible = useMemo(
+    () => visibleDayTickIndices(data.length, CHART_DAY_MAX_X_TICKS),
+    [data.length],
   );
 
   if (data.length === 0) {
@@ -41,11 +55,13 @@ export function SalePlanPriceLineChart({ points }: { points: SalePlanPricePoint[
   }
 
   return (
-    <div className="space-y-2">
-      <div className="relative overflow-hidden rounded-2xl border border-border/50 bg-gradient-to-b from-nav-sales/10 via-muted/20 to-transparent p-3 dark:from-nav-sales/15">
-        <div className="w-full min-w-0" dir="ltr">
+    <div className="relative overflow-hidden rounded-2xl border border-border/50 bg-gradient-to-b from-nav-sales/10 via-muted/20 to-transparent p-3 dark:from-nav-sales/15">
+      <div className="w-full min-w-0" dir="ltr">
           <ResponsiveContainer width="100%" height={260}>
-            <LineChart data={data} margin={{ top: 12, right: 6, left: 4, bottom: 4 }}>
+            <LineChart
+              data={data}
+              margin={{ top: 12, right: 6, left: 4, bottom: sparseDayTicks ? 8 : 4 }}
+            >
               <CartesianGrid
                 strokeDasharray="4 6"
                 stroke="hsl(var(--border))"
@@ -54,21 +70,45 @@ export function SalePlanPriceLineChart({ points }: { points: SalePlanPricePoint[
               />
               <XAxis
                 dataKey="name"
-                tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }}
+                tick={
+                  sparseDayTicks
+                    ? (props) => {
+                        const x = Number(props.x);
+                        const y = Number(props.y);
+                        const index = Number(props.index);
+                        if (!Number.isFinite(x) || !Number.isFinite(y) || !Number.isFinite(index)) {
+                          return <g />;
+                        }
+                        return (
+                          <SparseDayAxisTick
+                            x={x}
+                            y={y}
+                            payload={props.payload}
+                            index={index}
+                            visible={dayTickVisible}
+                          />
+                        );
+                      }
+                    : { fontSize: 11, fill: "hsl(var(--muted-foreground))" }
+                }
                 tickLine={false}
                 axisLine={{ stroke: "hsl(var(--border))", strokeOpacity: 0.6 }}
                 interval={0}
-                angle={data.length > 4 ? -18 : 0}
-                textAnchor={data.length > 4 ? "end" : "middle"}
-                height={data.length > 4 ? 44 : 28}
-                dy={data.length > 4 ? 6 : 8}
+                angle={
+                  sparseDayTicks ? 0 : data.length > 4 ? -18 : 0
+                }
+                textAnchor={
+                  sparseDayTicks ? "middle" : data.length > 4 ? "end" : "middle"
+                }
+                height={sparseDayTicks ? 76 : data.length > 4 ? 44 : 28}
+                dy={sparseDayTicks ? 0 : data.length > 4 ? 6 : 8}
               />
               <YAxis
-                tickFormatter={formatYAxis}
+                tickFormatter={formatRialAxisTick}
                 tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }}
                 tickLine={false}
                 axisLine={false}
-                width={48}
+                width={64}
                 domain={["auto", "auto"]}
               />
               <Tooltip
@@ -111,11 +151,7 @@ export function SalePlanPriceLineChart({ points }: { points: SalePlanPricePoint[
               />
             </LineChart>
           </ResponsiveContainer>
-        </div>
       </div>
-      <p className="text-center text-[0.7rem] text-muted-foreground">
-        محور افقی: شروع برنامه · محور عمودی: قیمت فروش (ریال)
-      </p>
     </div>
   );
 }

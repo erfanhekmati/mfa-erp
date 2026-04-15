@@ -10,33 +10,43 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import {
+  CHART_DAY_MAX_X_TICKS,
+  SparseDayAxisTick,
+  visibleDayTickIndices,
+} from "./chart-x-axis-day";
+import { formatRialAxisTick } from "./chart-rial-axis";
 
 export type TrendPoint = { label: string; total: number };
+
+export type XAxisKind = "month" | "day" | "year";
 
 function formatFa(n: number) {
   return Math.round(n).toLocaleString("fa-IR");
 }
 
-/** Short axis labels for large amounts (ریال). */
-function formatYAxis(v: number) {
-  if (v >= 1_000_000_000) {
-    return `${(v / 1_000_000_000).toLocaleString("fa-IR", { maximumFractionDigits: 1 })}B`;
-  }
-  if (v >= 1_000_000) {
-    return `${(v / 1_000_000).toLocaleString("fa-IR", { maximumFractionDigits: 0 })}M`;
-  }
-  return v.toLocaleString("fa-IR");
-}
-
 type TooltipPayloadItem = { value?: number; name?: string };
 
-export function PurchaseTrendChart({ points }: { points: TrendPoint[] }) {
+export function PurchaseTrendChart({
+  points,
+  xAxisKind = "month",
+}: {
+  points: TrendPoint[];
+  xAxisKind?: XAxisKind;
+}) {
   const reactId = useId();
   const gradId = `ptc-fill-${reactId.replace(/:/g, "")}`;
 
   const data = useMemo(
     () => points.map((p) => ({ name: p.label, total: p.total })),
     [points],
+  );
+
+  const sparseDayTicks =
+    xAxisKind === "day" && data.length > CHART_DAY_MAX_X_TICKS;
+  const dayTickVisible = useMemo(
+    () => visibleDayTickIndices(data.length, CHART_DAY_MAX_X_TICKS),
+    [data.length],
   );
 
   const manyTicks = data.length > 5;
@@ -50,11 +60,18 @@ export function PurchaseTrendChart({ points }: { points: TrendPoint[] }) {
   }
 
   return (
-    <div className="space-y-3">
-      <div className="relative overflow-hidden rounded-2xl border border-border/50 bg-gradient-to-b from-primary/5 via-muted/25 to-transparent p-3 shadow-[inset_0_1px_0_0_hsl(var(--border)/0.5)] dark:from-primary/10 dark:via-muted/20">
-        <div className="w-full min-w-0" dir="ltr">
+    <div className="relative overflow-hidden rounded-2xl border border-border/50 bg-gradient-to-b from-primary/5 via-muted/25 to-transparent p-3 shadow-[inset_0_1px_0_0_hsl(var(--border)/0.5)] dark:from-primary/10 dark:via-muted/20">
+      <div className="w-full min-w-0" dir="ltr">
           <ResponsiveContainer width="100%" height={280}>
-            <AreaChart data={data} margin={{ top: 12, right: 4, left: 4, bottom: 4 }}>
+            <AreaChart
+              data={data}
+              margin={{
+                top: 12,
+                right: 4,
+                left: 4,
+                bottom: sparseDayTicks ? 8 : 4,
+              }}
+            >
               <defs>
                 <linearGradient id={gradId} x1="0" y1="0" x2="0" y2="1">
                   <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity={0.5} />
@@ -70,21 +87,41 @@ export function PurchaseTrendChart({ points }: { points: TrendPoint[] }) {
               />
               <XAxis
                 dataKey="name"
-                tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }}
+                tick={
+                  sparseDayTicks
+                    ? (props) => {
+                        const x = Number(props.x);
+                        const y = Number(props.y);
+                        const index = Number(props.index);
+                        if (!Number.isFinite(x) || !Number.isFinite(y) || !Number.isFinite(index)) {
+                          return <g />;
+                        }
+                        return (
+                          <SparseDayAxisTick
+                            x={x}
+                            y={y}
+                            payload={props.payload}
+                            index={index}
+                            visible={dayTickVisible}
+                          />
+                        );
+                      }
+                    : { fontSize: 11, fill: "hsl(var(--muted-foreground))" }
+                }
                 tickLine={false}
                 axisLine={{ stroke: "hsl(var(--border))", strokeOpacity: 0.6 }}
                 interval={0}
-                angle={manyTicks ? -22 : 0}
-                textAnchor={manyTicks ? "end" : "middle"}
-                height={manyTicks ? 48 : 28}
-                dy={manyTicks ? 6 : 8}
+                angle={sparseDayTicks ? 0 : manyTicks ? -22 : 0}
+                textAnchor={sparseDayTicks ? "middle" : manyTicks ? "end" : "middle"}
+                height={sparseDayTicks ? 76 : manyTicks ? 48 : 28}
+                dy={sparseDayTicks ? 0 : manyTicks ? 6 : 8}
               />
               <YAxis
-                tickFormatter={formatYAxis}
+                tickFormatter={formatRialAxisTick}
                 tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }}
                 tickLine={false}
                 axisLine={false}
-                width={52}
+                width={72}
                 domain={[0, "auto"]}
               />
               <Tooltip
@@ -138,11 +175,7 @@ export function PurchaseTrendChart({ points }: { points: TrendPoint[] }) {
               />
             </AreaChart>
           </ResponsiveContainer>
-        </div>
       </div>
-      <p className="text-center text-[0.7rem] text-muted-foreground">
-        محور افقی: ماه · محور عمودی: مبلغ (B = میلیارد، M = میلیون ریال)
-      </p>
     </div>
   );
 }

@@ -10,7 +10,7 @@ export type MockPurchaseProject = {
   branchName: string;
   quantity: string;
   totalAmount: string;
-  /** ISO date string YYYY-MM-DD for filtering */
+  /** تاریخ خرید: YYYY-MM-DD یا ISO با ساعت برای نمودار ساعتی */
   purchasedAt: string;
 };
 
@@ -266,6 +266,82 @@ export const MOCK_PURCHASE_PROJECTS: MockPurchaseProject[] = [
     quantity: "185.0000",
     totalAmount: "3390000000",
     purchasedAt: "2026-04-04",
+  },
+  /**
+   * تاریخ در داده خام مهم نیست — در getOverviewStats به «امروز» نگاشت می‌شود.
+   * زمان محلی برای نمودار ساعتی.
+   */
+  {
+    id: "pp_today_01",
+    provider: "فولاد مبارکه",
+    productName: "میلگرد A3 سایز ۱۴",
+    branchName: "تهران",
+    quantity: "42.0000",
+    totalAmount: "1200000000",
+    purchasedAt: "2000-01-01T08:15:00",
+  },
+  {
+    id: "pp_today_02",
+    provider: "ذوب آهن اصفهان",
+    productName: "تیرآهن IPE ۲۰۰",
+    branchName: "تبریز",
+    quantity: "18.5000",
+    totalAmount: "2100000000",
+    purchasedAt: "2000-01-01T10:30:00",
+  },
+  {
+    id: "pp_today_03",
+    provider: "فولاد کاوه",
+    productName: "ورق سیاه ۶ میل",
+    branchName: "تهران",
+    quantity: "33.0000",
+    totalAmount: "1750000000",
+    purchasedAt: "2000-01-01T12:00:00",
+  },
+  {
+    id: "pp_today_04",
+    provider: "فولاد البرز",
+    productName: "نبشی ۱۰۰",
+    branchName: "تبریز",
+    quantity: "95.0000",
+    totalAmount: "980000000",
+    purchasedAt: "2000-01-01T13:45:00",
+  },
+  {
+    id: "pp_today_05",
+    provider: "فولاد خوزستان",
+    productName: "ورق گالوانیزه ۰.۶",
+    branchName: "تبریز",
+    quantity: "22.0000",
+    totalAmount: "1420000000",
+    purchasedAt: "2000-01-01T15:20:00",
+  },
+  {
+    id: "pp_today_06",
+    provider: "فولاد مبارکه",
+    productName: "کلاف ۵.۵ میل",
+    branchName: "تهران",
+    quantity: "88.0000",
+    totalAmount: "2560000000",
+    purchasedAt: "2000-01-01T17:00:00",
+  },
+  {
+    id: "pp_today_07",
+    provider: "ذوب آهن اصفهان",
+    productName: "میلگرد A2 سایز ۱۲",
+    branchName: "تبریز",
+    quantity: "140.0000",
+    totalAmount: "3100000000",
+    purchasedAt: "2000-01-01T19:30:00",
+  },
+  {
+    id: "pp_today_08",
+    provider: "فولاد کاوه",
+    productName: "ورق روغنی ۲ میل",
+    branchName: "تهران",
+    quantity: "51.0000",
+    totalAmount: "1890000000",
+    purchasedAt: "2000-01-01T21:45:00",
   },
 ];
 

@@ -15,9 +15,8 @@ import {
   OverviewRecentPurchasesSection,
   OverviewRecentSalePlansSection,
 } from "./overview-activity-sections";
-import { PurchaseBranchPieChart } from "./purchase-branch-pie-chart";
-import { PurchaseTrendChart } from "./purchase-trend-chart";
-import { SalePlanPriceLineChart } from "./sale-plan-price-line-chart";
+import { OverviewChartsSection } from "./overview-charts-section";
+import { OverviewRankingsSection } from "./overview-rankings-section";
 
 /** Nav icon CSS variable names — same tokens as globals.css and sidebar. */
 const NAV_ICON_VARS = [
@@ -65,67 +64,8 @@ function kpiIconTintStyle(tint: KpiTint): CSSProperties {
   return KPI_ICON_STYLE[tint];
 }
 
-const BAR_FILL: Record<NavIconVarName, string> = {
-  "--nav-icon-overview": "hsl(var(--nav-icon-overview) / 0.88)",
-  "--nav-icon-sales": "hsl(var(--nav-icon-sales) / 0.88)",
-  "--nav-icon-inventory": "hsl(var(--nav-icon-inventory) / 0.88)",
-  "--nav-icon-reports": "hsl(var(--nav-icon-reports) / 0.88)",
-  "--nav-icon-base-info": "hsl(var(--nav-icon-base-info) / 0.88)",
-};
-
-function barColorByIndex(index: number): string {
-  const k = NAV_ICON_VARS[index % NAV_ICON_VARS.length]!;
-  return BAR_FILL[k];
-}
-
 function formatFaAmount(n: number): string {
   return Math.round(n).toLocaleString("fa-IR");
-}
-
-function maxNamedTotal(items: { total: number }[]): number {
-  let m = 0;
-  for (const x of items) m = Math.max(m, x.total);
-  return m || 1;
-}
-
-function HorizontalBars({ items }: { items: { name: string; total: number }[] }) {
-  const max = maxNamedTotal(items);
-  if (items.length === 0) {
-    return (
-      <p className="py-6 text-center text-sm text-muted-foreground">موردی نیست.</p>
-    );
-  }
-  return (
-    <ul className="space-y-3">
-      {items.map((row, index) => {
-        const pct = (row.total / max) * 100;
-        return (
-          <li key={row.name} className="space-y-1">
-            <div className="flex items-center justify-between gap-2 text-sm">
-              <span className="min-w-0 truncate font-medium text-foreground/90">
-                {row.name}
-              </span>
-              <span className="shrink-0 tabular-nums text-muted-foreground">
-                {formatFaAmount(row.total)}
-              </span>
-            </div>
-            <div
-              className="h-2.5 overflow-hidden rounded-full bg-muted"
-              role="presentation"
-            >
-              <div
-                className="h-full rounded-full transition-[width]"
-                style={{
-                  width: `${pct}%`,
-                  backgroundColor: barColorByIndex(index),
-                }}
-              />
-            </div>
-          </li>
-        );
-      })}
-    </ul>
-  );
 }
 
 function KpiCard({
@@ -260,108 +200,9 @@ export function OverviewDashboard({ stats }: { stats: OverviewStats }) {
         />
       </section>
 
-      <section className="grid gap-6 lg:grid-cols-2" aria-label="نمودارها">
-        <Card className="border-border/80 shadow-sm">
-          <CardHeader>
-            <CardTitle className="text-base text-primary">روند مبلغ خرید به تفکیک ماه</CardTitle>
-            <CardDescription>جمع مبلغ کل پروژه‌های خرید در هر ماه</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <PurchaseTrendChart
-              points={stats.purchaseByMonth.map((m) => ({
-                label: m.label,
-                total: m.total,
-              }))}
-            />
-          </CardContent>
-        </Card>
+      <OverviewChartsSection stats={stats} />
 
-        <Card className="border-border/80 shadow-sm">
-          <CardHeader>
-            <CardTitle className="text-base">
-              روند قیمت برنامه فروش — {stats.salePlanPriceLineProductName}
-            </CardTitle>
-            <CardDescription>
-              سهم برنامه‌ها با تخفیف درصدی و مبلغ ثابت
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <ul className="flex flex-wrap gap-4 text-sm text-muted-foreground">
-              <li className="flex items-center gap-2">
-                <span
-                  className="size-2.5 shrink-0 rounded-full"
-                  style={{ backgroundColor: "hsl(var(--nav-icon-sales))" }}
-                  aria-hidden
-                />
-                <span>
-                  درصدی:{" "}
-                  {stats.discountMix.percentType.toLocaleString("fa-IR")}٪
-                </span>
-              </li>
-              <li className="flex items-center gap-2">
-                <span
-                  className="size-2.5 shrink-0 rounded-full"
-                  style={{ backgroundColor: "hsl(var(--nav-icon-inventory))" }}
-                  aria-hidden
-                />
-                <span>
-                  مبلغ ثابت:{" "}
-                  {stats.discountMix.fixedType.toLocaleString("fa-IR")}٪
-                </span>
-              </li>
-            </ul>
-            <SalePlanPriceLineChart
-              points={stats.salePlanPriceLine.map(({ label, price }) => ({
-                label,
-                price,
-              }))}
-            />
-          </CardContent>
-        </Card>
-
-        <Card className="border-border/80 shadow-sm">
-          <CardHeader>
-            <CardTitle className="text-base">خرید به تفکیک شعبه</CardTitle>
-            <CardDescription>جمع مبلغ کل به ازای هر شعبه</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <PurchaseBranchPieChart items={stats.purchaseByBranch} />
-          </CardContent>
-        </Card>
-
-        <Card className="border-border/80 shadow-sm">
-          <CardHeader>
-            <CardTitle className="text-base">سهم فروش</CardTitle>
-            <CardDescription>جمع قیمت فروش برنامه‌ها به ازای هر شعبه</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <PurchaseBranchPieChart
-              items={stats.saleShareByBranch}
-              footerCaption="سهم هر شعبه از جمع قیمت فروش برنامه‌ها (ریال)"
-            />
-          </CardContent>
-        </Card>
-
-        <Card className="border-border/80 shadow-sm">
-          <CardHeader>
-            <CardTitle className="text-base">خرید به تفکیک تامین‌کننده</CardTitle>
-            <CardDescription>بر اساس مبلغ کل</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <HorizontalBars items={stats.purchaseByProvider.slice(0, 8)} />
-          </CardContent>
-        </Card>
-
-        <Card className="border-border/80 shadow-sm">
-          <CardHeader>
-            <CardTitle className="text-base">سهم کالا از خرید</CardTitle>
-            <CardDescription>۸ کالای اول بر اساس مبلغ</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <HorizontalBars items={stats.productPurchaseShare} />
-          </CardContent>
-        </Card>
-      </section>
+      <OverviewRankingsSection stats={stats} />
 
       <section className="grid gap-6 lg:grid-cols-2" aria-label="جداول تازه">
         <OverviewRecentPurchasesSection rows={stats.recentPurchases} />
