@@ -161,7 +161,7 @@ export function ProductsList() {
           <Link href="/inventory/products/new">کالای جدید</Link>
         </Button>
       </DashboardPageActions>
-      <div className="w-full max-w-6xl space-y-6">
+      <div className="mx-auto w-full max-w-6xl space-y-6">
       <div className="space-y-2">
         <label htmlFor="product-search" className="text-sm font-medium">
           جستجو

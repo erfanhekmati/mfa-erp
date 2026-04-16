@@ -139,7 +139,7 @@ export function SalePlansList() {
           <Link href="/sales/plan/new">برنامه فروش جدید</Link>
         </Button>
       </DashboardPageActions>
-      <div className="w-full max-w-6xl space-y-6">
+      <div className="mx-auto w-full max-w-6xl space-y-6">
       <div className="space-y-2">
         <label htmlFor="sale-plan-search" className="text-sm font-medium">
           جستجو

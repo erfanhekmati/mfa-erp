@@ -160,7 +160,7 @@ export function PurchaseProjectsList() {
           <Link href="/inventory/purchases/new">پروژه خرید جدید</Link>
         </Button>
       </DashboardPageActions>
-      <div className="w-full max-w-6xl space-y-6">
+      <div className="mx-auto w-full max-w-6xl space-y-6">
       <div className="space-y-2">
         <label htmlFor="project-search" className="text-sm font-medium">
           جستجو
