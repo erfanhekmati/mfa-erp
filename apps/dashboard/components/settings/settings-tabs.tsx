@@ -39,8 +39,7 @@ export function SettingsTabs() {
             <CardHeader>
               <CardTitle className="text-base">تنظیمات عمومی</CardTitle>
               <CardDescription>
-                تنظیمات سامانه و حساب کاربری خود را مدیریت کنید. اطلاعات پایه
-                سامانه را در این بخش مدیریت کنید.
+                تنظیمات سامانه و حساب کاربری خود را مدیریت کنید. 
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
