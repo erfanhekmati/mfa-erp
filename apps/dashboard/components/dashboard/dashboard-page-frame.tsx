@@ -87,7 +87,7 @@ export function DashboardPageFrame({ children }: { children: React.ReactNode }) 
 
   return (
     <PageHeaderActionsContext.Provider value={headerCtx}>
-      <div className="space-y-6">
+      <div className="space-y-0">
         {showBreadcrumbInPage ? (
           <div className="space-y-4">
             <Breadcrumb className="min-w-0 overflow-hidden">

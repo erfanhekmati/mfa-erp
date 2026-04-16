@@ -91,7 +91,7 @@ export function OverviewDashboard({ statsAll }: { statsAll: OverviewStats }) {
   const { kpis } = stats;
 
   return (
-    <div className="mx-auto w-full max-w-6xl space-y-8 pb-8" dir="rtl">
+    <div className="mx-auto mt-6 w-full max-w-6xl space-y-8 pb-8" dir="rtl">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div className="min-w-0 space-y-3">
           <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">

@@ -161,9 +161,6 @@ export function CompleteProfileForm() {
             />
             <div className="space-y-1">
               <p className="text-sm font-medium">آپلود تصویر</p>
-              <p className="text-xs text-muted-foreground">
-                فرمت‌های JPG، PNG و WEBP پشتیبانی می‌شوند. حداکثر ۵ مگابایت.
-              </p>
               <Button
                 type="button"
                 variant="outline"
