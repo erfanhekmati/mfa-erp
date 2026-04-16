@@ -339,3 +339,43 @@
     font-family: var(--font-sans), system-ui, sans-serif;
   }
 }
+
+@layer components {
+  /**
+   * کارت‌های KPI داشبورد: پس‌زمینهٔ یکنواخت (همیشه شفافیت روی رنگ تم) + رنگ آیکن از تم.
+   * Iconsax با fill روی path؛ با color روی wrapper و fill: currentColor مطمئن می‌شویم.
+   */
+  .dashboard-kpi-icon {
+    @apply flex size-10 shrink-0 items-center justify-center rounded-xl;
+  }
+  .dashboard-kpi-icon[data-kpi-tone="primary"] {
+    background-color: hsl(var(--primary) / 0.12);
+    color: hsl(var(--primary));
+  }
+  .dashboard-kpi-icon[data-kpi-tone="destructive"] {
+    background-color: hsl(var(--destructive) / 0.12);
+    color: hsl(var(--destructive));
+  }
+  .dashboard-kpi-icon[data-kpi-tone="ring"] {
+    background-color: hsl(var(--ring) / 0.12);
+    color: hsl(var(--ring));
+  }
+  .dashboard-kpi-icon[data-kpi-tone="accent-fg"] {
+    background-color: hsl(var(--accent-foreground) / 0.12);
+    color: hsl(var(--accent-foreground));
+  }
+  .dashboard-kpi-icon[data-kpi-tone="muted-fg"] {
+    background-color: hsl(var(--muted-foreground) / 0.12);
+    color: hsl(var(--muted-foreground));
+  }
+  .dashboard-kpi-icon[data-kpi-tone="brand"] {
+    background-color: hsl(var(--brand-bar) / 0.12);
+    color: hsl(var(--brand-bar));
+  }
+  .dashboard-kpi-icon svg {
+    color: inherit;
+  }
+  .dashboard-kpi-icon svg path {
+    fill: currentColor;
+  }
+}

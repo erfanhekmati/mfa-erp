@@ -10,7 +10,7 @@ import {
 } from "@repo/ui";
 import { Box, Chart21, ShoppingCart, Timer1 } from "iconsax-react";
 import Link from "next/link";
-import type { CSSProperties, ReactNode } from "react";
+import type { ReactNode } from "react";
 import { useMemo, useState } from "react";
 import {
   getOverviewStatsForBranch,
@@ -27,22 +27,17 @@ import {
 import { OverviewChartsSection } from "./overview-charts-section";
 import { OverviewRankingsSection } from "./overview-rankings-section";
 
-/**
- * ثابت‌های رنگ داشبورد (همان پالت تم default در globals.css)،
- * تا با تغییر تم یا data-section خوانایی کارت‌های KPI حفظ شود.
- */
-const KPI_ICON_ACCENT: CSSProperties[] = [
-  { backgroundColor: "hsl(221 83% 53% / 0.12)", color: "hsl(221 83% 53%)" },
-  { backgroundColor: "hsl(142 71% 40% / 0.12)", color: "hsl(142 71% 40%)" },
-  { backgroundColor: "hsl(45 97% 44% / 0.12)", color: "hsl(45 97% 44%)" },
-  { backgroundColor: "hsl(0 72% 51% / 0.12)", color: "hsl(0 72% 51%)" },
-  { backgroundColor: "hsl(262 83% 56% / 0.12)", color: "hsl(262 83% 56%)" },
-  { backgroundColor: "hsl(199 89% 48% / 0.12)", color: "hsl(199 89% 48%)" },
-];
+/** فقط دو تم که روی داشبورد درست دیده می‌شوند: `ring` و `brand` (نوار برند) — به‌صورت یکی‌درمیان برای هر شش کارت. */
+type KpiTone = "ring" | "brand";
 
-function kpiIconAccentStyle(index: number): CSSProperties {
-  return KPI_ICON_ACCENT[index % KPI_ICON_ACCENT.length]!;
-}
+const KPI_TONES: readonly KpiTone[] = [
+  "ring",
+  "brand",
+  "ring",
+  "brand",
+  "ring",
+  "brand",
+];
 
 function formatFaAmount(n: number): string {
   return Math.round(n).toLocaleString("fa-IR");
@@ -53,14 +48,15 @@ function KpiCard({
   value,
   hint,
   icon,
-  accentIndex,
+  toneIndex,
 }: {
   title: string;
   value: string;
   hint?: string;
   icon: ReactNode;
-  accentIndex: number;
+  toneIndex: number;
 }) {
+  const tone = KPI_TONES[toneIndex % KPI_TONES.length]!;
   return (
     <Card className="border-border/80 shadow-sm">
       <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-5 pt-5">
@@ -73,11 +69,7 @@ function KpiCard({
             <p className="text-xs text-muted-foreground">{hint}</p>
           ) : null}
         </div>
-        <div
-          className="flex size-10 shrink-0 items-center justify-center rounded-xl"
-          style={kpiIconAccentStyle(accentIndex)}
-          aria-hidden
-        >
+        <div className="dashboard-kpi-icon" data-kpi-tone={tone} aria-hidden>
           {icon}
         </div>
       </CardHeader>
@@ -160,39 +152,39 @@ export function OverviewDashboard({ statsAll }: { statsAll: OverviewStats }) {
           title="مجموع مبلغ خریدها"
           value={formatFaAmount(kpis.totalPurchaseAmount)}
           hint="ریال"
-          accentIndex={0}
+          toneIndex={0}
           icon={<Chart21 size={22} variant="Bulk" color="currentColor" />}
         />
         <KpiCard
           title="تعداد پروژه خرید"
           value={kpis.purchaseProjectCount.toLocaleString("fa-IR")}
-          accentIndex={1}
+          toneIndex={1}
           icon={<Box size={22} variant="Bulk" color="currentColor" />}
         />
         <KpiCard
           title="برنامه فروش فعال"
           value={kpis.activeSalePlanCount.toLocaleString("fa-IR")}
           hint="در بازه تاریخ امروز"
-          accentIndex={2}
+          toneIndex={2}
           icon={<ShoppingCart size={22} variant="Bulk" color="currentColor" />}
         />
         <KpiCard
           title="برنامه فروش در حال اتمام"
           value={kpis.expiringSalePlanCount.toLocaleString("fa-IR")}
           hint="۷ روز آینده"
-          accentIndex={3}
+          toneIndex={3}
           icon={<Timer1 size={22} variant="Bulk" color="currentColor" />}
         />
         <KpiCard
           title="شعب"
           value={kpis.uniqueBranchCount.toLocaleString("fa-IR")}
-          accentIndex={4}
+          toneIndex={4}
           icon={<Box size={22} variant="Bulk" color="currentColor" />}
         />
         <KpiCard
           title="تامین‌کنندگان"
           value={kpis.uniqueProviderCount.toLocaleString("fa-IR")}
-          accentIndex={5}
+          toneIndex={5}
           icon={<Chart21 size={22} variant="Bulk" color="currentColor" />}
         />
       </section>

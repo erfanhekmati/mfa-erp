@@ -5,7 +5,9 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useLayoutEffect,
   useMemo,
+  useRef,
   useState,
   type ReactNode,
 } from "react";
@@ -41,12 +43,25 @@ function applyThemeToDocument(theme: ThemeId) {
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setThemeState] = useState<ThemeId>(defaultThemeId);
+  const skipNextThemeEffect = useRef(true);
 
-  useEffect(() => {
-    setThemeState(readStoredTheme());
+  /** هم‌خوان با localStorage و اسکریپت قبل از paint؛ جلوگیری از یک فریم با data-theme=default. */
+  useLayoutEffect(() => {
+    const t = readStoredTheme();
+    setThemeState(t);
+    applyThemeToDocument(t);
+    try {
+      window.localStorage.setItem(THEME_STORAGE_KEY, t);
+    } catch {
+      /* ignore */
+    }
   }, []);
 
   useEffect(() => {
+    if (skipNextThemeEffect.current) {
+      skipNextThemeEffect.current = false;
+      return;
+    }
     applyThemeToDocument(theme);
     try {
       window.localStorage.setItem(THEME_STORAGE_KEY, theme);
