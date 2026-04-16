@@ -20,6 +20,7 @@ import {
 } from "@repo/ui";
 import Link from "next/link";
 import { useEffect, useMemo, useState, type ReactNode } from "react";
+import { DashboardPageActions } from "../../../../components/dashboard/dashboard-page-frame";
 import {
   listTableBodyRowClassName,
   listTableCellClassName,
@@ -153,13 +154,13 @@ export function PurchaseProjectsList() {
   }, [page, totalPages]);
 
   return (
-    <div className="w-full max-w-6xl space-y-6">
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-end">
+    <>
+      <DashboardPageActions>
         <Button asChild className="w-full shrink-0 sm:w-auto">
           <Link href="/inventory/purchases/new">پروژه خرید جدید</Link>
         </Button>
-      </div>
-
+      </DashboardPageActions>
+      <div className="w-full max-w-6xl space-y-6">
       <div className="space-y-2">
         <label htmlFor="project-search" className="text-sm font-medium">
           جستجو
@@ -354,6 +355,7 @@ export function PurchaseProjectsList() {
           </div>
         </div>
       ) : null}
-    </div>
+      </div>
+    </>
   );
 }

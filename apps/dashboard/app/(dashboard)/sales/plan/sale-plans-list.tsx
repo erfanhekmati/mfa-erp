@@ -14,6 +14,7 @@ import {
 } from "@repo/ui";
 import Link from "next/link";
 import { useEffect, useMemo, useState, type ReactNode } from "react";
+import { DashboardPageActions } from "../../../../components/dashboard/dashboard-page-frame";
 import {
   listTableBodyRowClassName,
   listTableCellClassName,
@@ -132,13 +133,13 @@ export function SalePlansList() {
   }, [page, totalPages]);
 
   return (
-    <div className="w-full max-w-6xl space-y-6">
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-end">
+    <>
+      <DashboardPageActions>
         <Button asChild className="w-full shrink-0 sm:w-auto">
           <Link href="/sales/plan/new">برنامه فروش جدید</Link>
         </Button>
-      </div>
-
+      </DashboardPageActions>
+      <div className="w-full max-w-6xl space-y-6">
       <div className="space-y-2">
         <label htmlFor="sale-plan-search" className="text-sm font-medium">
           جستجو
@@ -320,6 +321,7 @@ export function SalePlansList() {
           </div>
         </div>
       ) : null}
-    </div>
+      </div>
+    </>
   );
 }
