@@ -240,7 +240,7 @@ export function OverviewChartsSection({ stats, showBranchPieCharts }: Props) {
           <CardHeader className="space-y-3">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
               <div className="min-w-0 space-y-1.5">
-                <CardTitle className="text-base">{saleLineTitle}</CardTitle>
+                <CardTitle className="text-base text-primary">{saleLineTitle}</CardTitle>
                 <CardDescription>
                   {saleLineProduct === CHART_PRODUCT_ALL
                     ? "روند قیمت فروش در بازهٔ انتخاب‌شده"

@@ -55,9 +55,9 @@ export function SalePlanPriceLineChart({
   }
 
   return (
-    <div className="relative overflow-hidden rounded-2xl border border-border/50 bg-gradient-to-b from-nav-sales/10 via-muted/20 to-transparent p-3 dark:from-nav-sales/15">
+    <div className="relative overflow-hidden rounded-2xl border border-border/50 bg-gradient-to-b from-primary/5 via-muted/25 to-transparent p-3 shadow-[inset_0_1px_0_0_hsl(var(--border)/0.5)] dark:from-primary/10 dark:via-muted/20">
       <div className="w-full min-w-0" dir="ltr">
-          <ResponsiveContainer width="100%" height={260}>
+          <ResponsiveContainer width="100%" height={280}>
             <LineChart
               data={data}
               margin={{ top: 12, right: 6, left: 4, bottom: sparseDayTicks ? 8 : 4 }}
@@ -112,13 +112,23 @@ export function SalePlanPriceLineChart({
                 domain={["auto", "auto"]}
               />
               <Tooltip
-                cursor={{ stroke: "hsl(var(--nav-icon-sales))", strokeOpacity: 0.35 }}
+                cursor={{
+                  stroke: "hsl(var(--primary))",
+                  strokeWidth: 1,
+                  strokeOpacity: 0.35,
+                }}
                 content={({ active, payload, label }) => {
                   if (!active || !payload?.length) return null;
                   const item = payload[0] as TooltipPayloadItem | undefined;
                   const val = typeof item?.value === "number" ? item.value : 0;
                   return (
-                    <div className="rounded-xl border border-border/80 bg-popover px-3.5 py-2.5 shadow-lg ring-1 ring-black/5 backdrop-blur-sm dark:ring-white/10">
+                    <div
+                      className={[
+                        "rounded-xl border border-border/80 bg-popover px-3.5 py-2.5",
+                        "shadow-lg ring-1 ring-black/5 backdrop-blur-sm",
+                        "dark:ring-white/10",
+                      ].join(" ")}
+                    >
                       <p className="text-[0.7rem] font-medium text-muted-foreground">{label}</p>
                       <p
                         className="mt-0.5 text-base font-semibold tabular-nums text-foreground"
@@ -134,17 +144,17 @@ export function SalePlanPriceLineChart({
               <Line
                 type="monotone"
                 dataKey="price"
-                stroke="hsl(var(--nav-icon-sales))"
+                stroke="hsl(var(--primary))"
                 strokeWidth={2.5}
                 dot={{
                   r: 4,
                   fill: "hsl(var(--background))",
-                  stroke: "hsl(var(--nav-icon-sales))",
+                  stroke: "hsl(var(--primary))",
                   strokeWidth: 2,
                 }}
                 activeDot={{
                   r: 6,
-                  fill: "hsl(var(--nav-icon-sales))",
+                  fill: "hsl(var(--primary))",
                   stroke: "hsl(var(--background))",
                   strokeWidth: 2,
                 }}
