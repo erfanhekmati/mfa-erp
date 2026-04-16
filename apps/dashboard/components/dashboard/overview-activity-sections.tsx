@@ -22,19 +22,19 @@ function formatFaNumberString(s: string): string {
   return Number.isFinite(n) ? n.toLocaleString("fa-IR") : s;
 }
 
-/** Theme tokens from tailwind.config (nav-*), not arbitrary hsl brackets. */
+/** Accent تم (`--primary`) مثل نمودارها و کارت‌های KPI — نه `nav-*` که در بسیاری تم‌ها تک‌رنگ است. */
 const SECTION_ACCENT = {
   inventory: {
-    title: "text-nav-inventory",
-    button: "border-nav-inventory/40 hover:bg-nav-inventory/10",
+    title: "text-primary",
+    button: "border-primary/40 hover:bg-primary/10",
   },
   sales: {
-    title: "text-nav-sales",
-    button: "border-nav-sales/40 hover:bg-nav-sales/10",
+    title: "text-primary",
+    button: "border-primary/40 hover:bg-primary/10",
   },
   reports: {
-    title: "text-nav-reports",
-    button: "border-nav-reports/40 hover:bg-nav-reports/10",
+    title: "text-primary",
+    button: "border-primary/40 hover:bg-primary/10",
   },
 } as const;
 
@@ -87,9 +87,9 @@ function PurchaseRow({ row }: { row: MockPurchaseProject }) {
       <div
         className={cn(
           "group relative overflow-hidden rounded-2xl border border-border/55",
-          "bg-gradient-to-br from-card via-card to-nav-inventory/[0.06]",
+          "bg-gradient-to-br from-card via-card to-primary/[0.06]",
           "p-4 shadow-sm ring-1 ring-black/[0.03] transition-all duration-200",
-          "hover:border-nav-inventory/40 hover:shadow-md dark:ring-white/[0.04]",
+          "hover:border-primary/40 hover:shadow-md dark:ring-white/[0.04]",
         )}
       >
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
@@ -102,13 +102,13 @@ function PurchaseRow({ row }: { row: MockPurchaseProject }) {
           <div className="flex shrink-0 flex-col items-stretch gap-2 sm:items-end">
             <div
               className={cn(
-                "inline-flex max-w-full items-center gap-2 rounded-xl border border-border/60",
-                "bg-muted/60 px-3 py-1.5 dark:bg-muted/40",
+                "inline-flex max-w-full items-center gap-2 rounded-xl border border-primary/25",
+                "bg-primary/[0.07] px-3 py-1.5 dark:bg-primary/10",
               )}
               dir="rtl"
             >
-              <span className="text-xs text-muted-foreground">ریال</span>
-              <span dir="ltr" className="text-sm font-semibold tabular-nums text-foreground">
+              <span className="text-xs text-primary/80">ریال</span>
+              <span dir="ltr" className="text-sm font-semibold tabular-nums text-primary">
                 {formatFaNumberString(row.totalAmount)}
               </span>
             </div>
@@ -132,9 +132,9 @@ function SalePlanRow({ row }: { row: MockSalePlan }) {
       <div
         className={cn(
           "group relative overflow-hidden rounded-2xl border border-border/55",
-          "bg-gradient-to-br from-card via-card to-nav-sales/[0.07]",
+          "bg-gradient-to-br from-card via-card to-primary/[0.07]",
           "p-4 shadow-sm ring-1 ring-black/[0.03] transition-all duration-200",
-          "hover:border-nav-sales/40 hover:shadow-md dark:ring-white/[0.04]",
+          "hover:border-primary/40 hover:shadow-md dark:ring-white/[0.04]",
         )}
       >
         <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
@@ -159,11 +159,11 @@ function SalePlanRow({ row }: { row: MockSalePlan }) {
             </div>
           </div>
           <div className="flex shrink-0 flex-col items-stretch gap-1 sm:items-end">
-            <span className="text-[0.65rem] font-medium uppercase tracking-wide text-muted-foreground">
+            <span className="text-[0.65rem] font-medium uppercase tracking-wide text-primary/80">
               قیمت فروش
             </span>
             <span
-              className="inline-flex w-fit rounded-xl border border-border/60 bg-muted/60 px-3 py-1.5 text-sm font-semibold tabular-nums dark:bg-muted/40"
+              className="inline-flex w-fit rounded-xl border border-primary/25 bg-primary/[0.07] px-3 py-1.5 text-sm font-semibold tabular-nums text-primary dark:bg-primary/10"
               dir="ltr"
             >
               {formatFaNumberString(row.salePrice)}
@@ -182,8 +182,8 @@ function DiscountTypeChip({ type }: { type: MockSalePlan["discountType"] }) {
       className={cn(
         "inline-flex shrink-0 rounded-full px-2.5 py-0.5 text-xs font-semibold",
         isPercent
-          ? "bg-nav-sales/14 text-nav-sales"
-          : "bg-nav-inventory/14 text-nav-inventory",
+          ? "bg-primary/14 text-primary"
+          : "bg-primary/10 text-primary",
       )}
     >
       {discountTypeLabel(type)}
@@ -197,9 +197,9 @@ function ExpiringRow({ row }: { row: MockSalePlan }) {
       <div
         className={cn(
           "group relative overflow-hidden rounded-2xl border border-border/55",
-          "bg-gradient-to-br from-card via-card to-nav-reports/[0.08]",
+          "bg-gradient-to-br from-card via-card to-primary/[0.08]",
           "p-4 shadow-sm ring-1 ring-black/[0.03] transition-all duration-200",
-          "hover:border-nav-reports/45 hover:shadow-md dark:ring-white/[0.04]",
+          "hover:border-primary/40 hover:shadow-md dark:ring-white/[0.04]",
         )}
       >
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
@@ -228,11 +228,11 @@ function ExpiringRow({ row }: { row: MockSalePlan }) {
           </div>
           <div className="flex shrink-0 flex-col items-stretch gap-1.5 sm:items-end">
             <span className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
-              <Timer1 size={16} variant="Bulk" className="text-nav-reports" />
+              <Timer1 size={16} variant="Bulk" className="text-primary" />
               پایان اعتبار
             </span>
             <time
-              className="text-sm font-semibold tabular-nums text-nav-reports"
+              className="text-sm font-semibold tabular-nums text-primary"
               dateTime={row.endAt}
               dir="rtl"
             >
