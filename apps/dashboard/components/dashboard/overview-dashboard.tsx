@@ -106,7 +106,7 @@ export function OverviewDashboard({ statsAll }: { statsAll: OverviewStats }) {
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div className="min-w-0 space-y-3">
             <p className="text-sm text-muted-foreground">
-              خلاصه وضعیت خریدها و برنامه‌های فروش بر اساس داده‌های نمونه
+              خلاصه وضعیت خریدها و برنامه‌های فروش
             </p>
           </div>
           <div className="flex flex-wrap gap-2">
