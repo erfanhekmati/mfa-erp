@@ -85,7 +85,7 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
           showBreadcrumbsInHeader={showBreadcrumbsInHeader}
           onNavigate={onNavigate}
         />
-        <main className="min-h-0 flex-1 overflow-y-auto px-4 py-4 md:px-5">
+        <main className="min-h-0 flex-1 overflow-y-auto px-4 py-4 md:px-5 lg:px-6">
           <DashboardPageFrame>{children}</DashboardPageFrame>
         </main>
       </div>

@@ -56,7 +56,7 @@ export function TopBar({
   const initials = getInitials(USER_NAME);
 
   return (
-    <header className="flex h-[var(--topbar-height)] min-h-[var(--topbar-height)] shrink-0 items-center gap-3 border-b border-brandBar/20 bg-brandBar px-4 text-brandBar-foreground">
+    <header className="flex h-[var(--topbar-height)] min-h-[var(--topbar-height)] shrink-0 items-center gap-3 border-b border-brandBar/20 bg-brandBar px-4 text-brandBar-foreground md:px-5 lg:px-6">
       <button
         type="button"
         className="flex size-10 shrink-0 items-center justify-center rounded-lg border border-brandBar-foreground/25 bg-brandBar-foreground/10 md:hidden"
