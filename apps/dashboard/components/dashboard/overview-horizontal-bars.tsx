@@ -1,18 +1,6 @@
-/** نوارها با توکن‌های تم (مثل نمودارها) — نه `--nav-icon-*` که در بسیاری تم‌ها تک‌رنگ است. */
-const BAR_FILL_CSS_VARS = [
-  "--primary",
-  "--destructive",
-  "--ring",
-  "--accent-foreground",
-  "--brand-bar",
-  "--secondary-foreground",
-  "--primary",
-  "--destructive",
-] as const;
-
-function barColorByIndex(index: number): string {
-  const v = BAR_FILL_CSS_VARS[index % BAR_FILL_CSS_VARS.length]!;
-  return `hsl(var(${v}) / 0.88)`;
+/** همهٔ نوارها با رنگ اصلی تم تا با تم آبی/… هماهنگ بماند (بدون `--destructive` و غیره). */
+function barFill(): string {
+  return "hsl(var(--primary) / 0.88)";
 }
 
 function formatFaAmount(n: number): string {
@@ -34,7 +22,7 @@ export function HorizontalBars({ items }: { items: { name: string; total: number
   }
   return (
     <ul className="space-y-3">
-      {items.map((row, index) => {
+      {items.map((row) => {
         const pct = (row.total / max) * 100;
         return (
           <li key={row.name} className="space-y-1">
@@ -54,7 +42,7 @@ export function HorizontalBars({ items }: { items: { name: string; total: number
                 className="h-full rounded-full transition-[width]"
                 style={{
                   width: `${pct}%`,
-                  backgroundColor: barColorByIndex(index),
+                  backgroundColor: barFill(),
                 }}
               />
             </div>
