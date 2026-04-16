@@ -132,9 +132,6 @@ export function OverviewDashboard({ statsAll }: { statsAll: OverviewStats }) {
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div className="min-w-0 space-y-3">
           <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
-            <h1 className="text-xl font-semibold tracking-tight text-nav-overview">
-              نمای کلی
-            </h1>
             <div className="flex flex-wrap items-center gap-2">
               <span className="text-sm font-medium text-muted-foreground">شعبه</span>
               <OverviewBranchSelect

@@ -7,13 +7,10 @@ export const metadata = {
 
 export default function ProfilePage() {
   return (
-    <div className="space-y-6 px-1 py-2">
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight">تکمیل پروفایل</h1>
-        <p className="mt-1 text-sm text-muted-foreground">
-          اطلاعات کاربری خود را کامل کنید تا دسترسی کامل به سامانه داشته باشید.
-        </p>
-      </div>
+    <div className="space-y-6">
+      <p className="text-sm text-muted-foreground">
+        اطلاعات کاربری خود را کامل کنید تا دسترسی کامل به سامانه داشته باشید.
+      </p>
       <CompleteProfileForm />
     </div>
   );

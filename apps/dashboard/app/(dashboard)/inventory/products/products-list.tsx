@@ -155,8 +155,7 @@ export function ProductsList() {
 
   return (
     <div className="w-full max-w-6xl space-y-6">
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <h1 className="text-xl font-semibold tracking-tight">کالاها</h1>
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-end">
         <Button asChild className="w-full shrink-0 sm:w-auto">
           <Link href="/inventory/products/new">کالای جدید</Link>
         </Button>

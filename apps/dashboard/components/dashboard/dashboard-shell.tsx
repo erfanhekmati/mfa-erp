@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { useNavLayout } from "../providers/nav-layout-provider";
+import { DashboardPageFrame } from "./dashboard-page-frame";
 import { Sidebar } from "./sidebar";
 import { TopBar } from "./top-bar";
 
@@ -18,6 +19,7 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
 
   const showDesktopSidebar = navLayout === "sidebar";
   const showDesktopTopNav = navLayout === "topbar" && !isMobile;
+  const showBreadcrumbsInHeader = navLayout === "sidebar";
 
   useEffect(() => {
     try {
@@ -80,10 +82,11 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
           sidebarOpen={sidebarOpen}
           onMenuClick={toggleSidebar}
           showTopNav={showDesktopTopNav}
+          showBreadcrumbsInHeader={showBreadcrumbsInHeader}
           onNavigate={onNavigate}
         />
         <main className="min-h-0 flex-1 overflow-y-auto px-4 py-4 md:px-5">
-          {children}
+          <DashboardPageFrame>{children}</DashboardPageFrame>
         </main>
       </div>
     </div>

@@ -26,6 +26,8 @@ type TopBarProps = {
   onMenuClick: () => void;
   /** Desktop top-bar icon nav (topbar layout mode). */
   showTopNav?: boolean;
+  /** When false, breadcrumbs render in the page body instead. */
+  showBreadcrumbsInHeader?: boolean;
   onNavigate?: () => void;
 };
 
@@ -46,6 +48,7 @@ export function TopBar({
   sidebarOpen,
   onMenuClick,
   showTopNav = false,
+  showBreadcrumbsInHeader = true,
   onNavigate,
 }: TopBarProps) {
   const pathname = usePathname() ?? "/";
@@ -76,40 +79,46 @@ export function TopBar({
 
       {showTopNav ? <TopBarNav onNavigate={onNavigate} /> : null}
 
-      <Breadcrumb className="min-w-0 flex-1 overflow-hidden">
-        <BreadcrumbList className="text-xs text-brandBar-foreground/85 sm:text-sm">
-          {crumbs.map((c, i) => {
-            const isLast = i === crumbs.length - 1;
-            return (
-              <Fragment key={`${c.label}-${i}`}>
-                {i > 0 ? (
-                  <BreadcrumbSeparator className="text-brandBar-foreground/40 [&>span]:text-brandBar-foreground/40">
-                    /
-                  </BreadcrumbSeparator>
-                ) : null}
-                <BreadcrumbItem>
-                  {c.href && !isLast ? (
-                    <BreadcrumbLink asChild>
-                      <Link
-                        href={c.href}
-                        className="text-brandBar-foreground/75 hover:text-brandBar-foreground"
-                      >
+      {showBreadcrumbsInHeader ? (
+        <Breadcrumb className="min-w-0 flex-1 overflow-hidden">
+          <BreadcrumbList className="text-xs text-brandBar-foreground/85 sm:text-sm">
+            {crumbs.map((c, i) => {
+              const isLast = i === crumbs.length - 1;
+              return (
+                <Fragment key={`${c.label}-${i}`}>
+                  {i > 0 ? (
+                    <BreadcrumbSeparator className="text-brandBar-foreground/40 [&>span]:text-brandBar-foreground/40">
+                      /
+                    </BreadcrumbSeparator>
+                  ) : null}
+                  <BreadcrumbItem>
+                    {c.href && !isLast ? (
+                      <BreadcrumbLink asChild>
+                        <Link
+                          href={c.href}
+                          className="text-brandBar-foreground/75 hover:text-brandBar-foreground"
+                        >
+                          {c.label}
+                        </Link>
+                      </BreadcrumbLink>
+                    ) : isLast ? (
+                      <BreadcrumbPage className="text-brandBar-foreground">
                         {c.label}
-                      </Link>
-                    </BreadcrumbLink>
-                  ) : isLast ? (
-                    <BreadcrumbPage className="text-brandBar-foreground">
-                      {c.label}
-                    </BreadcrumbPage>
-                  ) : (
-                    <span className="text-brandBar-foreground/75">{c.label}</span>
-                  )}
-                </BreadcrumbItem>
-              </Fragment>
-            );
-          })}
-        </BreadcrumbList>
-      </Breadcrumb>
+                      </BreadcrumbPage>
+                    ) : (
+                      <span className="text-brandBar-foreground/75">
+                        {c.label}
+                      </span>
+                    )}
+                  </BreadcrumbItem>
+                </Fragment>
+              );
+            })}
+          </BreadcrumbList>
+        </Breadcrumb>
+      ) : (
+        <div className="min-w-0 flex-1" aria-hidden />
+      )}
 
       <DropdownMenu dir="rtl">
         <DropdownMenuTrigger asChild>

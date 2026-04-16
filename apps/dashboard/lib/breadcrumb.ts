@@ -41,7 +41,7 @@ export function getBreadcrumbs(pathname: string): BreadcrumbItem[] {
   const staticRoutes: Record<string, { parent?: string; label: string }> = {
     "/settings": { label: "تنظیمات" },
     "/customers": { label: "مشتریان" },
-    "/profile": { label: "پروفایل" },
+    "/profile": { label: "تکمیل پروفایل" },
     "/reports": { label: "گزارش‌ها" },
   };
 
@@ -53,4 +53,10 @@ export function getBreadcrumbs(pathname: string): BreadcrumbItem[] {
   }
 
   return [...crumbs, { label: "صفحه" }];
+}
+
+/** Current page title (last breadcrumb segment). */
+export function getPageTitle(pathname: string): string {
+  const crumbs = getBreadcrumbs(pathname);
+  return crumbs.at(-1)?.label ?? "صفحه";
 }
