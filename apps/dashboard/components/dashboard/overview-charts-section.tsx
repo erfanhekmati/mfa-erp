@@ -23,7 +23,11 @@ import {
 
 export type { OverviewChartGranularity };
 
-type Props = { stats: OverviewStats };
+type Props = {
+  stats: OverviewStats;
+  /** When false (single-branch overview), branch pie charts are hidden. */
+  showBranchPieCharts: boolean;
+};
 
 function pickPurchaseTrendSeries(
   stats: OverviewStats,
@@ -143,7 +147,7 @@ function salePieCopy(g: OverviewChartGranularity): string {
   }
 }
 
-export function OverviewChartsSection({ stats }: Props) {
+export function OverviewChartsSection({ stats, showBranchPieCharts }: Props) {
   const [purchaseTrendG, setPurchaseTrendG] =
     useState<OverviewChartGranularity>("month");
   const [purchaseTrendProduct, setPurchaseTrendProduct] = useState<string>(
@@ -266,46 +270,50 @@ export function OverviewChartsSection({ stats }: Props) {
           </CardContent>
         </Card>
 
-        <Card className="border-border/80 shadow-sm">
-          <CardHeader className="space-y-3">
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-              <div className="min-w-0 space-y-1.5">
-                <CardTitle className="text-base">خرید به تفکیک شعبه</CardTitle>
-                <CardDescription>{purchasePieCopy(purchasePieG)}</CardDescription>
-              </div>
-              <ChartGranularitySelect
-                value={purchasePieG}
-                onChange={setPurchasePieG}
-                ariaLabel="بازه زمانی خرید به تفکیک شعبه"
-              />
-            </div>
-          </CardHeader>
-          <CardContent>
-            <PurchaseBranchPieChart items={purchasePieItems} />
-          </CardContent>
-        </Card>
+        {showBranchPieCharts ? (
+          <>
+            <Card className="border-border/80 shadow-sm">
+              <CardHeader className="space-y-3">
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                  <div className="min-w-0 space-y-1.5">
+                    <CardTitle className="text-base">خرید به تفکیک شعبه</CardTitle>
+                    <CardDescription>{purchasePieCopy(purchasePieG)}</CardDescription>
+                  </div>
+                  <ChartGranularitySelect
+                    value={purchasePieG}
+                    onChange={setPurchasePieG}
+                    ariaLabel="بازه زمانی خرید به تفکیک شعبه"
+                  />
+                </div>
+              </CardHeader>
+              <CardContent>
+                <PurchaseBranchPieChart items={purchasePieItems} />
+              </CardContent>
+            </Card>
 
-        <Card className="border-border/80 shadow-sm">
-          <CardHeader className="space-y-3">
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-              <div className="min-w-0 space-y-1.5">
-                <CardTitle className="text-base">سهم فروش</CardTitle>
-                <CardDescription>{salePieCopy(salePieG)}</CardDescription>
-              </div>
-              <ChartGranularitySelect
-                value={salePieG}
-                onChange={setSalePieG}
-                ariaLabel="بازه زمانی سهم فروش به تفکیک شعبه"
-              />
-            </div>
-          </CardHeader>
-          <CardContent>
-            <PurchaseBranchPieChart
-              items={salePieItems}
-              footerCaption="سهم هر شعبه از جمع قیمت فروش برنامه‌ها (ریال)"
-            />
-          </CardContent>
-        </Card>
+            <Card className="border-border/80 shadow-sm">
+              <CardHeader className="space-y-3">
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                  <div className="min-w-0 space-y-1.5">
+                    <CardTitle className="text-base">سهم فروش</CardTitle>
+                    <CardDescription>{salePieCopy(salePieG)}</CardDescription>
+                  </div>
+                  <ChartGranularitySelect
+                    value={salePieG}
+                    onChange={setSalePieG}
+                    ariaLabel="بازه زمانی سهم فروش به تفکیک شعبه"
+                  />
+                </div>
+              </CardHeader>
+              <CardContent>
+                <PurchaseBranchPieChart
+                  items={salePieItems}
+                  footerCaption="سهم هر شعبه از جمع قیمت فروش برنامه‌ها (ریال)"
+                />
+              </CardContent>
+            </Card>
+          </>
+        ) : null}
       </div>
     </section>
   );

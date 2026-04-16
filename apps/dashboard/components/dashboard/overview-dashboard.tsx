@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Button,
   Card,
@@ -9,7 +11,14 @@ import {
 import { Box, Chart21, ShoppingCart, Timer1 } from "iconsax-react";
 import Link from "next/link";
 import type { CSSProperties, ReactNode } from "react";
-import type { OverviewStats } from "../../lib/overview-stats";
+import { useMemo, useState } from "react";
+import {
+  getOverviewStatsForBranch,
+  OVERVIEW_BRANCH_ALL,
+  type OverviewBranchFilter,
+  type OverviewStats,
+} from "../../lib/overview-stats";
+import { OverviewBranchSelect } from "./overview-branch-select";
 import {
   OverviewExpiringSalePlansSection,
   OverviewRecentPurchasesSection,
@@ -105,17 +114,37 @@ function KpiCard({
   );
 }
 
-export function OverviewDashboard({ stats }: { stats: OverviewStats }) {
+export function OverviewDashboard({ statsAll }: { statsAll: OverviewStats }) {
+  const [branch, setBranch] = useState<OverviewBranchFilter>(OVERVIEW_BRANCH_ALL);
+
+  const stats = useMemo(
+    () =>
+      branch === OVERVIEW_BRANCH_ALL
+        ? statsAll
+        : getOverviewStatsForBranch(branch),
+    [branch, statsAll],
+  );
+
   const { kpis } = stats;
 
   return (
     <div className="mx-auto w-full max-w-6xl space-y-8 pb-8" dir="rtl">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-        <div>
-          <h1 className="text-xl font-semibold tracking-tight text-nav-overview">
-            نمای کلی
-          </h1>
-          <p className="mt-1 text-sm text-muted-foreground">
+        <div className="min-w-0 space-y-3">
+          <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
+            <h1 className="text-xl font-semibold tracking-tight text-nav-overview">
+              نمای کلی
+            </h1>
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="text-sm font-medium text-muted-foreground">شعبه</span>
+              <OverviewBranchSelect
+                value={branch}
+                onChange={setBranch}
+                ariaLabel="انتخاب شعبه برای نمای کلی"
+              />
+            </div>
+          </div>
+          <p className="text-sm text-muted-foreground">
             خلاصه وضعیت خریدها و برنامه‌های فروش بر اساس داده‌های نمونه
           </p>
         </div>
@@ -200,7 +229,10 @@ export function OverviewDashboard({ stats }: { stats: OverviewStats }) {
         />
       </section>
 
-      <OverviewChartsSection stats={stats} />
+      <OverviewChartsSection
+        stats={stats}
+        showBranchPieCharts={branch === OVERVIEW_BRANCH_ALL}
+      />
 
       <OverviewRankingsSection stats={stats} />
 

@@ -8,6 +8,23 @@ import {
   SALE_PLAN_PRICE_LINE_PRODUCT_NAME,
 } from "./sale-plan-price-line-demo";
 
+/** مقدار «همه شعب» در فیلتر نمای کلی. */
+export const OVERVIEW_BRANCH_ALL = "__all__" as const;
+
+export type OverviewBranchFilter =
+  | typeof OVERVIEW_BRANCH_ALL
+  | "تهران"
+  | "تبریز";
+
+export const OVERVIEW_BRANCH_OPTIONS: {
+  value: OverviewBranchFilter;
+  label: string;
+}[] = [
+  { value: OVERVIEW_BRANCH_ALL, label: "همه شعب" },
+  { value: "تبریز", label: "شعبه تبریز" },
+  { value: "تهران", label: "شعبه تهران" },
+];
+
 function parseAmount(s: string): number {
   const n = Number(String(s).replace(/,/g, ""));
   return Number.isFinite(n) ? n : 0;
@@ -251,10 +268,15 @@ export type OverviewStats = {
   expiringSalePlans: MockSalePlan[];
 };
 
-export function getOverviewStats(): OverviewStats {
+type PriceLineMode = "demo" | "from_sale_plans";
+
+function buildOverviewStats(
+  projects: MockPurchaseProject[],
+  salePlans: MockSalePlan[],
+  priceLineMode: PriceLineMode,
+): OverviewStats {
   const today = todayYmd();
   const weekEnd = addDaysYmd(today, 7);
-  const projects = mapDemoPurchasesToToday(MOCK_PURCHASE_PROJECTS, today);
 
   const window60 = addDaysYmd(today, -PIE_LAST_60_DAYS);
   const window12m = addDaysYmd(today, -PIE_LAST_12_MONTHS_DAYS);
@@ -373,7 +395,7 @@ export function getOverviewStats(): OverviewStats {
     );
   }
 
-  const saleProductNames = [...new Set(MOCK_SALE_PLANS.map((r) => r.productName))].sort((a, b) =>
+  const saleProductNames = [...new Set(salePlans.map((r) => r.productName))].sort((a, b) =>
     a.localeCompare(b, "fa"),
   );
   const salePlanPriceLineByProduct: Record<
@@ -386,7 +408,7 @@ export function getOverviewStats(): OverviewStats {
   > = {};
   for (const p of saleProductNames) {
     salePlanPriceLineByProduct[p] = salePlanPriceSeriesFromPlans(
-      MOCK_SALE_PLANS.filter((r) => r.productName === p),
+      salePlans.filter((r) => r.productName === p),
     );
   }
 
@@ -406,7 +428,7 @@ export function getOverviewStats(): OverviewStats {
   const saleBranchTotals = new Map<string, number>();
   const saleBranch60 = new Map<string, number>();
   const saleBranch12m = new Map<string, number>();
-  for (const r of MOCK_SALE_PLANS) {
+  for (const r of salePlans) {
     const amt = parseAmount(r.salePrice);
     saleBranchTotals.set(r.branchName, (saleBranchTotals.get(r.branchName) ?? 0) + amt);
     if (r.startAt >= window60) {
@@ -429,18 +451,18 @@ export function getOverviewStats(): OverviewStats {
   const productPurchaseShareLast12m = top8(productTotals12m);
   const productPurchaseShareLast60d = top8(productTotals60);
 
-  const activeSalePlanCount = MOCK_SALE_PLANS.filter(
+  const activeSalePlanCount = salePlans.filter(
     (r) => r.startAt <= today && r.endAt >= today,
   ).length;
 
-  const expiringSalePlans = MOCK_SALE_PLANS.filter(
+  const expiringSalePlans = salePlans.filter(
     (r) => r.endAt >= today && r.endAt <= weekEnd,
   ).sort((a, b) => a.endAt.localeCompare(b.endAt));
 
   const expiringSalePlanCount = expiringSalePlans.length;
 
-  const planTotal = MOCK_SALE_PLANS.length;
-  const percentTypeCount = MOCK_SALE_PLANS.filter(
+  const planTotal = salePlans.length;
+  const percentTypeCount = salePlans.filter(
     (r) => r.discountType === "PERCENT",
   ).length;
   const fixedTypeCount = planTotal - percentTypeCount;
@@ -449,49 +471,58 @@ export function getOverviewStats(): OverviewStats {
     fixedType: planTotal ? Math.round((fixedTypeCount / planTotal) * 100) : 0,
   };
 
-  const salePlanPriceLineDaily: SalePlanPricePoint[] = SALE_PLAN_PRICE_LINE_POINTS.map(
-    (row) => ({
-      startAt: row.startAt,
-      price: parseAmount(row.salePrice),
-      label: dayLabelFa(row.startAt),
-    }),
-  );
+  const lineFromProductPlans =
+    priceLineMode === "from_sale_plans"
+      ? salePlanPriceSeriesFromPlans(
+          salePlans.filter((r) => r.productName === SALE_PLAN_PRICE_LINE_PRODUCT_NAME),
+        )
+      : null;
 
-  const salePlanPriceLineMonthly: SalePlanPricePoint[] = SALE_PLAN_PRICE_LINE_POINTS.map(
-    (row) => ({
-      startAt: row.startAt,
-      price: parseAmount(row.salePrice),
-      label: monthLabelFa(monthKey(row.startAt)),
-    }),
-  );
+  const salePlanPriceLineDaily: SalePlanPricePoint[] =
+    priceLineMode === "demo"
+      ? SALE_PLAN_PRICE_LINE_POINTS.map((row) => ({
+          startAt: row.startAt,
+          price: parseAmount(row.salePrice),
+          label: dayLabelFa(row.startAt),
+        }))
+      : lineFromProductPlans!.daily;
 
-  const salePlanPriceLineYearly: SalePlanPricePoint[] = (() => {
-    const best = new Map<
-      string,
-      { startAt: string; price: number }
-    >();
-    for (const row of SALE_PLAN_PRICE_LINE_POINTS) {
-      const y = row.startAt.slice(0, 4);
-      const price = parseAmount(row.salePrice);
-      const cur = best.get(y);
-      if (!cur || row.startAt.localeCompare(cur.startAt) >= 0) {
-        best.set(y, { startAt: row.startAt, price });
-      }
-    }
-    return [...best.entries()]
-      .sort(([a], [b]) => a.localeCompare(b))
-      .map(([year, { price }]) => ({
-        startAt: `${year}-01-01`,
-        price,
-        label: yearLabelFa(year),
-      }));
-  })();
+  const salePlanPriceLineMonthly: SalePlanPricePoint[] =
+    priceLineMode === "demo"
+      ? SALE_PLAN_PRICE_LINE_POINTS.map((row) => ({
+          startAt: row.startAt,
+          price: parseAmount(row.salePrice),
+          label: monthLabelFa(monthKey(row.startAt)),
+        }))
+      : lineFromProductPlans!.monthly;
+
+  const salePlanPriceLineYearly: SalePlanPricePoint[] =
+    priceLineMode === "demo"
+      ? (() => {
+          const best = new Map<string, { startAt: string; price: number }>();
+          for (const row of SALE_PLAN_PRICE_LINE_POINTS) {
+            const y = row.startAt.slice(0, 4);
+            const price = parseAmount(row.salePrice);
+            const cur = best.get(y);
+            if (!cur || row.startAt.localeCompare(cur.startAt) >= 0) {
+              best.set(y, { startAt: row.startAt, price });
+            }
+          }
+          return [...best.entries()]
+            .sort(([a], [b]) => a.localeCompare(b))
+            .map(([year, { price }]) => ({
+              startAt: `${year}-01-01`,
+              price,
+              label: yearLabelFa(year),
+            }));
+        })()
+      : lineFromProductPlans!.yearly;
 
   const recentPurchases = [...projects].sort((a, b) =>
     b.purchasedAt.localeCompare(a.purchasedAt),
   ).slice(0, 5);
 
-  const recentSalePlans = [...MOCK_SALE_PLANS].sort((a, b) =>
+  const recentSalePlans = [...salePlans].sort((a, b) =>
     b.startAt.localeCompare(a.startAt),
   ).slice(0, 5);
 
@@ -532,3 +563,22 @@ export function getOverviewStats(): OverviewStats {
     expiringSalePlans,
   };
 }
+
+export function getOverviewStats(): OverviewStats {
+  const today = todayYmd();
+  const projects = mapDemoPurchasesToToday(MOCK_PURCHASE_PROJECTS, today);
+  return buildOverviewStats(projects, MOCK_SALE_PLANS, "demo");
+}
+
+export function getOverviewStatsForBranch(
+  branch: OverviewBranchFilter,
+): OverviewStats {
+  if (branch === OVERVIEW_BRANCH_ALL) return getOverviewStats();
+  const today = todayYmd();
+  const projects = mapDemoPurchasesToToday(MOCK_PURCHASE_PROJECTS, today).filter(
+    (p) => p.branchName === branch,
+  );
+  const branchSalePlans = MOCK_SALE_PLANS.filter((p) => p.branchName === branch);
+  return buildOverviewStats(projects, branchSalePlans, "from_sale_plans");
+}
+
