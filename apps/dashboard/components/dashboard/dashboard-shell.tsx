@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import { useNavLayout } from "../providers/nav-layout-provider";
 import { Sidebar } from "./sidebar";
 import { TopBar } from "./top-bar";
 
@@ -10,9 +11,13 @@ const MOBILE_QUERY = "(max-width: 767px)";
 const STORAGE_COLLAPSED = "erp-sidebar-collapsed";
 
 export function DashboardShell({ children }: { children: React.ReactNode }) {
+  const { navLayout } = useNavLayout();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+
+  const showDesktopSidebar = navLayout === "sidebar";
+  const showDesktopTopNav = navLayout === "topbar" && !isMobile;
 
   useEffect(() => {
     try {
@@ -67,12 +72,15 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
         onToggleCollapsed={toggleSidebarCollapsed}
         isMobile={isMobile}
         onNavigate={onNavigate}
+        showDesktopAside={showDesktopSidebar}
       />
       <div className="relative z-0 flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
         <TopBar
           sidebarId={SIDEBAR_ID}
           sidebarOpen={sidebarOpen}
           onMenuClick={toggleSidebar}
+          showTopNav={showDesktopTopNav}
+          onNavigate={onNavigate}
         />
         <main className="min-h-0 flex-1 overflow-y-auto px-4 py-4 md:px-5">
           {children}

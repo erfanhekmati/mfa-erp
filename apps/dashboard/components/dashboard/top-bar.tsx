@@ -18,11 +18,15 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Fragment } from "react";
 import { getBreadcrumbs } from "../../lib/breadcrumb";
+import { TopBarNav } from "./top-bar-nav";
 
 type TopBarProps = {
   sidebarId: string;
   sidebarOpen: boolean;
   onMenuClick: () => void;
+  /** Desktop top-bar icon nav (topbar layout mode). */
+  showTopNav?: boolean;
+  onNavigate?: () => void;
 };
 
 const USER_NAME = "علی محمدی";
@@ -37,7 +41,13 @@ function getInitials(name: string) {
     .join("");
 }
 
-export function TopBar({ sidebarId, sidebarOpen, onMenuClick }: TopBarProps) {
+export function TopBar({
+  sidebarId,
+  sidebarOpen,
+  onMenuClick,
+  showTopNav = false,
+  onNavigate,
+}: TopBarProps) {
   const pathname = usePathname() ?? "/";
   const crumbs = getBreadcrumbs(pathname);
   const initials = getInitials(USER_NAME);
@@ -63,6 +73,8 @@ export function TopBar({ sidebarId, sidebarOpen, onMenuClick }: TopBarProps) {
           <path d="M4 6h16M4 12h16M4 18h16" />
         </svg>
       </button>
+
+      {showTopNav ? <TopBarNav onNavigate={onNavigate} /> : null}
 
       <Breadcrumb className="min-w-0 flex-1 overflow-hidden">
         <BreadcrumbList className="text-xs text-brandBar-foreground/85 sm:text-sm">

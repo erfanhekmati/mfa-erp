@@ -15,6 +15,7 @@ import {
   TabsTrigger,
 } from "@repo/ui";
 
+import { NavLayoutPicker } from "./nav-layout-picker";
 import { ThemePicker } from "./theme-picker";
 
 const tabTriggerClassName =
@@ -204,7 +205,10 @@ export function SettingsTabs() {
       </TabsContent>
 
       <TabsContent value="appearance">
-        <ThemePicker />
+        <div className="space-y-6">
+          <ThemePicker />
+          <NavLayoutPicker />
+        </div>
       </TabsContent>
     </Tabs>
   );

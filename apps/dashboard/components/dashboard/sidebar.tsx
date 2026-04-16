@@ -20,6 +20,7 @@ import {
   useState,
 } from "react";
 import { createPortal } from "react-dom";
+import { isPathActive } from "../../lib/nav-active";
 import { navItems, type NavItem } from "./nav-config";
 import { NavIcon } from "./nav-icons";
 
@@ -34,19 +35,9 @@ type SidebarProps = {
   onToggleCollapsed: () => void;
   isMobile: boolean;
   onNavigate?: () => void;
+  /** When false, desktop aside is not rendered (mobile sheet still shown). */
+  showDesktopAside?: boolean;
 };
-
-function normalizePath(p: string) {
-  if (!p) return "/";
-  return p.length > 1 && p.endsWith("/") ? p.slice(0, -1) : p;
-}
-
-function isPathActive(pathname: string, href: string) {
-  const p = normalizePath(pathname);
-  const h = normalizePath(href);
-  if (h === "/") return p === "/";
-  return p === h;
-}
 
 function NavLeaf({
   item,
@@ -128,6 +119,7 @@ export function Sidebar({
   onToggleCollapsed,
   isMobile,
   onNavigate,
+  showDesktopAside = true,
 }: SidebarProps) {
   const pathname = usePathname();
   const rootRef = useRef<HTMLElement>(null);
@@ -466,6 +458,10 @@ export function Sidebar({
         </SheetContent>
       </Sheet>
     );
+  }
+
+  if (!showDesktopAside) {
+    return null;
   }
 
   return (
