@@ -220,7 +220,11 @@ export function TopBarNav({ onNavigate }: TopBarNavProps) {
                     aria-label={item.label}
                   >
                     {item.icon ? (
-                      <NavIcon name={item.icon} className="size-5 shrink-0" />
+                      <NavIcon
+                        name={item.icon}
+                        variant="onBrand"
+                        className="size-5 shrink-0"
+                      />
                     ) : null}
                   </button>
                 </div>
@@ -240,6 +244,7 @@ export function TopBarNav({ onNavigate }: TopBarNavProps) {
                       {item.icon ? (
                         <NavIcon
                           name={item.icon}
+                          variant="onBrand"
                           className="size-5 shrink-0"
                         />
                       ) : null}

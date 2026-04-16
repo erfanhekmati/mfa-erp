@@ -25,15 +25,22 @@ const baseProps = {
 export function NavIcon({
   name,
   className,
+  variant = "default",
   "aria-hidden": ariaHidden = true,
 }: {
   name: NavIconId;
   className?: string;
+  /** روی نوار برند (پس‌زمینه تیره) — رنگ روشن یکدست */
+  variant?: "default" | "onBrand";
   "aria-hidden"?: boolean;
 }) {
+  const colorClass =
+    variant === "onBrand"
+      ? "text-brandBar-foreground"
+      : iconColorClass[name];
   const props = {
     ...baseProps,
-    className: cn(iconColorClass[name], className),
+    className: cn(colorClass, className),
     "aria-hidden": ariaHidden,
   };
 
