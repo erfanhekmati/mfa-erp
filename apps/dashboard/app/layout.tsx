@@ -5,6 +5,7 @@ import { SectionThemeSync } from "../components/providers/section-theme-sync";
 import { ThemeProvider } from "../components/providers/theme-provider";
 import { defaultThemeId, themeIds, THEME_STORAGE_KEY } from "../lib/themes";
 import "./globals.css";
+import "simplebar-react/dist/simplebar.min.css";
 
 const vazirmatn = Vazirmatn({
   subsets: ["arabic", "latin"],

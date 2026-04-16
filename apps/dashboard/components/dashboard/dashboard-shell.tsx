@@ -1,5 +1,6 @@
 "use client";
 
+import SimpleBar from "simplebar-react";
 import { useCallback, useEffect, useState } from "react";
 import { useNavLayout } from "../providers/nav-layout-provider";
 import { DashboardPageFrame } from "./dashboard-page-frame";
@@ -85,8 +86,16 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
           showBreadcrumbsInHeader={showBreadcrumbsInHeader}
           onNavigate={onNavigate}
         />
-        <main className="dashboard-main-scroll min-h-0 flex-1 overflow-y-auto px-4 py-4 md:px-5 lg:px-6">
-          <DashboardPageFrame>{children}</DashboardPageFrame>
+        <main className="flex min-h-0 flex-1 flex-col overflow-hidden py-4 pl-0 pr-4 md:pr-5 lg:pr-6">
+          <SimpleBar
+            className="dashboard-simplebar h-full min-h-0 w-full flex-1"
+            data-simplebar-direction="rtl"
+          >
+            {/* Padding only on content: matches TopBar inset so the bar can sit flush with the column edge. */}
+            <div className="min-h-0 pl-4 md:pl-5 lg:pl-6">
+              <DashboardPageFrame>{children}</DashboardPageFrame>
+            </div>
+          </SimpleBar>
         </main>
       </div>
     </div>

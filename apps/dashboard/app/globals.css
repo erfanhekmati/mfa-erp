@@ -380,29 +380,24 @@
   }
 
   /**
-   * نوار اسکرول ناحیهٔ اصلی داشبورد: رنگ‌ها از توکن‌های تم (CSS variables).
+   * SimpleBar در ناحیهٔ اصلی داشبورد (RTL → نوار عمودی سمت چپ): رنگ‌ها از تم.
    */
-  .dashboard-main-scroll {
-    scrollbar-width: thin;
-    scrollbar-color: hsl(var(--muted-foreground) / 0.4) hsl(var(--muted));
-  }
-  .dashboard-main-scroll::-webkit-scrollbar {
+  .dashboard-simplebar .simplebar-track.simplebar-vertical {
+    /* RTL: vertical track on the physical left; main uses pl-0 so left:0 is the column edge. */
+    right: auto;
+    left: 0;
     width: 10px;
-    height: 10px;
-  }
-  .dashboard-main-scroll::-webkit-scrollbar-track {
     background: hsl(var(--muted));
     border-radius: 9999px;
   }
-  .dashboard-main-scroll::-webkit-scrollbar-thumb {
-    background-color: hsl(var(--muted-foreground) / 0.35);
+  .dashboard-simplebar .simplebar-scrollbar::before {
+    background: hsl(var(--muted-foreground) / 0.4);
     border-radius: 9999px;
-    border: 2px solid hsl(var(--muted));
   }
-  .dashboard-main-scroll::-webkit-scrollbar-thumb:hover {
-    background-color: hsl(var(--muted-foreground) / 0.55);
+  .dashboard-simplebar .simplebar-scrollbar:hover::before {
+    background: hsl(var(--muted-foreground) / 0.6);
   }
-  .dashboard-main-scroll::-webkit-scrollbar-thumb:active {
-    background-color: hsl(var(--ring) / 0.65);
+  .dashboard-simplebar .simplebar-scrollbar.simplebar-visible::before {
+    opacity: 0.95;
   }
 }
