@@ -28,6 +28,9 @@ export function SettingsTabs() {
         <TabsTrigger value="general" className={tabTriggerClassName}>
           عمومی
         </TabsTrigger>
+        <TabsTrigger value="security" className={tabTriggerClassName}>
+          امنیت
+        </TabsTrigger>
         <TabsTrigger value="appearance" className={tabTriggerClassName}>
           ظاهر
         </TabsTrigger>
@@ -39,7 +42,7 @@ export function SettingsTabs() {
             <CardHeader>
               <CardTitle className="text-base">تنظیمات عمومی</CardTitle>
               <CardDescription>
-                تنظیمات سامانه و حساب کاربری خود را مدیریت کنید. 
+                تنظیمات سامانه را مدیریت کنید.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -53,19 +56,17 @@ export function SettingsTabs() {
                   defaultValue="مدیران فولاد آذر"
                 />
               </div>
-              <div className="space-y-2">
-                <label className="text-sm font-medium" htmlFor="site-lang">
-                  زبان پیش‌فرض
-                </label>
-                <Input id="site-lang" placeholder="فارسی" defaultValue="فارسی" disabled />
-              </div>
               <Separator />
               <div className="flex justify-end">
                 <Button>ذخیره تغییرات</Button>
               </div>
             </CardContent>
           </Card>
+        </div>
+      </TabsContent>
 
+      <TabsContent value="security">
+        <div className="space-y-6">
           <Card>
             <CardHeader>
               <CardTitle className="text-base">امنیت</CardTitle>
