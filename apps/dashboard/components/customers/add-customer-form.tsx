@@ -1,6 +1,14 @@
 "use client";
 
-import { Button, Card, CardContent, CardHeader, CardTitle, Input } from "@repo/ui";
+import {
+  Button,
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+  Input,
+} from "@repo/ui";
 import { Call, User } from "iconsax-react";
 import { useState } from "react";
 import {
@@ -34,6 +42,9 @@ export function AddCustomerForm() {
       <Card className="rounded-2xl border-border/70">
         <CardHeader className="pb-4">
           <CardTitle className="text-base font-semibold">اطلاعات مشتری</CardTitle>
+          <CardDescription>
+            اطلاعات مشتری جدید را وارد کنید.
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-5">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">

@@ -7,7 +7,7 @@ export const metadata = {
 
 export default function AddSalePlanPage() {
   return (
-    <div className="mt-6 space-y-6">
+    <div className="space-y-6">
       <AddSalePlanForm />
     </div>
   );

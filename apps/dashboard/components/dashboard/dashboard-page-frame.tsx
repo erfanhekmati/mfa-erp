@@ -89,7 +89,7 @@ export function DashboardPageFrame({ children }: { children: React.ReactNode }) 
     <PageHeaderActionsContext.Provider value={headerCtx}>
       <div className="space-y-0">
         {showBreadcrumbInPage ? (
-          <div className="space-y-4">
+          <div className="mb-6 space-y-4">
             <Breadcrumb className="min-w-0 overflow-hidden">
               <BreadcrumbList className="text-xs text-muted-foreground sm:text-sm">
                 {crumbs.map((c, i) => {
@@ -127,7 +127,9 @@ export function DashboardPageFrame({ children }: { children: React.ReactNode }) 
             <PageTitleRow title={title} actions={actions} />
           </div>
         ) : (
-          <PageTitleRow title={title} actions={actions} />
+          <div className="mb-6">
+            <PageTitleRow title={title} actions={actions} />
+          </div>
         )}
 
         {children}

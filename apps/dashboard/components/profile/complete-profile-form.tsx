@@ -182,7 +182,7 @@ export function CompleteProfileForm() {
             اطلاعات شخصی
           </CardTitle>
           <CardDescription>
-            مشخصات هویتی خود را وارد کنید.
+            اطلاعات کاربری خود را کامل کنید تا دسترسی کامل به سامانه داشته باشید.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">

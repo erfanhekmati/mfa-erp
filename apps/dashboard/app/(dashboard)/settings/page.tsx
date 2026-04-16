@@ -6,12 +6,5 @@ export const metadata = {
 };
 
 export default function SettingsPage() {
-  return (
-    <div className="space-y-6">
-      <p className="text-sm leading-snug text-muted-foreground">
-        تنظیمات سامانه و حساب کاربری خود را مدیریت کنید.
-      </p>
-      <SettingsTabs />
-    </div>
-  );
+  return <SettingsTabs />;
 }

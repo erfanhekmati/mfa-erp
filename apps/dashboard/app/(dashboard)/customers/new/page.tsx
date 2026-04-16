@@ -6,12 +6,5 @@ export const metadata = {
 };
 
 export default function AddCustomerPage() {
-  return (
-    <div className="space-y-6">
-      <p className="text-sm leading-snug text-muted-foreground">
-        اطلاعات مشتری جدید را وارد کنید.
-      </p>
-      <AddCustomerForm />
-    </div>
-  );
+  return <AddCustomerForm />;
 }

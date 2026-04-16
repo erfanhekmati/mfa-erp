@@ -4,6 +4,7 @@ import {
   Button,
   Card,
   CardContent,
+  CardDescription,
   CardHeader,
   CardTitle,
   Input,
@@ -40,6 +41,9 @@ export function AddSalePlanForm() {
     <Card className="w-full max-w-3xl rounded-2xl border-border/70">
       <CardHeader className="text-right pb-4">
         <CardTitle className="text-base font-semibold">مشخصات برنامه فروش</CardTitle>
+        <CardDescription>
+          برنامه فروش جدید را ثبت کنید.
+        </CardDescription>
       </CardHeader>
       <form onSubmit={handleSubmit}>
         <CardContent className="space-y-6">

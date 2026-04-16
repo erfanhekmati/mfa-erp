@@ -4,6 +4,7 @@ import {
   Button,
   Card,
   CardContent,
+  CardDescription,
   CardHeader,
   CardTitle,
   Input,
@@ -57,6 +58,9 @@ export function AddProductForm() {
       <Card className="rounded-2xl border-border/70">
         <CardHeader className="pb-4">
           <CardTitle className="text-base font-semibold">مشخصات کالا</CardTitle>
+          <CardDescription>
+            اطلاعات کالای جدید را وارد کنید.
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-5">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">

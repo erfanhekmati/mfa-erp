@@ -4,6 +4,7 @@ import {
   Button,
   Card,
   CardContent,
+  CardDescription,
   CardHeader,
   CardTitle,
   Input,
@@ -42,6 +43,9 @@ export function AddPurchaseProjectForm() {
         <CardTitle className="text-xl font-semibold tracking-tight">
           مشخصات پروژه خرید
         </CardTitle>
+        <CardDescription>
+          اطلاعات پروژه خرید جدید را ثبت کنید.
+        </CardDescription>
       </CardHeader>
       <form onSubmit={handleSubmit}>
         <CardContent className="space-y-6">
