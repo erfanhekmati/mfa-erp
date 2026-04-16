@@ -40,7 +40,7 @@ export function AddPurchaseProjectForm() {
     <Card className="w-full max-w-3xl border-border/80">
       <CardHeader className="text-right">
         <CardTitle className="text-xl font-semibold tracking-tight">
-          پروژه خرید جدید
+          مشخصات پروژه خرید
         </CardTitle>
       </CardHeader>
       <form onSubmit={handleSubmit}>
