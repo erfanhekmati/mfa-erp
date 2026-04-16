@@ -27,50 +27,21 @@ import {
 import { OverviewChartsSection } from "./overview-charts-section";
 import { OverviewRankingsSection } from "./overview-rankings-section";
 
-/** Nav icon CSS variable names — same tokens as globals.css and sidebar. */
-const NAV_ICON_VARS = [
-  "--nav-icon-overview",
-  "--nav-icon-sales",
-  "--nav-icon-inventory",
-  "--nav-icon-reports",
-  "--nav-icon-base-info",
-] as const;
+/**
+ * ثابت‌های رنگ داشبورد (همان پالت تم default در globals.css)،
+ * تا با تغییر تم یا data-section خوانایی کارت‌های KPI حفظ شود.
+ */
+const KPI_ICON_ACCENT: CSSProperties[] = [
+  { backgroundColor: "hsl(221 83% 53% / 0.12)", color: "hsl(221 83% 53%)" },
+  { backgroundColor: "hsl(142 71% 40% / 0.12)", color: "hsl(142 71% 40%)" },
+  { backgroundColor: "hsl(45 97% 44% / 0.12)", color: "hsl(45 97% 44%)" },
+  { backgroundColor: "hsl(0 72% 51% / 0.12)", color: "hsl(0 72% 51%)" },
+  { backgroundColor: "hsl(262 83% 56% / 0.12)", color: "hsl(262 83% 56%)" },
+  { backgroundColor: "hsl(199 89% 48% / 0.12)", color: "hsl(199 89% 48%)" },
+];
 
-type NavIconVarName = (typeof NAV_ICON_VARS)[number];
-
-type KpiTint = NavIconVarName | "primary";
-
-const KPI_ICON_STYLE: Record<NavIconVarName, CSSProperties> = {
-  "--nav-icon-overview": {
-    backgroundColor: "hsl(var(--nav-icon-overview) / 0.12)",
-    color: "hsl(var(--nav-icon-overview))",
-  },
-  "--nav-icon-sales": {
-    backgroundColor: "hsl(var(--nav-icon-sales) / 0.12)",
-    color: "hsl(var(--nav-icon-sales))",
-  },
-  "--nav-icon-inventory": {
-    backgroundColor: "hsl(var(--nav-icon-inventory) / 0.12)",
-    color: "hsl(var(--nav-icon-inventory))",
-  },
-  "--nav-icon-reports": {
-    backgroundColor: "hsl(var(--nav-icon-reports) / 0.12)",
-    color: "hsl(var(--nav-icon-reports))",
-  },
-  "--nav-icon-base-info": {
-    backgroundColor: "hsl(var(--nav-icon-base-info) / 0.12)",
-    color: "hsl(var(--nav-icon-base-info))",
-  },
-};
-
-function kpiIconTintStyle(tint: KpiTint): CSSProperties {
-  if (tint === "primary") {
-    return {
-      backgroundColor: "hsl(var(--primary) / 0.12)",
-      color: "hsl(var(--primary))",
-    };
-  }
-  return KPI_ICON_STYLE[tint];
+function kpiIconAccentStyle(index: number): CSSProperties {
+  return KPI_ICON_ACCENT[index % KPI_ICON_ACCENT.length]!;
 }
 
 function formatFaAmount(n: number): string {
@@ -82,13 +53,13 @@ function KpiCard({
   value,
   hint,
   icon,
-  tint,
+  accentIndex,
 }: {
   title: string;
   value: string;
   hint?: string;
   icon: ReactNode;
-  tint: KpiTint;
+  accentIndex: number;
 }) {
   return (
     <Card className="border-border/80 shadow-sm">
@@ -104,7 +75,7 @@ function KpiCard({
         </div>
         <div
           className="flex size-10 shrink-0 items-center justify-center rounded-xl"
-          style={kpiIconTintStyle(tint)}
+          style={kpiIconAccentStyle(accentIndex)}
           aria-hidden
         >
           {icon}
@@ -189,39 +160,39 @@ export function OverviewDashboard({ statsAll }: { statsAll: OverviewStats }) {
           title="مجموع مبلغ خریدها"
           value={formatFaAmount(kpis.totalPurchaseAmount)}
           hint="ریال"
-          tint="--nav-icon-overview"
+          accentIndex={0}
           icon={<Chart21 size={22} variant="Bulk" color="currentColor" />}
         />
         <KpiCard
           title="تعداد پروژه خرید"
           value={kpis.purchaseProjectCount.toLocaleString("fa-IR")}
-          tint="--nav-icon-sales"
+          accentIndex={1}
           icon={<Box size={22} variant="Bulk" color="currentColor" />}
         />
         <KpiCard
           title="برنامه فروش فعال"
           value={kpis.activeSalePlanCount.toLocaleString("fa-IR")}
           hint="در بازه تاریخ امروز"
-          tint="--nav-icon-inventory"
+          accentIndex={2}
           icon={<ShoppingCart size={22} variant="Bulk" color="currentColor" />}
         />
         <KpiCard
           title="برنامه فروش در حال اتمام"
           value={kpis.expiringSalePlanCount.toLocaleString("fa-IR")}
           hint="۷ روز آینده"
-          tint="--nav-icon-reports"
+          accentIndex={3}
           icon={<Timer1 size={22} variant="Bulk" color="currentColor" />}
         />
         <KpiCard
           title="شعب"
           value={kpis.uniqueBranchCount.toLocaleString("fa-IR")}
-          tint="--nav-icon-base-info"
+          accentIndex={4}
           icon={<Box size={22} variant="Bulk" color="currentColor" />}
         />
         <KpiCard
           title="تامین‌کنندگان"
           value={kpis.uniqueProviderCount.toLocaleString("fa-IR")}
-          tint="primary"
+          accentIndex={5}
           icon={<Chart21 size={22} variant="Bulk" color="currentColor" />}
         />
       </section>

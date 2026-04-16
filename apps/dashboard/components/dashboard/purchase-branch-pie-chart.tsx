@@ -11,19 +11,22 @@ import {
 
 export type BranchSlice = { name: string; total: number };
 
-/** رنگ ثابت هر شعبه (بقیه از FALLBACK_FILLS). */
+/** رنگ‌های ثابت (پالت تم default)، وابسته به تم نیستند تا در همهٔ تم‌ها خوانا باشند. */
 const BRANCH_PIE_FILL: Record<string, string> = {
-  تهران: "hsl(var(--nav-icon-sales))",
-  تبریز: "hsl(var(--nav-icon-overview))",
-  اصفهان: "hsl(var(--nav-icon-inventory))",
-  مشهد: "hsl(var(--nav-icon-reports))",
+  تهران: "hsl(221 83% 53%)",
+  تبریز: "hsl(142 71% 40%)",
+  اصفهان: "hsl(45 97% 44%)",
+  مشهد: "hsl(0 72% 51%)",
 };
 
 const FALLBACK_FILLS = [
-  "hsl(var(--nav-icon-base-info))",
-  "hsl(var(--primary))",
-  "hsl(var(--nav-icon-overview))",
-  "hsl(var(--nav-icon-sales))",
+  "hsl(262 83% 56%)",
+  "hsl(199 89% 48%)",
+  "hsl(330 81% 60%)",
+  "hsl(221 83% 53%)",
+  "hsl(142 71% 40%)",
+  "hsl(45 97% 44%)",
+  "hsl(0 72% 51%)",
 ] as const;
 
 function fillForBranch(name: string, index: number): string {
