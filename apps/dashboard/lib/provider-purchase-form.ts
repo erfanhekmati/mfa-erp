@@ -1,5 +1,5 @@
 /**
- * Mirrors scalar fields on `ProviderPurchase` for UI state.
+ * Mirrors most scalar fields on `ProviderPurchase` for UI state (`freight` is not collected here).
  * @see packages/database/prisma/schema.prisma — model ProviderPurchase
  */
 export type ProviderPurchaseFormValues = {
@@ -10,7 +10,6 @@ export type ProviderPurchaseFormValues = {
   unitPrice: string;
   sumPrice: string;
   taxAndDuties: string;
-  freight: string;
   totalAmount: string;
   description: string;
   purchasedAt: string;
@@ -30,7 +29,6 @@ export function getDefaultProviderPurchaseFormValues(): ProviderPurchaseFormValu
     unitPrice: "",
     sumPrice: "",
     taxAndDuties: "0",
-    freight: "0",
     totalAmount: "",
     description: "",
     purchasedAt: toDatetimeLocalValue(new Date()),

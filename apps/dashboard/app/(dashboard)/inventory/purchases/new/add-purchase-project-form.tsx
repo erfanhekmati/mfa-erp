@@ -202,27 +202,6 @@ export function AddPurchaseProjectForm() {
 
             <div className="space-y-2">
               <label
-                htmlFor="freight"
-                className="text-sm font-medium leading-none"
-              >
-                حمل و نقل
-              </label>
-              <Input
-                id="freight"
-                name="freight"
-                type="text"
-                inputMode="decimal"
-                dir="ltr"
-                autoComplete="off"
-                value={values.freight}
-                onChange={(e) => setField("freight", e.target.value)}
-                className="!max-w-none text-left"
-                placeholder="0"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <label
                 htmlFor="totalAmount"
                 className="text-sm font-medium leading-none"
               >
