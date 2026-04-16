@@ -1,24 +1,18 @@
-const NAV_ICON_VARS = [
-  "--nav-icon-overview",
-  "--nav-icon-sales",
-  "--nav-icon-inventory",
-  "--nav-icon-reports",
-  "--nav-icon-base-info",
+/** نوارها با توکن‌های تم (مثل نمودارها) — نه `--nav-icon-*` که در بسیاری تم‌ها تک‌رنگ است. */
+const BAR_FILL_CSS_VARS = [
+  "--primary",
+  "--destructive",
+  "--ring",
+  "--accent-foreground",
+  "--brand-bar",
+  "--secondary-foreground",
+  "--primary",
+  "--destructive",
 ] as const;
 
-type NavIconVarName = (typeof NAV_ICON_VARS)[number];
-
-const BAR_FILL: Record<NavIconVarName, string> = {
-  "--nav-icon-overview": "hsl(var(--nav-icon-overview) / 0.88)",
-  "--nav-icon-sales": "hsl(var(--nav-icon-sales) / 0.88)",
-  "--nav-icon-inventory": "hsl(var(--nav-icon-inventory) / 0.88)",
-  "--nav-icon-reports": "hsl(var(--nav-icon-reports) / 0.88)",
-  "--nav-icon-base-info": "hsl(var(--nav-icon-base-info) / 0.88)",
-};
-
 function barColorByIndex(index: number): string {
-  const k = NAV_ICON_VARS[index % NAV_ICON_VARS.length]!;
-  return BAR_FILL[k];
+  const v = BAR_FILL_CSS_VARS[index % BAR_FILL_CSS_VARS.length]!;
+  return `hsl(var(${v}) / 0.88)`;
 }
 
 function formatFaAmount(n: number): string {

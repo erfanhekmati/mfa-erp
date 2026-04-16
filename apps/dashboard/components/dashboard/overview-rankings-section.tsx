@@ -77,7 +77,9 @@ export function OverviewRankingsSection({ stats }: Props) {
         <CardHeader className="space-y-3">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
             <div className="min-w-0 space-y-1.5">
-              <CardTitle className="text-base">خرید به تفکیک تامین‌کننده</CardTitle>
+              <CardTitle className="text-base text-primary">
+                خرید به تفکیک تامین‌کننده
+              </CardTitle>
               <CardDescription>{providerDescription(providerG)}</CardDescription>
             </div>
             <ChartGranularitySelect
@@ -96,7 +98,7 @@ export function OverviewRankingsSection({ stats }: Props) {
         <CardHeader className="space-y-3">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
             <div className="min-w-0 space-y-1.5">
-              <CardTitle className="text-base">سهم کالا از خرید</CardTitle>
+              <CardTitle className="text-base text-primary">سهم کالا از خرید</CardTitle>
               <CardDescription>{productDescription(productG)}</CardDescription>
             </div>
             <ChartGranularitySelect
