@@ -27,7 +27,6 @@ export const navItems: NavItem[] = [
         label: "برنامه فروش جدید",
         href: "/sales/plan/new",
       },
-      { id: "sales-list", label: "فروش‌ها", href: "/sales" },
     ],
   },
   {
