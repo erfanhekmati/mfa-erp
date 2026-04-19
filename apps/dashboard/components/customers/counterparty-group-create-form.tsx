@@ -66,7 +66,7 @@ export function CounterpartyGroupCreateForm() {
   }
 
   return (
-    <div className="mx-auto w-full max-w-5xl space-y-6">
+    <div className="ms-0 me-auto w-full max-w-5xl space-y-6">
       <form onSubmit={handleSubmit} className="space-y-6">
         <Card className="rounded-2xl border-border/70">
           <CardHeader className="pb-4">
