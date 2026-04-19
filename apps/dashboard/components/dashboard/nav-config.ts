@@ -48,9 +48,27 @@ export const navItems: NavItem[] = [
     label: "اطلاعات پایه",
     icon: "base-info",
     children: [
-      { id: "customer-add", label: "مشتری جدید", href: "/customers/new" },
+      {
+        id: "counterparty-groups",
+        label: "فهرست گروه‌های طرف حساب",
+        href: "/customers/groups",
+      },
+      {
+        id: "counterparty-groups-new",
+        label: "ایجاد گروه طرف حساب",
+        href: "/customers/groups/new",
+      },
+      {
+        id: "counterparty-intro",
+        label: "معرفی طرف حساب",
+        href: "/customers/new",
+      },
       { id: "products", label: "کالاها", href: "/inventory/products" },
-      { id: "product-add-base", label: "کالای جدید", href: "/inventory/products/new" },
+      {
+        id: "product-intro",
+        label: "معرفی کالا",
+        href: "/inventory/products/new",
+      },
     ],
   },
 ];

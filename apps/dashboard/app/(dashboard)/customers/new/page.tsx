@@ -1,8 +1,8 @@
 import { AddCustomerForm } from "../../../../components/customers/add-customer-form";
 
 export const metadata = {
-  title: "مشتری جدید | مدیران فولاد آذر",
-  description: "اطلاعات مشتری جدید را وارد کنید.",
+  title: "معرفی طرف حساب | مدیران فولاد آذر",
+  description: "معرفی طرف حساب حقیقی یا حقوقی.",
 };
 
 export default function AddCustomerPage() {

@@ -1,8 +1,8 @@
 import { AddProductForm } from "../../../../../components/inventory/add-product-form";
 
 export const metadata = {
-  title: "کالای جدید | مدیران فولاد آذر",
-  description: "اطلاعات کالای جدید را وارد کنید.",
+  title: "معرفی کالا | مدیران فولاد آذر",
+  description: "اطلاعات معرفی کالا را وارد کنید.",
 };
 
 export default function AddProductPage() {

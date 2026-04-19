@@ -40,7 +40,7 @@ export function getBreadcrumbs(pathname: string): BreadcrumbItem[] {
 
   const staticRoutes: Record<string, { parent?: string; label: string }> = {
     "/settings": { label: "تنظیمات" },
-    "/customers": { label: "مشتریان" },
+    "/customers": { label: "طرف‌های حساب" },
     "/profile": { label: "تکمیل پروفایل" },
     "/reports": { label: "گزارش‌ها" },
   };

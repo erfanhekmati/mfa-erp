@@ -158,7 +158,7 @@ export function ProductsList() {
     <>
       <DashboardPageActions>
         <Button asChild className="w-full shrink-0 sm:w-auto">
-          <Link href="/inventory/products/new">کالای جدید</Link>
+          <Link href="/inventory/products/new">معرفی کالا</Link>
         </Button>
       </DashboardPageActions>
       <div className="mx-auto w-full max-w-6xl space-y-6">

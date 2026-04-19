@@ -76,6 +76,7 @@ export {
   TabsList,
   TabsTrigger,
 } from "./components/ui/tabs";
+export { Switch } from "./components/ui/switch";
 export {
   DropdownMenu,
   DropdownMenuContent,

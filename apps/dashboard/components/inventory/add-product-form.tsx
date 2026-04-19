@@ -57,9 +57,9 @@ export function AddProductForm() {
     <form onSubmit={handleSubmit} className="max-w-2xl space-y-6">
       <Card className="rounded-2xl border-border/70">
         <CardHeader className="pb-4">
-          <CardTitle className="text-base font-semibold">مشخصات کالا</CardTitle>
+          <CardTitle className="text-base font-semibold">معرفی کالا</CardTitle>
           <CardDescription>
-            اطلاعات کالای جدید را وارد کنید.
+            اطلاعات کالا برای معرفی در سیستم را وارد کنید.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-5">
@@ -182,7 +182,7 @@ export function AddProductForm() {
       <div className="flex items-center justify-between gap-4 pb-6">
         {saved && (
           <p className="text-sm text-emerald-600 dark:text-emerald-400">
-            کالا با موفقیت ثبت شد.
+            معرفی کالا با موفقیت ثبت شد.
           </p>
         )}
         <div className="ms-auto flex gap-3">
