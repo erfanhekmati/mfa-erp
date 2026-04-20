@@ -97,7 +97,7 @@ export function ProductGroupCreateForm() {
                   <span className="mr-1 text-destructive">*</span>
                 </label>
                 <div className="relative">
-                  <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2">
+                  <span className="pointer-events-none absolute right-3 top-1/2 z-10 -translate-y-1/2">
                     <Box
                       size={17}
                       variant="Linear"
@@ -115,7 +115,7 @@ export function ProductGroupCreateForm() {
                     placeholder="نام گروه کالا"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="!max-w-none pr-10"
+                    className="!max-w-none !pr-9"
                   />
                 </div>
               </div>
