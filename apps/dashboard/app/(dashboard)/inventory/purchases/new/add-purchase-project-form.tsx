@@ -14,8 +14,13 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
+  cn,
 } from "@repo/ui";
 import { useState } from "react";
+import {
+  cnInputLtrFaPlaceholder,
+  cnInputPersian,
+} from "../../../../../lib/form-input-direction";
 import {
   getDefaultProviderPurchaseFormValues,
   type ProviderPurchaseFormValues,
@@ -60,11 +65,12 @@ export function AddPurchaseProjectForm() {
               <Input
                 id="provider"
                 name="provider"
+                dir="rtl"
                 autoComplete="off"
                 value={values.provider}
                 onChange={(e) => setField("provider", e.target.value)}
-                className="!max-w-none"
-                placeholder="نام یا شرکت تامین‌کننده"
+                className={cn("!max-w-none", cnInputPersian)}
+                placeholder="تامین‌کننده"
               />
             </div>
 
@@ -86,7 +92,7 @@ export function AddPurchaseProjectForm() {
                   className="!max-w-none text-right"
                   dir="rtl"
                 >
-                  <SelectValue placeholder="انتخاب کنید" />
+                  <SelectValue placeholder="کالا" />
                 </SelectTrigger>
                 <SelectContent position="popper" dir="rtl" className="text-right">
                   <SelectItem value="__empty__">انتخاب کنید</SelectItem>
@@ -112,7 +118,7 @@ export function AddPurchaseProjectForm() {
                   className="!max-w-none text-right"
                   dir="rtl"
                 >
-                  <SelectValue placeholder="انتخاب کنید" />
+                  <SelectValue placeholder="شعبه" />
                 </SelectTrigger>
                 <SelectContent position="popper" dir="rtl" className="text-right">
                   <SelectItem value="__empty__">انتخاب کنید</SelectItem>
@@ -136,8 +142,8 @@ export function AddPurchaseProjectForm() {
                 autoComplete="off"
                 value={values.quantity}
                 onChange={(e) => setField("quantity", e.target.value)}
-                className="!max-w-none text-left"
-                placeholder="0"
+                className={cn("!max-w-none", cnInputLtrFaPlaceholder)}
+                placeholder="مقدار"
               />
             </div>
 
@@ -157,8 +163,8 @@ export function AddPurchaseProjectForm() {
                 autoComplete="off"
                 value={values.unitPrice}
                 onChange={(e) => setField("unitPrice", e.target.value)}
-                className="!max-w-none text-left"
-                placeholder="0"
+                className={cn("!max-w-none", cnInputLtrFaPlaceholder)}
+                placeholder="قیمت واحد"
               />
             </div>
 
@@ -178,8 +184,8 @@ export function AddPurchaseProjectForm() {
                 autoComplete="off"
                 value={values.sumPrice}
                 onChange={(e) => setField("sumPrice", e.target.value)}
-                className="!max-w-none text-left"
-                placeholder="0"
+                className={cn("!max-w-none", cnInputLtrFaPlaceholder)}
+                placeholder="جمع کالا"
               />
             </div>
 
@@ -199,8 +205,8 @@ export function AddPurchaseProjectForm() {
                 autoComplete="off"
                 value={values.taxAndDuties}
                 onChange={(e) => setField("taxAndDuties", e.target.value)}
-                className="!max-w-none text-left"
-                placeholder="0"
+                className={cn("!max-w-none", cnInputLtrFaPlaceholder)}
+                placeholder="مالیات و عوارض"
               />
             </div>
 
@@ -220,8 +226,8 @@ export function AddPurchaseProjectForm() {
                 autoComplete="off"
                 value={values.totalAmount}
                 onChange={(e) => setField("totalAmount", e.target.value)}
-                className="!max-w-none text-left"
-                placeholder="0"
+                className={cn("!max-w-none", cnInputLtrFaPlaceholder)}
+                placeholder="مبلغ کل"
               />
             </div>
 
@@ -237,7 +243,8 @@ export function AddPurchaseProjectForm() {
                 name="purchasedAt"
                 value={values.purchasedAt}
                 onChange={(v) => setField("purchasedAt", v)}
-                className="!max-w-none text-left"
+                className="!max-w-none"
+                placeholder="تاریخ خرید"
               />
             </div>
 
@@ -251,11 +258,12 @@ export function AddPurchaseProjectForm() {
               <textarea
                 id="description"
                 name="description"
+                dir="rtl"
                 rows={4}
                 value={values.description}
                 onChange={(e) => setField("description", e.target.value)}
-                placeholder="توضیحات اختیاری"
-                className="block w-full max-w-none resize-y rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground shadow-sm outline-none placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring"
+                placeholder="توضیحات"
+                className="block w-full max-w-none resize-y rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground shadow-sm outline-none placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring text-right placeholder:text-right"
               />
             </div>
           </div>

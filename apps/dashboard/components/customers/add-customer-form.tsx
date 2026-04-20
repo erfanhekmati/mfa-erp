@@ -17,6 +17,7 @@ import {
   TabsContent,
   TabsList,
   TabsTrigger,
+  cn,
 } from "@repo/ui";
 import { Building, Call, DocumentText1, People, User } from "iconsax-react";
 import Link from "next/link";
@@ -27,11 +28,16 @@ import {
   type CounterpartyGroup,
 } from "../../lib/counterparty-groups";
 import {
+  cnInputLtrFaPlaceholder,
+  cnInputPersian,
+} from "../../lib/form-input-direction";
+import {
   INITIAL_LEGAL_ENTITY_VALUES,
   INITIAL_NATURAL_PERSON_VALUES,
   type LegalEntityFormValues,
   type NaturalPersonFormValues,
 } from "../../lib/customer-form";
+import { IRAN_PROVINCES, citiesForProvince } from "../../lib/iran-locations";
 
 const tabTriggerClassName =
   "rounded-none border-b-2 border-transparent px-4 py-2.5 text-sm font-medium text-muted-foreground transition-none data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:text-foreground data-[state=active]:shadow-none";
@@ -130,12 +136,12 @@ export function AddCustomerForm() {
               </CardHeader>
               <CardContent className="space-y-5">
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                  <div className="space-y-2 sm:col-span-2">
+                  <div className="space-y-2">
                     <label
-                      htmlFor="np-name"
+                      htmlFor="np-firstName"
                       className="text-sm font-medium leading-none"
                     >
-                      نام و نام خانوادگی
+                      نام
                       <span className="mr-1 text-destructive">*</span>
                     </label>
                     <div className="relative">
@@ -143,19 +149,44 @@ export function AddCustomerForm() {
                         <User size={17} variant="Bulk" aria-hidden />
                       </span>
                       <Input
-                        id="np-name"
-                        name="name"
+                        id="np-firstName"
+                        name="firstName"
                         type="text"
-                        autoComplete="name"
+                        dir="rtl"
+                        autoComplete="given-name"
                         required
-                        placeholder="نام و نام خانوادگی را وارد کنید"
-                        value={natural.name}
+                        placeholder="نام"
+                        value={natural.firstName}
                         onChange={(e) =>
-                          setNaturalField("name", e.target.value)
+                          setNaturalField("firstName", e.target.value)
                         }
-                        className="!max-w-none pr-10"
+                        className={cn("!max-w-none pr-10", cnInputPersian)}
                       />
                     </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label
+                      htmlFor="np-lastName"
+                      className="text-sm font-medium leading-none"
+                    >
+                      نام خانوادگی
+                      <span className="mr-1 text-destructive">*</span>
+                    </label>
+                    <Input
+                      id="np-lastName"
+                      name="lastName"
+                      type="text"
+                      dir="rtl"
+                      autoComplete="family-name"
+                      required
+                      placeholder="نام خانوادگی"
+                      value={natural.lastName}
+                      onChange={(e) =>
+                        setNaturalField("lastName", e.target.value)
+                      }
+                      className={cn("!max-w-none", cnInputPersian)}
+                    />
                   </div>
 
                   <div className="space-y-2 sm:col-span-2">
@@ -199,7 +230,7 @@ export function AddCustomerForm() {
                               dir="rtl"
                               aria-invalid={naturalGroupError}
                             >
-                              <SelectValue placeholder="گروه را انتخاب کنید" />
+                              <SelectValue placeholder="گروه طرف حساب" />
                             </SelectTrigger>
                             <SelectContent
                               position="popper"
@@ -226,7 +257,7 @@ export function AddCustomerForm() {
                     )}
                   </div>
 
-                  <div className="space-y-2 sm:col-span-2">
+                  <div className="space-y-2 sm:col-span-2 lg:col-span-1">
                     <label
                       htmlFor="np-phone"
                       className="text-sm font-medium leading-none"
@@ -245,14 +276,140 @@ export function AddCustomerForm() {
                         dir="ltr"
                         autoComplete="tel"
                         required
-                        placeholder="مثال: ۰۹۱۲۳۴۵۶۷۸۹"
+                        placeholder="تلفن تماس"
                         value={natural.phone}
                         onChange={(e) =>
                           setNaturalField("phone", e.target.value)
                         }
-                        className="!max-w-none pr-10 text-left"
+                        className={cn("!max-w-none pr-10", cnInputLtrFaPlaceholder)}
                       />
                     </div>
+                  </div>
+
+                  <div className="space-y-2 sm:col-span-2 lg:col-span-1">
+                    <label
+                      htmlFor="np-economic"
+                      className="text-sm font-medium leading-none"
+                    >
+                      کد اقتصادی
+                    </label>
+                    <div className="relative">
+                      <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">
+                        <DocumentText1 size={17} variant="Bulk" aria-hidden />
+                      </span>
+                      <Input
+                        id="np-economic"
+                        name="economicCode"
+                        type="text"
+                        dir="ltr"
+                        placeholder="کد اقتصادی"
+                        value={natural.economicCode}
+                        onChange={(e) =>
+                          setNaturalField("economicCode", e.target.value)
+                        }
+                        className={cn("!max-w-none pr-10", cnInputLtrFaPlaceholder)}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label
+                      htmlFor="np-province"
+                      className="text-sm font-medium leading-none"
+                    >
+                      استان
+                    </label>
+                    <Select
+                      value={natural.province || "__empty__"}
+                      onValueChange={(v) => {
+                        setNaturalSaved(false);
+                        const p = v === "__empty__" ? "" : v;
+                        setNatural((prev) => ({
+                          ...prev,
+                          province: p,
+                          city: "",
+                        }));
+                      }}
+                    >
+                      <SelectTrigger
+                        id="np-province"
+                        name="province"
+                        className="!max-w-none text-right"
+                        dir="rtl"
+                      >
+                        <SelectValue placeholder="استان" />
+                      </SelectTrigger>
+                      <SelectContent
+                        position="popper"
+                        dir="rtl"
+                        className="text-right"
+                      >
+                        <SelectItem value="__empty__">انتخاب استان</SelectItem>
+                        {IRAN_PROVINCES.map((p) => (
+                          <SelectItem key={p} value={p}>
+                            {p}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label
+                      htmlFor="np-city"
+                      className="text-sm font-medium leading-none"
+                    >
+                      شهر
+                    </label>
+                    <Select
+                      value={natural.city || "__empty__"}
+                      disabled={!natural.province}
+                      onValueChange={(v) =>
+                        setNaturalField("city", v === "__empty__" ? "" : v)
+                      }
+                    >
+                      <SelectTrigger
+                        id="np-city"
+                        name="city"
+                        className="!max-w-none text-right"
+                        dir="rtl"
+                      >
+                        <SelectValue placeholder="شهر" />
+                      </SelectTrigger>
+                      <SelectContent
+                        position="popper"
+                        dir="rtl"
+                        className="max-h-60 text-right"
+                      >
+                        <SelectItem value="__empty__">انتخاب شهر</SelectItem>
+                        {citiesForProvince(natural.province).map((c) => (
+                          <SelectItem key={c} value={c}>
+                            {c}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div className="space-y-2 sm:col-span-2">
+                    <label
+                      htmlFor="np-address"
+                      className="text-sm font-medium leading-none"
+                    >
+                      آدرس
+                    </label>
+                    <textarea
+                      id="np-address"
+                      name="address"
+                      dir="rtl"
+                      rows={2}
+                      value={natural.address}
+                      onChange={(e) =>
+                        setNaturalField("address", e.target.value)
+                      }
+                      placeholder="آدرس"
+                      className="block w-full max-w-none resize-y rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground shadow-sm outline-none placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring text-right placeholder:text-right"
+                    />
                   </div>
 
                   <div className="space-y-2 sm:col-span-2">
@@ -265,13 +422,14 @@ export function AddCustomerForm() {
                     <textarea
                       id="np-notes"
                       name="notes"
+                      dir="rtl"
                       rows={3}
                       value={natural.notes}
                       onChange={(e) =>
                         setNaturalField("notes", e.target.value)
                       }
-                      placeholder="توضیحات تکمیلی..."
-                      className="block w-full max-w-none resize-y rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground shadow-sm outline-none placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring"
+                      placeholder="یادداشت"
+                      className="block w-full max-w-none resize-y rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground shadow-sm outline-none placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring text-right placeholder:text-right"
                     />
                   </div>
                 </div>
@@ -329,13 +487,14 @@ export function AddCustomerForm() {
                         id="le-company"
                         name="companyName"
                         type="text"
+                        dir="rtl"
                         required
-                        placeholder="نام شرکت یا موسسه را وارد کنید"
+                        placeholder="نام شخص حقوقی"
                         value={legal.companyName}
                         onChange={(e) =>
                           setLegalField("companyName", e.target.value)
                         }
-                        className="!max-w-none pr-10"
+                        className={cn("!max-w-none pr-10", cnInputPersian)}
                       />
                     </div>
                   </div>
@@ -359,12 +518,12 @@ export function AddCustomerForm() {
                         inputMode="numeric"
                         dir="ltr"
                         required
-                        placeholder="۱۱ رقم"
+                        placeholder="شناسه ملی"
                         value={legal.nationalId}
                         onChange={(e) =>
                           setLegalField("nationalId", e.target.value)
                         }
-                        className="!max-w-none pr-10 text-left"
+                        className={cn("!max-w-none pr-10", cnInputLtrFaPlaceholder)}
                       />
                     </div>
                   </div>
@@ -381,12 +540,12 @@ export function AddCustomerForm() {
                       name="economicCode"
                       type="text"
                       dir="ltr"
-                      placeholder="در صورت وجود"
+                      placeholder="کد اقتصادی"
                       value={legal.economicCode}
                       onChange={(e) =>
                         setLegalField("economicCode", e.target.value)
                       }
-                      className="!max-w-none text-left"
+                      className={cn("!max-w-none", cnInputLtrFaPlaceholder)}
                     />
                   </div>
 
@@ -409,12 +568,12 @@ export function AddCustomerForm() {
                         dir="ltr"
                         autoComplete="tel"
                         required
-                        placeholder="مثال: ۰۲۱۸۸۸۸۸۸۸۸"
+                        placeholder="تلفن تماس"
                         value={legal.phone}
                         onChange={(e) =>
                           setLegalField("phone", e.target.value)
                         }
-                        className="!max-w-none pr-10 text-left"
+                        className={cn("!max-w-none pr-10", cnInputLtrFaPlaceholder)}
                       />
                     </div>
                   </div>
@@ -429,13 +588,14 @@ export function AddCustomerForm() {
                     <textarea
                       id="le-address"
                       name="address"
+                      dir="rtl"
                       rows={2}
                       value={legal.address}
                       onChange={(e) =>
                         setLegalField("address", e.target.value)
                       }
-                      placeholder="آدرس ثبت‌شده یا دفتر مرکزی..."
-                      className="block w-full max-w-none resize-y rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground shadow-sm outline-none placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring"
+                      placeholder="آدرس"
+                      className="block w-full max-w-none resize-y rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground shadow-sm outline-none placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring text-right placeholder:text-right"
                     />
                   </div>
 
@@ -449,13 +609,14 @@ export function AddCustomerForm() {
                     <textarea
                       id="le-notes"
                       name="notes"
+                      dir="rtl"
                       rows={3}
                       value={legal.notes}
                       onChange={(e) =>
                         setLegalField("notes", e.target.value)
                       }
-                      placeholder="توضیحات تکمیلی..."
-                      className="block w-full max-w-none resize-y rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground shadow-sm outline-none placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring"
+                      placeholder="یادداشت"
+                      className="block w-full max-w-none resize-y rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground shadow-sm outline-none placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring text-right placeholder:text-right"
                     />
                   </div>
                 </div>

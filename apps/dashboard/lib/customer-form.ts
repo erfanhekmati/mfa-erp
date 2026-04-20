@@ -3,17 +3,27 @@
  */
 
 export type NaturalPersonFormValues = {
-  name: string;
+  firstName: string;
+  lastName: string;
   phone: string;
   /** شناسه گروه طرف حساب (از فهرست گروه‌ها) */
   groupId: string;
+  economicCode: string;
+  province: string;
+  city: string;
+  address: string;
   notes: string;
 };
 
 export const INITIAL_NATURAL_PERSON_VALUES: NaturalPersonFormValues = {
-  name: "",
+  firstName: "",
+  lastName: "",
   phone: "",
   groupId: "",
+  economicCode: "",
+  province: "",
+  city: "",
+  address: "",
   notes: "",
 };
 

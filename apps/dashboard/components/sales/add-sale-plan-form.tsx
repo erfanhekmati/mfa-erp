@@ -14,8 +14,10 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
+  cn,
 } from "@repo/ui";
 import { useState } from "react";
+import { cnInputLtrFaPlaceholder } from "../../lib/form-input-direction";
 import {
   getDefaultSalePlanFormValues,
   type SalePlanFormValues,
@@ -66,7 +68,7 @@ export function AddSalePlanForm() {
                   className="!max-w-none text-right"
                   dir="rtl"
                 >
-                  <SelectValue placeholder="انتخاب کنید" />
+                  <SelectValue placeholder="کالا" />
                 </SelectTrigger>
                 <SelectContent position="popper" dir="rtl" className="text-right">
                   <SelectItem value="__empty__">انتخاب کنید</SelectItem>
@@ -90,8 +92,8 @@ export function AddSalePlanForm() {
                 autoComplete="off"
                 value={values.salePrice}
                 onChange={(e) => setField("salePrice", e.target.value)}
-                className="!max-w-none text-left"
-                placeholder="0"
+                className={cn("!max-w-none", cnInputLtrFaPlaceholder)}
+                placeholder="قیمت فروش"
               />
             </div>
 
@@ -111,8 +113,8 @@ export function AddSalePlanForm() {
                 autoComplete="off"
                 value={values.discountAmount}
                 onChange={(e) => setField("discountAmount", e.target.value)}
-                className="!max-w-none text-left"
-                placeholder="0"
+                className={cn("!max-w-none", cnInputLtrFaPlaceholder)}
+                placeholder="مقدار تخفیف"
               />
             </div>
 
@@ -155,7 +157,8 @@ export function AddSalePlanForm() {
                 name="startAt"
                 value={values.startAt}
                 onChange={(v) => setField("startAt", v)}
-                className="!max-w-none text-left"
+                className="!max-w-none"
+                placeholder="تاریخ شروع"
               />
             </div>
 
@@ -171,7 +174,8 @@ export function AddSalePlanForm() {
                 name="endAt"
                 value={values.endAt}
                 onChange={(v) => setField("endAt", v)}
-                className="!max-w-none text-left"
+                className="!max-w-none"
+                placeholder="تاریخ پایان"
               />
             </div>
           </div>

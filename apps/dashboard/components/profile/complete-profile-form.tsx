@@ -15,7 +15,12 @@ import {
   SelectTrigger,
   SelectValue,
   Separator,
+  cn,
 } from "@repo/ui";
+import {
+  cnInputLtrFaPlaceholder,
+  cnInputPersian,
+} from "../../lib/form-input-direction";
 import {
   Call,
   Camera,
@@ -26,37 +31,7 @@ import {
   User,
 } from "iconsax-react";
 import { useRef, useState } from "react";
-
-const PROVINCES = [
-  "تهران",
-  "اصفهان",
-  "خراسان رضوی",
-  "فارس",
-  "آذربایجان شرقی",
-  "آذربایجان غربی",
-  "اردبیل",
-  "البرز",
-  "ایلام",
-  "بوشهر",
-  "چهارمحال و بختیاری",
-  "خراسان جنوبی",
-  "خراسان شمالی",
-  "خوزستان",
-  "زنجان",
-  "سمنان",
-  "سیستان و بلوچستان",
-  "کردستان",
-  "کرمان",
-  "کرمانشاه",
-  "کهگیلویه و بویراحمد",
-  "گلستان",
-  "گیلان",
-  "لرستان",
-  "مازندران",
-  "مرکزی",
-  "هرمزگان",
-  "همدان",
-];
+import { IRAN_PROVINCES, citiesForProvince } from "../../lib/iran-locations";
 
 const GENDERS = [
   { value: "male", label: "مرد" },
@@ -200,11 +175,12 @@ export function CompleteProfileForm() {
                   id="p-firstName"
                   name="firstName"
                   type="text"
+                  dir="rtl"
                   autoComplete="given-name"
                   placeholder="نام"
                   value={values.firstName}
                   onChange={(e) => setField("firstName", e.target.value)}
-                  className="!max-w-none pr-10"
+                  className={cn("!max-w-none pr-10", cnInputPersian)}
                 />
               </div>
             </div>
@@ -222,11 +198,12 @@ export function CompleteProfileForm() {
                   id="p-lastName"
                   name="lastName"
                   type="text"
+                  dir="rtl"
                   autoComplete="family-name"
                   placeholder="نام خانوادگی"
                   value={values.lastName}
                   onChange={(e) => setField("lastName", e.target.value)}
-                  className="!max-w-none pr-10"
+                  className={cn("!max-w-none pr-10", cnInputPersian)}
                 />
               </div>
             </div>
@@ -247,10 +224,10 @@ export function CompleteProfileForm() {
                   dir="ltr"
                   inputMode="numeric"
                   autoComplete="tel"
-                  placeholder="۰۹۱۲۳۴۵۶۷۸۹"
+                  placeholder="شماره موبایل"
                   value={values.phone}
                   onChange={(e) => setField("phone", e.target.value)}
-                  className="!max-w-none pr-10"
+                  className={cn("!max-w-none pr-10", cnInputLtrFaPlaceholder)}
                 />
               </div>
             </div>
@@ -271,12 +248,12 @@ export function CompleteProfileForm() {
                   dir="ltr"
                   inputMode="numeric"
                   maxLength={10}
-                  placeholder="۱۰ رقم"
+                  placeholder="کد ملی"
                   value={values.nationalId}
                   onChange={(e) =>
                     setField("nationalId", e.target.value.replace(/\D/g, ""))
                   }
-                  className="!max-w-none pr-10"
+                  className={cn("!max-w-none pr-10", cnInputLtrFaPlaceholder)}
                 />
               </div>
             </div>
@@ -289,7 +266,7 @@ export function CompleteProfileForm() {
               <PersianDatePicker
                 value={values.birthDate}
                 onChange={(val) => setField("birthDate", val ?? "")}
-                placeholder="انتخاب تاریخ"
+                placeholder="تاریخ تولد"
               />
             </div>
 
@@ -302,8 +279,8 @@ export function CompleteProfileForm() {
                 value={values.gender}
                 onValueChange={(val) => setField("gender", val)}
               >
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="انتخاب جنسیت" />
+                <SelectTrigger className="w-full" dir="rtl">
+                  <SelectValue placeholder="جنسیت" />
                 </SelectTrigger>
                 <SelectContent>
                   {GENDERS.map((g) => (
@@ -336,10 +313,11 @@ export function CompleteProfileForm() {
               id="p-jobTitle"
               name="jobTitle"
               type="text"
-              placeholder="مثال: مدیر مالی"
+              dir="rtl"
+              placeholder="عنوان شغلی"
               value={values.jobTitle}
               onChange={(e) => setField("jobTitle", e.target.value)}
-              className="!max-w-none"
+              className={cn("!max-w-none", cnInputPersian)}
             />
           </div>
 
@@ -350,11 +328,12 @@ export function CompleteProfileForm() {
             <textarea
               id="p-bio"
               name="bio"
+              dir="rtl"
               rows={3}
-              placeholder="درباره خود بنویسید..."
+              placeholder="معرفی کوتاه"
               value={values.bio}
               onChange={(e) => setField("bio", e.target.value)}
-              className="w-full resize-none rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+              className="w-full resize-none rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring text-right placeholder:text-right"
             />
           </div>
         </CardContent>
@@ -375,14 +354,19 @@ export function CompleteProfileForm() {
             <div className="space-y-2">
               <label className="text-sm font-medium leading-none">استان</label>
               <Select
-                value={values.province}
-                onValueChange={(val) => setField("province", val)}
+                value={values.province || "__empty__"}
+                onValueChange={(val) => {
+                  setSaved(false);
+                  const p = val === "__empty__" ? "" : val;
+                  setValues((prev) => ({ ...prev, province: p, city: "" }));
+                }}
               >
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="انتخاب استان" />
+                <SelectTrigger className="w-full" dir="rtl">
+                  <SelectValue placeholder="استان" />
                 </SelectTrigger>
-                <SelectContent>
-                  {PROVINCES.map((p) => (
+                <SelectContent dir="rtl" className="text-right">
+                  <SelectItem value="__empty__">انتخاب استان</SelectItem>
+                  {IRAN_PROVINCES.map((p) => (
                     <SelectItem key={p} value={p}>
                       {p}
                     </SelectItem>
@@ -396,15 +380,25 @@ export function CompleteProfileForm() {
               <label htmlFor="p-city" className="text-sm font-medium leading-none">
                 شهر
               </label>
-              <Input
-                id="p-city"
-                name="city"
-                type="text"
-                placeholder="نام شهر"
-                value={values.city}
-                onChange={(e) => setField("city", e.target.value)}
-                className="!max-w-none"
-              />
+              <Select
+                value={values.city || "__empty__"}
+                disabled={!values.province}
+                onValueChange={(val) =>
+                  setField("city", val === "__empty__" ? "" : val)
+                }
+              >
+                <SelectTrigger id="p-city" className="w-full" dir="rtl">
+                  <SelectValue placeholder="شهر" />
+                </SelectTrigger>
+                <SelectContent dir="rtl" className="max-h-60 text-right">
+                  <SelectItem value="__empty__">انتخاب شهر</SelectItem>
+                  {citiesForProvince(values.province).map((c) => (
+                    <SelectItem key={c} value={c}>
+                      {c}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
           </div>
 
@@ -416,11 +410,12 @@ export function CompleteProfileForm() {
             <textarea
               id="p-address"
               name="address"
+              dir="rtl"
               rows={2}
-              placeholder="خیابان، کوچه، پلاک..."
+              placeholder="آدرس کامل"
               value={values.address}
               onChange={(e) => setField("address", e.target.value)}
-              className="w-full resize-none rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+              className="w-full resize-none rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring text-right placeholder:text-right"
             />
           </div>
         </CardContent>
