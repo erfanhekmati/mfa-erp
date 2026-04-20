@@ -14,12 +14,22 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@repo/ui";
-import { Code, Maximize4, NoteText } from "iconsax-react";
-import { useState } from "react";
+import { Code, Hierarchy2, NoteText } from "iconsax-react";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 import {
   INITIAL_PRODUCT_FORM_VALUES,
   type ProductFormValues,
 } from "../../lib/product-form";
+import {
+  PRODUCT_GROUPS_CHANGED_EVENT,
+  getProductGroupDepth,
+  getProductGroupsTreeOrder,
+  loadProductGroups,
+  type ProductGroup,
+} from "../../lib/product-groups";
+
+const GROUP_NONE = "__empty__";
 
 const UNITS = [
   { value: "ton", label: "تن" },
@@ -37,6 +47,18 @@ export function AddProductForm() {
     INITIAL_PRODUCT_FORM_VALUES,
   );
   const [saved, setSaved] = useState(false);
+  const [groups, setGroups] = useState<ProductGroup[]>([]);
+  const [groupTouched, setGroupTouched] = useState(false);
+
+  useEffect(() => {
+    function refresh() {
+      setGroups(getProductGroupsTreeOrder(loadProductGroups()));
+    }
+    refresh();
+    window.addEventListener(PRODUCT_GROUPS_CHANGED_EVENT, refresh);
+    return () =>
+      window.removeEventListener(PRODUCT_GROUPS_CHANGED_EVENT, refresh);
+  }, []);
 
   function setField<K extends keyof ProductFormValues>(key: K, val: string) {
     setSaved(false);
@@ -45,13 +67,24 @@ export function AddProductForm() {
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    setGroupTouched(true);
+    if (!values.productGroupId.trim()) {
+      setSaved(false);
+      return;
+    }
     setSaved(true);
   }
 
   function handleReset() {
     setValues(INITIAL_PRODUCT_FORM_VALUES);
     setSaved(false);
+    setGroupTouched(false);
   }
+
+  const groupError =
+    groupTouched && !values.productGroupId.trim()
+      ? "گروه کالا را انتخاب کنید."
+      : null;
 
   return (
     <form onSubmit={handleSubmit} className="max-w-2xl space-y-6">
@@ -116,6 +149,93 @@ export function AddProductForm() {
                   className="!max-w-none pr-10"
                 />
               </div>
+            </div>
+
+            {/* Product group */}
+            <div className="space-y-2 sm:col-span-2">
+              <label
+                htmlFor="prod-group"
+                className="text-sm font-medium leading-none"
+              >
+                گروه کالا
+                <span className="mr-1 text-destructive">*</span>
+              </label>
+              {groups.length === 0 ? (
+                <div className="space-y-2">
+                  <p className="text-sm text-muted-foreground">
+                    هنوز گروه کالایی ثبت نشده است. از{" "}
+                    <Link
+                      href="/inventory/product-groups/new"
+                      className="font-medium text-primary underline-offset-4 hover:underline"
+                    >
+                      ایجاد گروه کالا
+                    </Link>{" "}
+                    شروع کنید.
+                  </p>
+                  {groupTouched && (
+                    <p className="text-sm text-destructive">
+                      بدون انتخاب گروه کالا نمی‌توان ثبت کرد؛ ابتدا حداقل یک
+                      گروه کالا ایجاد کنید.
+                    </p>
+                  )}
+                </div>
+              ) : (
+                <>
+                  <Select
+                    value={values.productGroupId || GROUP_NONE}
+                    onValueChange={(v) => {
+                      setGroupTouched(true);
+                      setField(
+                        "productGroupId",
+                        v === GROUP_NONE ? "" : v,
+                      );
+                    }}
+                  >
+                    <SelectTrigger
+                      id="prod-group"
+                      name="productGroupId"
+                      className="!max-w-none text-right [&>span]:min-w-0 [&>span]:flex-1"
+                      dir="rtl"
+                      aria-invalid={groupError ? true : undefined}
+                    >
+                      <span className="flex min-w-0 items-center gap-2">
+                        <Hierarchy2
+                          size={16}
+                          variant="Bulk"
+                          className="shrink-0 text-muted-foreground"
+                          aria-hidden
+                        />
+                        <SelectValue placeholder="گروه کالا را انتخاب کنید" />
+                      </span>
+                    </SelectTrigger>
+                    <SelectContent
+                      position="popper"
+                      dir="rtl"
+                      className="text-right"
+                    >
+                      <SelectItem value={GROUP_NONE}>انتخاب کنید</SelectItem>
+                      {groups.map((g) => {
+                        const depth = getProductGroupDepth(groups, g.id);
+                        return (
+                          <SelectItem key={g.id} value={g.id}>
+                            <span
+                              className="block truncate"
+                              style={{
+                                paddingRight: `${depth * 0.75}rem`,
+                              }}
+                            >
+                              {g.name}
+                            </span>
+                          </SelectItem>
+                        );
+                      })}
+                    </SelectContent>
+                  </Select>
+                  {groupError && (
+                    <p className="text-sm text-destructive">{groupError}</p>
+                  )}
+                </>
+              )}
             </div>
 
             {/* Unit */}

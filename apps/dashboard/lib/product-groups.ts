@@ -1,5 +1,5 @@
 /**
- * دسته‌بندی کالا (سلسله‌مراتبی) — مدل و ذخیره‌سازی محلی (تا اتصال به API).
+ * گروه کالا (سلسله‌مراتبی) — مدل و ذخیره‌سازی محلی (تا اتصال به API).
  */
 
 export const PRODUCT_GROUPS_CHANGED_EVENT = "erp:product-groups";
@@ -8,11 +8,11 @@ const STORAGE_KEY = "erp.productGroups.v1";
 
 export type ProductGroup = {
   id: string;
-  /** نام نمایشی دسته (مثلاً «میلگرد A3»). */
+  /** نام نمایشی گروه کالا (مثلاً «میلگرد A3»). */
   name: string;
   /** توضیح اختیاری برای کاربران و گزارش‌ها. */
   description: string;
-  /** والد در درخت دسته‌ها؛ `null` یعنی ریشه. */
+  /** والد در درخت گروه‌ها؛ `null` یعنی ریشه. */
   parentId: string | null;
   createdAt: string;
 };
@@ -73,7 +73,7 @@ export function loadProductGroups(): ProductGroup[] {
   }
 }
 
-/** عمق دسته برای تورفتگی در جدول (ریشه = ۰). */
+/** عمق گروه برای تورفتگی در جدول (ریشه = ۰). */
 export function getProductGroupDepth(
   groups: ProductGroup[],
   id: string,
@@ -92,7 +92,7 @@ export function getProductGroupDepth(
   return depth;
 }
 
-/** برچسب مسیر از ریشه تا والد مستقیم (بدون خود دسته)، با جداکنندهٔ مناسب RTL. */
+/** برچسب مسیر از ریشه تا والد مستقیم (بدون خود گروه)، با جداکنندهٔ مناسب RTL. */
 export function getProductGroupAncestorPath(
   groups: ProductGroup[],
   id: string,
@@ -114,7 +114,7 @@ export function getProductGroupAncestorPath(
 
 /**
  * ترتیب درخت (ریشه‌ها و زیرمجموعه‌ها به‌صورت DFS)،
- * برای نمایش جدول و گزینه‌های «دسته والد».
+ * برای نمایش جدول و گزینه‌های «گروه والد».
  */
 export function getProductGroupsTreeOrder(groups: ProductGroup[]): ProductGroup[] {
   const normalized = normalizeProductGroups(groups);
@@ -146,7 +146,7 @@ export function addProductGroup(input: {
 }): ProductGroup {
   const name = input.name.trim();
   if (!name) {
-    throw new Error("نام دسته الزامی است.");
+    throw new Error("نام گروه کالا الزامی است.");
   }
   const description = (input.description ?? "").trim();
   let parentId: string | null =

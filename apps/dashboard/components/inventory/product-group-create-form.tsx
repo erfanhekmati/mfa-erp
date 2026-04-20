@@ -79,12 +79,10 @@ export function ProductGroupCreateForm() {
         <Card className="rounded-2xl border-border/70">
           <CardHeader className="pb-4">
             <CardTitle className="text-base font-semibold">
-              ایجاد دسته‌بندی کالا
+              ایجاد گروه کالا
             </CardTitle>
             <CardDescription>
-              نام و در صورت نیاز توضیحات را وارد کنید؛ با انتخاب «دسته والد»
-              زیرشاخهٔ یک دستهٔ بزرگ‌تر را بسازید (مثلاً میلگرد زیر «محصولات
-              فولادی»).
+              اطلاعات گروه کالا را وارد کنید.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
@@ -93,7 +91,7 @@ export function ProductGroupCreateForm() {
                 htmlFor="product-group-name"
                 className="text-sm font-medium leading-none"
               >
-                نام دسته
+                نام گروه کالا
                 <span className="mr-1 text-destructive">*</span>
               </label>
               <div className="relative">
@@ -106,7 +104,7 @@ export function ProductGroupCreateForm() {
                   type="text"
                   autoComplete="off"
                   required
-                  placeholder="مثال: میلگرد، تیرآهن، ورق گرم"
+                  placeholder="نام گروه کالا"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   className="!max-w-none pr-10"
@@ -119,11 +117,10 @@ export function ProductGroupCreateForm() {
                 htmlFor="product-group-parent"
                 className="text-sm font-medium leading-none"
               >
-                دسته والد
+                گروه والد
               </label>
               <p className="text-xs text-muted-foreground">
-                اگر این دسته زیرمجموعهٔ دستهٔ دیگری است، والد را انتخاب کنید؛
-                در غیر این صورت خالی بگذارید (دستهٔ ریشه).
+                اگر این گروه زیرمجموعهٔ گروه دیگری است، والد را انتخاب کنید.
               </p>
               <Select
                 value={parentId ?? PARENT_NONE}
@@ -134,7 +131,7 @@ export function ProductGroupCreateForm() {
                 <SelectTrigger
                   id="product-group-parent"
                   className="w-full max-w-none"
-                  aria-label="دسته والد"
+                  aria-label="گروه والد"
                 >
                   <span className="flex min-w-0 items-center gap-2">
                     <Hierarchy2
@@ -178,7 +175,7 @@ export function ProductGroupCreateForm() {
                 id="product-group-desc"
                 name="description"
                 rows={4}
-                placeholder="توضیح اختیاری برای کاربران، گزارش‌ها یا قوانین دسته‌بندی…"
+                placeholder="توضیح اختیاری ..."
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 className={textareaClassName}
@@ -196,7 +193,7 @@ export function ProductGroupCreateForm() {
               type="submit"
               className="bg-gradient-to-l from-zinc-900 to-zinc-800 shadow-lg shadow-zinc-900/20 hover:from-zinc-800 hover:to-zinc-700"
             >
-              ثبت دسته
+              ثبت گروه کالا
             </Button>
           </div>
         </div>

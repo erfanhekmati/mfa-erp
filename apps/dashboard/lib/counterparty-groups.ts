@@ -60,7 +60,7 @@ export const COUNTERPARTY_PERMISSION_SECTIONS = [
     title: "اطلاعات پایه",
     permissions: [
       { id: "base_product", label: "کالا و ویژگی‌ها" },
-      { id: "base_category", label: "دسته‌بندی و برند کالا" },
+      { id: "base_category", label: "گروه و برند کالا" },
       { id: "base_counterparty", label: "طرف حساب حقیقی و حقوقی" },
       { id: "base_cp_groups", label: "گروه‌های طرف حساب" },
       { id: "base_warehouse", label: "انبار و شعبه" },

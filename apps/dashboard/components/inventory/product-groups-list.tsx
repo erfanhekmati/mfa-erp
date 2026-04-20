@@ -59,7 +59,7 @@ export function ProductGroupsList() {
       <DashboardPageActions>
         <Button asChild className="w-full shrink-0 sm:w-auto">
           <Link href="/inventory/product-groups/new">
-            ایجاد دسته‌بندی کالا
+            ایجاد گروه کالا
           </Link>
         </Button>
       </DashboardPageActions>
@@ -67,7 +67,7 @@ export function ProductGroupsList() {
         <Table wrapperClassName={listTableWrapperClassName}>
           <TableHeader className={listTableHeaderClassName}>
             <TableRow>
-              <TableHead className={listTableHeadCellClassName}>نام دسته</TableHead>
+              <TableHead className={listTableHeadCellClassName}>نام گروه کالا</TableHead>
               <TableHead className={listTableHeadCellClassName}>
                 مسیر سلسله‌مراتبی
               </TableHead>
@@ -84,7 +84,7 @@ export function ProductGroupsList() {
                   colSpan={4}
                   className={`${listTableCellClassName} text-center text-muted-foreground`}
                 >
-                  هنوز دسته‌ای ثبت نشده است.
+                  هنوز گروه کالایی ثبت نشده است.
                 </TableCell>
               </TableRow>
             ) : (

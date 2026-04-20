@@ -73,12 +73,12 @@ export const navItems: NavItem[] = [
       },
       {
         id: "product-groups",
-        label: "فهرست دسته‌بندی کالا",
+        label: "فهرست گروه‌های کالا",
         href: "/inventory/product-groups",
       },
       {
         id: "product-groups-new",
-        label: "ایجاد دسته‌بندی کالا",
+        label: "ایجاد گروه کالا",
         href: "/inventory/product-groups/new",
       },
     ],

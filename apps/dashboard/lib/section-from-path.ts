@@ -33,7 +33,7 @@ export function getSectionFromPathname(pathname: string | null): SectionId {
   if (p.startsWith("/warehouse")) {
     return "warehouse";
   }
-  /* کالاها و دسته‌بندی کالا زیر «اطلاعات پایه»؛ مسیرهای /inventory/products و ... */
+  /* کالاها و گروه‌های کالا زیر «اطلاعات پایه»؛ مسیرهای /inventory/products و ... */
   if (
     p.startsWith("/inventory/products") ||
     p.startsWith("/inventory/product-groups")
