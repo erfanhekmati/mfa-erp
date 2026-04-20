@@ -57,9 +57,9 @@ export function AddProductForm() {
     <form onSubmit={handleSubmit} className="max-w-2xl space-y-6">
       <Card className="rounded-2xl border-border/70">
         <CardHeader className="pb-4">
-          <CardTitle className="text-base font-semibold">معرفی کالا</CardTitle>
+          <CardTitle className="text-base font-semibold">فرم معرفی کالا</CardTitle>
           <CardDescription>
-            اطلاعات کالا برای معرفی در سیستم را وارد کنید.
+            اطلاعات کالا را وارد کنید.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-5">
@@ -81,13 +81,12 @@ export function AddProductForm() {
                   id="prod-code"
                   name="code"
                   type="text"
-                  dir="ltr"
                   autoComplete="off"
                   required
-                  placeholder="مثال: STL-001"
+                  placeholder="کد کالا را وارد کنید"
                   value={values.code}
                   onChange={(e) => setField("code", e.target.value)}
-                  className="!max-w-none pr-10 text-left"
+                  className="!max-w-none pr-10"
                 />
               </div>
             </div>
@@ -128,33 +127,28 @@ export function AddProductForm() {
                 واحد اندازه‌گیری
                 <span className="mr-1 text-destructive">*</span>
               </label>
-              <div className="relative">
-                <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 z-10 text-muted-foreground">
-                  <Maximize4 size={17} variant="Bulk" aria-hidden />
-                </span>
-                <Select
-                  value={values.unit || "__empty__"}
-                  onValueChange={(v) =>
-                    setField("unit", v === "__empty__" ? "" : v)
-                  }
+              <Select
+                value={values.unit || "__empty__"}
+                onValueChange={(v) =>
+                  setField("unit", v === "__empty__" ? "" : v)
+                }
+              >
+                <SelectTrigger
+                  id="prod-unit"
+                  className="!max-w-none text-right [&>span]:min-w-0 [&>span]:flex-1"
+                  dir="rtl"
                 >
-                  <SelectTrigger
-                    id="prod-unit"
-                    className="!max-w-none pr-10 text-right"
-                    dir="rtl"
-                  >
-                    <SelectValue placeholder="واحد را انتخاب کنید" />
-                  </SelectTrigger>
-                  <SelectContent position="popper" dir="rtl" className="text-right">
-                    <SelectItem value="__empty__">انتخاب کنید</SelectItem>
-                    {UNITS.map((u) => (
-                      <SelectItem key={u.value} value={u.value}>
-                        {u.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
+                  <SelectValue placeholder="واحد را انتخاب کنید" />
+                </SelectTrigger>
+                <SelectContent position="popper" dir="rtl" className="text-right">
+                  <SelectItem value="__empty__">انتخاب کنید</SelectItem>
+                  {UNITS.map((u) => (
+                    <SelectItem key={u.value} value={u.value}>
+                      {u.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
           </div>
 
