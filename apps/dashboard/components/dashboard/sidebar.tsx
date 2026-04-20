@@ -18,10 +18,19 @@ import {
   useLayoutEffect,
   useRef,
   useState,
+  type Dispatch,
+  type MutableRefObject,
+  type SetStateAction,
 } from "react";
 import { createPortal } from "react-dom";
 import { isPathActive } from "../../lib/nav-active";
+import {
+  getExpandedNavGroupIds,
+  getExpandedNavGroupIdsMobile,
+  isNavSubtreeActive,
+} from "../../lib/nav-tree";
 import { navItems, type NavItem } from "./nav-config";
+import { NavFlyoutLinkList } from "./nav-flyout-link-list";
 import { NavIcon } from "./nav-icons";
 
 type SidebarProps = {
@@ -42,12 +51,15 @@ type SidebarProps = {
 function NavLeaf({
   item,
   sub,
+  subTier = 1,
   collapsed,
   pathname,
   onNavigate,
 }: {
   item: NavItem;
   sub: boolean;
+  /** 2 = لینک زیر گروه دوم (مثلاً زیر «طرف حساب‌ها») */
+  subTier?: 1 | 2;
   collapsed: boolean;
   pathname: string;
   onNavigate?: () => void;
@@ -59,7 +71,8 @@ function NavLeaf({
       <Link
         href={href}
         className={cn(
-          "block rounded-md px-3 py-1.5 text-sm transition-colors",
+          "block rounded-md py-1.5 text-sm transition-colors",
+          subTier === 2 ? "px-2 pe-3 ps-5" : "px-3",
           active
             ? "bg-sidebar-accent font-medium text-foreground"
             : "text-muted-foreground hover:text-foreground",
@@ -110,6 +123,173 @@ function NavLeaf({
   return link;
 }
 
+function NavNestedGroup({
+  items,
+  nestLevel,
+  expanded,
+  toggle,
+  pathname,
+  onNavigate,
+  idPrefix,
+  listId,
+  labelledBy,
+  isMobile,
+  deepFlyout,
+  setDeepFlyout,
+  clearDeepCloseHoverTimer,
+  deepCloseHoverTimerRef,
+}: {
+  items: NavItem[];
+  nestLevel: 0 | 1;
+  expanded: Record<string, boolean>;
+  toggle: (itemId: string) => void;
+  pathname: string;
+  onNavigate?: () => void;
+  idPrefix: string;
+  listId: string;
+  labelledBy?: string;
+  isMobile: boolean;
+  deepFlyout: { triggerId: string; node: NavItem } | null;
+  setDeepFlyout: Dispatch<
+    SetStateAction<{ triggerId: string; node: NavItem } | null>
+  >;
+  clearDeepCloseHoverTimer: () => void;
+  deepCloseHoverTimerRef: MutableRefObject<ReturnType<
+    typeof setTimeout
+  > | null>;
+}) {
+  return (
+    <ul
+      id={listId}
+      className={cn(
+        "space-y-0.5",
+        nestLevel === 0 &&
+          "me-3 mt-1 border-s border-sidebar-border ps-3",
+        nestLevel === 1 &&
+          "me-2 mt-0.5 border-s border-sidebar-border/70 ps-2.5",
+      )}
+      role="list"
+      aria-labelledby={labelledBy}
+    >
+      {items.map((child) => (
+        <li key={child.id}>
+          {child.children?.length ? (
+            !isMobile && nestLevel === 0 ? (
+              <div
+                id={`${idPrefix}-deep-flyout-${child.id}`}
+                className="relative"
+                onMouseEnter={() => {
+                  clearDeepCloseHoverTimer();
+                  setDeepFlyout({ triggerId: child.id, node: child });
+                }}
+                onMouseLeave={() => {
+                  clearDeepCloseHoverTimer();
+                  deepCloseHoverTimerRef.current = setTimeout(() => {
+                    setDeepFlyout((open) =>
+                      open?.triggerId === child.id ? null : open,
+                    );
+                  }, 200);
+                }}
+              >
+                <button
+                  type="button"
+                  className={cn(
+                    "flex w-full items-center gap-1 rounded-md px-3 py-1.5 text-start text-sm transition-colors",
+                    isNavSubtreeActive(pathname, child)
+                      ? "bg-sidebar-accent/80 font-medium text-foreground"
+                      : "text-muted-foreground hover:bg-sidebar-accent/50 hover:text-foreground",
+                  )}
+                  aria-expanded={deepFlyout?.triggerId === child.id}
+                  aria-haspopup="menu"
+                  aria-controls={
+                    deepFlyout?.triggerId === child.id
+                      ? `${idPrefix}-deep-flyout-panel`
+                      : undefined
+                  }
+                  id={`${idPrefix}-btn-${child.id}`}
+                  onClick={() => {
+                    setDeepFlyout((prev) =>
+                      prev?.triggerId === child.id
+                        ? null
+                        : { triggerId: child.id, node: child },
+                    );
+                  }}
+                >
+                  <span className="min-w-0 flex-1">{child.label}</span>
+                  <span
+                    className={cn(
+                      "shrink-0 text-muted-foreground transition-transform rtl:scale-x-[-1]",
+                      deepFlyout?.triggerId === child.id &&
+                        "-rotate-90 rtl:rotate-90",
+                    )}
+                    aria-hidden
+                  >
+                    ›
+                  </span>
+                </button>
+              </div>
+            ) : (
+              <>
+                <button
+                  type="button"
+                  className={cn(
+                    "flex w-full items-center gap-1 rounded-md py-1.5 text-start text-sm transition-colors",
+                    nestLevel === 0
+                      ? "px-3 text-muted-foreground hover:text-foreground"
+                      : "px-2 text-muted-foreground hover:text-foreground",
+                  )}
+                  onClick={() => toggle(child.id)}
+                  aria-expanded={expanded[child.id] ?? false}
+                  aria-controls={`${idPrefix}-nested-${child.id}`}
+                  id={`${idPrefix}-btn-${child.id}`}
+                >
+                  <span className="min-w-0 flex-1">{child.label}</span>
+                  <span
+                    className={cn(
+                      "shrink-0 text-muted-foreground transition-transform",
+                      expanded[child.id] && "rotate-90 rtl:-rotate-90",
+                    )}
+                    aria-hidden
+                  >
+                    ›
+                  </span>
+                </button>
+                {expanded[child.id] ? (
+                  <NavNestedGroup
+                    items={child.children}
+                    nestLevel={1}
+                    expanded={expanded}
+                    toggle={toggle}
+                    pathname={pathname}
+                    onNavigate={onNavigate}
+                    idPrefix={idPrefix}
+                    listId={`${idPrefix}-nested-${child.id}`}
+                    labelledBy={`${idPrefix}-btn-${child.id}`}
+                    isMobile={isMobile}
+                    deepFlyout={deepFlyout}
+                    setDeepFlyout={setDeepFlyout}
+                    clearDeepCloseHoverTimer={clearDeepCloseHoverTimer}
+                    deepCloseHoverTimerRef={deepCloseHoverTimerRef}
+                  />
+                ) : null}
+              </>
+            )
+          ) : (
+            <NavLeaf
+              item={child}
+              sub
+              subTier={nestLevel === 0 ? 1 : 2}
+              collapsed={false}
+              pathname={pathname}
+              onNavigate={onNavigate}
+            />
+          )}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 export function Sidebar({
   id,
   open,
@@ -133,15 +313,38 @@ export function Sidebar({
     top: number;
     left: number;
   } | null>(null);
+  const [deepFlyout, setDeepFlyout] = useState<{
+    triggerId: string;
+    node: NavItem;
+  } | null>(null);
+  const [deepFlyoutPos, setDeepFlyoutPos] = useState<{
+    top: number;
+    left: number;
+  } | null>(null);
   const [mounted, setMounted] = useState(false);
   const closeHoverTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const deepCloseHoverTimerRef = useRef<ReturnType<
+    typeof setTimeout
+  > | null>(null);
   const flyoutMenuRef = useRef<HTMLDivElement | null>(null);
+  const deepFlyoutMenuRef = useRef<HTMLDivElement | null>(null);
 
   const showCollapsed = collapsed && !isMobile;
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  useEffect(() => {
+    const fromPath = isMobile
+      ? getExpandedNavGroupIdsMobile(pathname, navItems)
+      : getExpandedNavGroupIds(pathname, navItems);
+    setExpanded((prev) => ({ ...prev, ...fromPath }));
+  }, [pathname, isMobile]);
+
+  useEffect(() => {
+    setDeepFlyout(null);
+  }, [pathname, showCollapsed]);
 
   const toggle = useCallback((itemId: string) => {
     setExpanded((prev) => ({ ...prev, [itemId]: !prev[itemId] }));
@@ -156,7 +359,20 @@ export function Sidebar({
     }
   }, []);
 
-  useEffect(() => () => clearCloseHoverTimer(), [clearCloseHoverTimer]);
+  const clearDeepCloseHoverTimer = useCallback(() => {
+    if (deepCloseHoverTimerRef.current) {
+      clearTimeout(deepCloseHoverTimerRef.current);
+      deepCloseHoverTimerRef.current = null;
+    }
+  }, []);
+
+  useEffect(
+    () => () => {
+      clearCloseHoverTimer();
+      clearDeepCloseHoverTimer();
+    },
+    [clearCloseHoverTimer, clearDeepCloseHoverTimer],
+  );
 
   const updateFlyoutPosition = useCallback(() => {
     if (!flyoutOpen || !showCollapsed) return;
@@ -166,6 +382,16 @@ export function Sidebar({
     setFlyoutPos({ top: rect.top, left: rect.left });
   }, [flyoutOpen, showCollapsed, id]);
 
+  const updateDeepFlyoutPosition = useCallback(() => {
+    if (!deepFlyout || showCollapsed) return;
+    const el = document.getElementById(
+      `${id}-deep-flyout-${deepFlyout.triggerId}`,
+    );
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    setDeepFlyoutPos({ top: rect.top, left: rect.left });
+  }, [deepFlyout, showCollapsed, id]);
+
   useLayoutEffect(() => {
     if (!flyoutOpen || !showCollapsed) {
       setFlyoutPos(null);
@@ -173,6 +399,14 @@ export function Sidebar({
     }
     updateFlyoutPosition();
   }, [flyoutOpen, showCollapsed, updateFlyoutPosition]);
+
+  useLayoutEffect(() => {
+    if (!deepFlyout || showCollapsed) {
+      setDeepFlyoutPos(null);
+      return;
+    }
+    updateDeepFlyoutPosition();
+  }, [deepFlyout, showCollapsed, updateDeepFlyoutPosition]);
 
   useEffect(() => {
     if (!flyoutOpen || !showCollapsed) return;
@@ -198,19 +432,45 @@ export function Sidebar({
   }, [flyoutOpen, showCollapsed, updateFlyoutPosition]);
 
   useEffect(() => {
-    if (!flyoutOpen) return;
+    if (!deepFlyout || showCollapsed) return;
+    const nav = rootRef.current?.querySelector("nav");
+    const main = document.querySelector("main");
+    const onMove = () => updateDeepFlyoutPosition();
+    window.addEventListener("resize", onMove);
+    nav?.addEventListener("scroll", onMove, { passive: true });
+    main?.addEventListener("scroll", onMove, { passive: true });
+    const aside = rootRef.current;
+    const ro =
+      aside &&
+      typeof ResizeObserver !== "undefined"
+        ? new ResizeObserver(onMove)
+        : null;
+    if (aside && ro) ro.observe(aside);
+    return () => {
+      window.removeEventListener("resize", onMove);
+      nav?.removeEventListener("scroll", onMove);
+      main?.removeEventListener("scroll", onMove);
+      ro?.disconnect();
+    };
+  }, [deepFlyout, showCollapsed, updateDeepFlyoutPosition]);
+
+  useEffect(() => {
+    if (!flyoutOpen && !deepFlyout) return;
     const handler = (e: MouseEvent) => {
       const t = e.target as Node;
       if (rootRef.current?.contains(t)) return;
       if (flyoutMenuRef.current?.contains(t)) return;
+      if (deepFlyoutMenuRef.current?.contains(t)) return;
       closeFlyout();
+      setDeepFlyout(null);
     };
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
-  }, [flyoutOpen, closeFlyout]);
+  }, [flyoutOpen, deepFlyout, closeFlyout]);
 
   useEffect(() => {
     closeFlyout();
+    setDeepFlyout(null);
   }, [showCollapsed, closeFlyout]);
 
   const handleParentClick = useCallback(
@@ -344,24 +604,22 @@ export function Sidebar({
                   ) : null}
                 </button>
                 {!showCollapsed && expanded[item.id] ? (
-                  <ul
-                    className="me-3 mt-1 space-y-0.5 border-s border-sidebar-border ps-3"
-                    id={`${id}-sub-${item.id}`}
-                    role="list"
-                    aria-labelledby={`${id}-btn-${item.id}`}
-                  >
-                    {item.children.map((child) => (
-                      <li key={child.id}>
-                        <NavLeaf
-                          item={child}
-                          sub
-                          collapsed={showCollapsed}
-                          pathname={pathname}
-                          onNavigate={onNavigate}
-                        />
-                      </li>
-                    ))}
-                  </ul>
+                  <NavNestedGroup
+                    items={item.children}
+                    nestLevel={0}
+                    expanded={expanded}
+                    toggle={toggle}
+                    pathname={pathname}
+                    onNavigate={onNavigate}
+                    idPrefix={id}
+                    listId={`${id}-sub-${item.id}`}
+                    labelledBy={`${id}-btn-${item.id}`}
+                    isMobile={isMobile}
+                    deepFlyout={deepFlyout}
+                    setDeepFlyout={setDeepFlyout}
+                    clearDeepCloseHoverTimer={clearDeepCloseHoverTimer}
+                    deepCloseHoverTimerRef={deepCloseHoverTimerRef}
+                  />
                 ) : null}
               </div>
             ) : (
@@ -413,25 +671,59 @@ export function Sidebar({
               </span>
             </div>
             <div className="flex flex-col gap-0.5 p-1.5">
-              {flyoutItem.children.map((child) => (
-                <Link
-                  key={child.id}
-                  href={child.href ?? "#"}
-                  className={cn(
-                    "block rounded-md px-2.5 py-2 text-sm transition-colors",
-                    child.href && isPathActive(pathname, child.href)
-                      ? "bg-sidebar-accent font-medium text-foreground"
-                      : "text-foreground hover:bg-accent",
-                  )}
-                  role="menuitem"
-                  onClick={() => {
-                    closeFlyout();
-                    onNavigate?.();
-                  }}
-                >
-                  {child.label}
-                </Link>
-              ))}
+              <NavFlyoutLinkList
+                items={flyoutItem.children}
+                pathname={pathname}
+                onNavigate={() => {
+                  closeFlyout();
+                  onNavigate?.();
+                }}
+              />
+            </div>
+          </div>,
+          document.body,
+        )
+      : null;
+
+  const deepFlyoutPortal =
+    mounted &&
+    !showCollapsed &&
+    deepFlyout?.node.children?.length &&
+    deepFlyoutPos &&
+    typeof document !== "undefined"
+      ? createPortal(
+          <div
+            ref={deepFlyoutMenuRef}
+            id={`${id}-deep-flyout-panel`}
+            className="fixed z-[60] min-w-[11rem] overflow-hidden rounded-lg border border-border bg-background shadow-lg"
+            style={{
+              top: deepFlyoutPos.top,
+              left: deepFlyoutPos.left - 6,
+              transform: "translateX(-100%)",
+            }}
+            role="menu"
+            aria-labelledby={`${id}-deep-flyout-heading-${deepFlyout.triggerId}`}
+            onMouseEnter={clearDeepCloseHoverTimer}
+            onMouseLeave={() => setDeepFlyout(null)}
+          >
+            <div
+              id={`${id}-deep-flyout-heading-${deepFlyout.triggerId}`}
+              className="border-b border-border bg-muted/50 px-3 py-2"
+              role="presentation"
+            >
+              <span className="block text-xs font-semibold leading-snug text-muted-foreground">
+                {deepFlyout.node.label}
+              </span>
+            </div>
+            <div className="flex flex-col gap-0.5 p-1.5">
+              <NavFlyoutLinkList
+                items={deepFlyout.node.children}
+                pathname={pathname}
+                onNavigate={() => {
+                  setDeepFlyout(null);
+                  onNavigate?.();
+                }}
+              />
             </div>
           </div>,
           document.body,
@@ -443,6 +735,7 @@ export function Sidebar({
       {brandBlock}
       {navBlock}
       {flyoutPortal}
+      {deepFlyoutPortal}
     </TooltipProvider>
   );
 

@@ -51,35 +51,47 @@ export const navItems: NavItem[] = [
     icon: "base-info",
     children: [
       {
-        id: "counterparty-groups",
-        label: "فهرست گروه‌های طرف حساب",
-        href: "/customers/groups",
+        id: "base-counterparties",
+        label: "طرف حساب‌ها",
+        children: [
+          {
+            id: "counterparty-groups",
+            label: "فهرست گروه‌های طرف حساب",
+            href: "/customers/groups",
+          },
+          {
+            id: "counterparty-groups-new",
+            label: "ایجاد گروه طرف حساب",
+            href: "/customers/groups/new",
+          },
+          {
+            id: "counterparty-intro",
+            label: "معرفی طرف حساب",
+            href: "/customers/new",
+          },
+        ],
       },
       {
-        id: "counterparty-groups-new",
-        label: "ایجاد گروه طرف حساب",
-        href: "/customers/groups/new",
-      },
-      {
-        id: "counterparty-intro",
-        label: "معرفی طرف حساب",
-        href: "/customers/new",
-      },
-      { id: "products", label: "کالاها", href: "/inventory/products" },
-      {
-        id: "product-intro",
-        label: "معرفی کالا",
-        href: "/inventory/products/new",
-      },
-      {
-        id: "product-groups",
-        label: "فهرست گروه‌های کالا",
-        href: "/inventory/product-groups",
-      },
-      {
-        id: "product-groups-new",
-        label: "ایجاد گروه کالا",
-        href: "/inventory/product-groups/new",
+        id: "base-products",
+        label: "کالاها",
+        children: [
+          { id: "products", label: "کالاها", href: "/inventory/products" },
+          {
+            id: "product-intro",
+            label: "معرفی کالا",
+            href: "/inventory/products/new",
+          },
+          {
+            id: "product-groups",
+            label: "فهرست گروه‌های کالا",
+            href: "/inventory/product-groups",
+          },
+          {
+            id: "product-groups-new",
+            label: "ایجاد گروه کالا",
+            href: "/inventory/product-groups/new",
+          },
+        ],
       },
     ],
   },

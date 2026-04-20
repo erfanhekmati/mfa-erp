@@ -17,8 +17,10 @@ import {
   useState,
 } from "react";
 import { createPortal } from "react-dom";
-import { isActivePathOrUnder, isPathActive } from "../../lib/nav-active";
-import { navItems, type NavItem } from "./nav-config";
+import { isPathActive } from "../../lib/nav-active";
+import { isNavSubtreeActive } from "../../lib/nav-tree";
+import { navItems } from "./nav-config";
+import { NavFlyoutLinkList } from "./nav-flyout-link-list";
 import { NavIcon } from "./nav-icons";
 
 const NAV_ID = "dashboard-topbar-nav";
@@ -26,14 +28,6 @@ const NAV_ID = "dashboard-topbar-nav";
 type TopBarNavProps = {
   onNavigate?: () => void;
 };
-
-function isGroupActive(pathname: string, item: NavItem) {
-  if (item.href && isPathActive(pathname, item.href)) return true;
-  if (!item.children?.length) return false;
-  return item.children.some(
-    (c) => c.href && isActivePathOrUnder(pathname, c.href),
-  );
-}
 
 export function TopBarNav({ onNavigate }: TopBarNavProps) {
   const pathname = usePathname() ?? "/";
@@ -150,30 +144,14 @@ export function TopBarNav({ onNavigate }: TopBarNavProps) {
               </span>
             </div>
             <div className="flex flex-col gap-0.5 p-1.5">
-              {flyoutItem.children.map((child) => {
-                const href = child.href ?? "#";
-                const active =
-                  child.href && isActivePathOrUnder(pathname, child.href);
-                return (
-                  <Link
-                    key={child.id}
-                    href={href}
-                    className={cn(
-                      "block rounded-md px-2.5 py-2 text-sm transition-colors",
-                      active
-                        ? "bg-sidebar-accent font-medium text-foreground"
-                        : "text-foreground hover:bg-accent",
-                    )}
-                    role="menuitem"
-                    onClick={() => {
-                      closeFlyout();
-                      onNavigate?.();
-                    }}
-                  >
-                    {child.label}
-                  </Link>
-                );
-              })}
+              <NavFlyoutLinkList
+                items={flyoutItem.children}
+                pathname={pathname}
+                onNavigate={() => {
+                  closeFlyout();
+                  onNavigate?.();
+                }}
+              />
             </div>
           </div>,
           document.body,
@@ -209,7 +187,7 @@ export function TopBarNav({ onNavigate }: TopBarNavProps) {
                     type="button"
                     className={cn(
                       "flex size-10 shrink-0 items-center justify-center rounded-lg border border-transparent text-brandBar-foreground transition-colors hover:bg-brandBar-foreground/15",
-                      isGroupActive(pathname, item) &&
+                      isNavSubtreeActive(pathname, item) &&
                         "border-brandBar-foreground/30 bg-brandBar-foreground/15",
                     )}
                     onClick={() =>
