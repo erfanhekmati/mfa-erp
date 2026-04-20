@@ -117,10 +117,11 @@ export function ProductGroupCreateForm() {
                 htmlFor="product-group-parent"
                 className="text-sm font-medium leading-none"
               >
-                گروه والد
+                گروه بالاتر
               </label>
               <p className="text-xs text-muted-foreground">
-                اگر این گروه زیرمجموعهٔ گروه دیگری است، والد را انتخاب کنید.
+                اگر این گروه زیرمجموعهٔ گروه دیگری است، گروه بالاتر را انتخاب
+                کنید.
               </p>
               <Select
                 value={parentId ?? PARENT_NONE}
@@ -131,7 +132,7 @@ export function ProductGroupCreateForm() {
                 <SelectTrigger
                   id="product-group-parent"
                   className="w-full max-w-none"
-                  aria-label="گروه والد"
+                  aria-label="گروه بالاتر"
                 >
                   <span className="flex min-w-0 items-center gap-2">
                     <Hierarchy2
@@ -140,11 +141,13 @@ export function ProductGroupCreateForm() {
                       className="shrink-0 text-muted-foreground"
                       aria-hidden
                     />
-                    <SelectValue placeholder="بدون والد (ریشه)" />
+                    <SelectValue placeholder="بدون گروه بالاتر (ریشه)" />
                   </span>
                 </SelectTrigger>
                 <SelectContent dir="rtl">
-                  <SelectItem value={PARENT_NONE}>بدون والد (ریشه)</SelectItem>
+                  <SelectItem value={PARENT_NONE}>
+                    بدون گروه بالاتر (ریشه)
+                  </SelectItem>
                   {parents.map((g) => {
                     const depth = getProductGroupDepth(parents, g.id);
                     return (

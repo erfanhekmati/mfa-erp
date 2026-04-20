@@ -3,7 +3,7 @@ import { ProductGroupCreateForm } from "../../../../../components/inventory/prod
 export const metadata = {
   title: "ایجاد گروه کالا | مدیران فولاد آذر",
   description:
-    "تعریف گروه کالای جدید با نام، توضیحات و در صورت نیاز انتخاب گروه والد.",
+    "تعریف گروه کالای جدید با نام، توضیحات و در صورت نیاز انتخاب گروه بالاتر.",
 };
 
 export default function ProductGroupNewPage() {

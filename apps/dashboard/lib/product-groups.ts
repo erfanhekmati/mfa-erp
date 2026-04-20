@@ -12,7 +12,7 @@ export type ProductGroup = {
   name: string;
   /** توضیح اختیاری برای کاربران و گزارش‌ها. */
   description: string;
-  /** والد در درخت گروه‌ها؛ `null` یعنی ریشه. */
+  /** گروه بالاتر در سلسله‌مراتب؛ `null` یعنی ریشه. */
   parentId: string | null;
   createdAt: string;
 };
@@ -44,7 +44,7 @@ function parseRow(row: Record<string, unknown>): ProductGroup | null {
   };
 }
 
-/** والدهای نامعتبر (شناسهٔ ناموجود) را به ریشه برمی‌گرداند. */
+/** ارجاع نامعتبر به گروه بالاتر (شناسهٔ ناموجود) را به ریشه برمی‌گرداند. */
 export function normalizeProductGroups(groups: ProductGroup[]): ProductGroup[] {
   const ids = new Set(groups.map((g) => g.id));
   return groups.map((g) => ({
@@ -92,7 +92,7 @@ export function getProductGroupDepth(
   return depth;
 }
 
-/** برچسب مسیر از ریشه تا والد مستقیم (بدون خود گروه)، با جداکنندهٔ مناسب RTL. */
+/** برچسب مسیر از ریشه تا گروه بالاترِ مستقیم (بدون خود گروه)، با جداکنندهٔ مناسب RTL. */
 export function getProductGroupAncestorPath(
   groups: ProductGroup[],
   id: string,
@@ -114,7 +114,7 @@ export function getProductGroupAncestorPath(
 
 /**
  * ترتیب درخت (ریشه‌ها و زیرمجموعه‌ها به‌صورت DFS)،
- * برای نمایش جدول و گزینه‌های «گروه والد».
+ * برای نمایش جدول و گزینه‌های «گروه بالاتر».
  */
 export function getProductGroupsTreeOrder(groups: ProductGroup[]): ProductGroup[] {
   const normalized = normalizeProductGroups(groups);

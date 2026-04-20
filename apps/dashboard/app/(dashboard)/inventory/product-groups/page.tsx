@@ -3,7 +3,7 @@ import { ProductGroupsList } from "../../../../components/inventory/product-grou
 export const metadata = {
   title: "فهرست گروه‌های کالا | مدیران فولاد آذر",
   description:
-    "درخت گروه‌های کالا با امکان والد و زیرمجموعه؛ نام، مسیر و توضیحات.",
+    "درخت گروه‌های کالا با امکان گروه بالاتر و زیرمجموعه؛ نام، مسیر و توضیحات.",
 };
 
 export default function ProductGroupsPage() {
