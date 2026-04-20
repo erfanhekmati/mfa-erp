@@ -35,7 +35,7 @@ function pickerDisplayString(displayValue: unknown): string {
 function PickerFieldIcon() {
   return (
     <svg
-      className="size-4 shrink-0 text-muted-foreground"
+      className="size-4 shrink-0 text-primary/75"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -53,7 +53,7 @@ function PickerFieldIcon() {
 function PickerChevronIcon() {
   return (
     <svg
-      className="chevron-icon size-4 shrink-0 text-muted-foreground transition-transform duration-200 ease-out"
+      className="chevron-icon size-4 shrink-0 text-primary/75 transition-transform duration-200 ease-out"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"

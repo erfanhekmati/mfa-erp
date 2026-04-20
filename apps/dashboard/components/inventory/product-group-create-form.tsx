@@ -18,6 +18,7 @@ import {
 import { Box, Hierarchy2 } from "iconsax-react";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
+import { formFieldIconClass } from "../../lib/form-field-icon";
 import {
   addProductGroup,
   getProductGroupsTreeOrder,
@@ -104,7 +105,7 @@ export function ProductGroupCreateForm() {
                       size={17}
                       variant="Linear"
                       color="currentColor"
-                      className={cn("shrink-0", "!text-nav-inventory")}
+                      className={formFieldIconClass.inventory}
                       aria-hidden
                     />
                   </span>
@@ -146,7 +147,7 @@ export function ProductGroupCreateForm() {
                         size={16}
                         variant="Linear"
                         color="currentColor"
-                        className={cn("size-4 shrink-0", "!text-nav-inventory")}
+                        className={cn("size-4", formFieldIconClass.inventory)}
                         aria-hidden
                       />
                       <SelectValue
@@ -196,7 +197,7 @@ export function ProductGroupCreateForm() {
                     size={17}
                     variant="Linear"
                     color="currentColor"
-                    className={cn("shrink-0", "!text-nav-inventory")}
+                    className={formFieldIconClass.inventory}
                     aria-hidden
                   />
                 </span>

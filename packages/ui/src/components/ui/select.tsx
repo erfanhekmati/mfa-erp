@@ -30,7 +30,7 @@ const SelectTrigger = React.forwardRef<
     {children}
     <SelectPrimitive.Icon asChild>
       <svg
-        className="chevron-icon size-4 shrink-0 text-muted-foreground transition-transform duration-200 ease-out"
+        className="chevron-icon size-4 shrink-0 text-primary/75 transition-transform duration-200 ease-out"
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
