@@ -74,8 +74,7 @@ export function CounterpartyGroupCreateForm() {
               فرم ایجاد گروه طرف حساب
             </CardTitle>
             <CardDescription>
-              نام گروه را وارد کنید؛ حوزه‌های دسترسی را در تب‌ها باز کنید و با
-              سوییچ «همه» یا تک‌تک موارد را تنظیم کنید.
+              نام گروه و  حوزه‌ های دسترسی را را وارد کنید.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
@@ -97,7 +96,7 @@ export function CounterpartyGroupCreateForm() {
                   type="text"
                   autoComplete="off"
                   required
-                  placeholder="مثال: خریداران عمده"
+                  placeholder="نام گروه"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   className="!max-w-none pr-10"
@@ -136,7 +135,7 @@ export function CounterpartyGroupCreateForm() {
                         </span>
                         <div className="flex shrink-0 items-center gap-2">
                           <span className="text-xs text-muted-foreground">
-                            همهٔ موارد این تب
+                            همه موارد
                           </span>
                           <Switch
                             checked={isSectionFullyEnabled(
