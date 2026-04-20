@@ -650,7 +650,7 @@ export function Sidebar({
       ? createPortal(
           <div
             ref={flyoutMenuRef}
-            className="fixed z-[60] min-w-[11rem] overflow-hidden rounded-lg border border-border bg-background shadow-lg"
+            className="fixed z-[60] min-w-[11rem] overflow-visible rounded-lg border border-border bg-background shadow-lg"
             style={{
               top: flyoutPos.top,
               left: flyoutPos.left - 6,
