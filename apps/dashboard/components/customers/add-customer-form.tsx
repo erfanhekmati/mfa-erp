@@ -30,6 +30,7 @@ import {
 import {
   cnInputLtrFaPlaceholder,
   cnInputPersian,
+  cnTextareaPersian,
 } from "../../lib/form-input-direction";
 import {
   INITIAL_LEGAL_ENTITY_VALUES,
@@ -408,7 +409,10 @@ export function AddCustomerForm() {
                         setNaturalField("address", e.target.value)
                       }
                       placeholder="آدرس"
-                      className="block w-full max-w-none resize-y rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground shadow-sm outline-none placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring text-right placeholder:text-right"
+                      className={cn(
+                        "block w-full max-w-none resize-y rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground shadow-sm outline-none placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring",
+                        cnTextareaPersian,
+                      )}
                     />
                   </div>
 
@@ -429,7 +433,10 @@ export function AddCustomerForm() {
                         setNaturalField("notes", e.target.value)
                       }
                       placeholder="یادداشت"
-                      className="block w-full max-w-none resize-y rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground shadow-sm outline-none placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring text-right placeholder:text-right"
+                      className={cn(
+                        "block w-full max-w-none resize-y rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground shadow-sm outline-none placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring",
+                        cnTextareaPersian,
+                      )}
                     />
                   </div>
                 </div>
@@ -595,7 +602,10 @@ export function AddCustomerForm() {
                         setLegalField("address", e.target.value)
                       }
                       placeholder="آدرس"
-                      className="block w-full max-w-none resize-y rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground shadow-sm outline-none placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring text-right placeholder:text-right"
+                      className={cn(
+                        "block w-full max-w-none resize-y rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground shadow-sm outline-none placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring",
+                        cnTextareaPersian,
+                      )}
                     />
                   </div>
 
@@ -616,7 +626,10 @@ export function AddCustomerForm() {
                         setLegalField("notes", e.target.value)
                       }
                       placeholder="یادداشت"
-                      className="block w-full max-w-none resize-y rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground shadow-sm outline-none placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring text-right placeholder:text-right"
+                      className={cn(
+                        "block w-full max-w-none resize-y rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground shadow-sm outline-none placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring",
+                        cnTextareaPersian,
+                      )}
                     />
                   </div>
                 </div>

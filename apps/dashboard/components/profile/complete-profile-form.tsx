@@ -20,6 +20,7 @@ import {
 import {
   cnInputLtrFaPlaceholder,
   cnInputPersian,
+  cnTextareaPersian,
 } from "../../lib/form-input-direction";
 import {
   Call,
@@ -333,7 +334,10 @@ export function CompleteProfileForm() {
               placeholder="معرفی کوتاه"
               value={values.bio}
               onChange={(e) => setField("bio", e.target.value)}
-              className="w-full resize-none rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring text-right placeholder:text-right"
+              className={cn(
+                "w-full resize-none rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
+                cnTextareaPersian,
+              )}
             />
           </div>
         </CardContent>
@@ -415,7 +419,10 @@ export function CompleteProfileForm() {
               placeholder="آدرس کامل"
               value={values.address}
               onChange={(e) => setField("address", e.target.value)}
-              className="w-full resize-none rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring text-right placeholder:text-right"
+              className={cn(
+                "w-full resize-none rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
+                cnTextareaPersian,
+              )}
             />
           </div>
         </CardContent>

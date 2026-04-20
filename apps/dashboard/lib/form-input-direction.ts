@@ -1,12 +1,13 @@
 /**
- * Persian text fields: use with `dir="rtl"` on the control.
+ * @see apps/dashboard/app/globals.css — `.input-text-fa`, `.textarea-text-fa`, `.input-ltr-fa-placeholder`
+ * (Plain CSS so styles always apply; use with matching `dir` on the control where noted.)
  */
-export const cnInputPersian =
-  "text-right placeholder:text-right";
 
-/**
- * Phone, national ID, economic code, amounts: typed LTR; Persian placeholder stays on the right.
- * Use with `dir="ltr"` on the control.
- */
-export const cnInputLtrFaPlaceholder =
-  "text-left [&::placeholder]:text-right [&::placeholder]:[direction:rtl]";
+/** متن فارسی — همراه با `dir="rtl"` روی همان کنترل */
+export const cnInputPersian = "input-text-fa";
+
+/** textarea فارسی — همراه با `dir="rtl"` */
+export const cnTextareaPersian = "textarea-text-fa";
+
+/** تلفن، کد ملی، مبالغ — همراه با `dir="ltr"`؛ placeholder فارسی راست، مقدار از چپ */
+export const cnInputLtrFaPlaceholder = "input-ltr-fa-placeholder";

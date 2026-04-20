@@ -20,6 +20,7 @@ import { useState } from "react";
 import {
   cnInputLtrFaPlaceholder,
   cnInputPersian,
+  cnTextareaPersian,
 } from "../../../../../lib/form-input-direction";
 import {
   getDefaultProviderPurchaseFormValues,
@@ -263,7 +264,10 @@ export function AddPurchaseProjectForm() {
                 value={values.description}
                 onChange={(e) => setField("description", e.target.value)}
                 placeholder="توضیحات"
-                className="block w-full max-w-none resize-y rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground shadow-sm outline-none placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring text-right placeholder:text-right"
+                className={cn(
+                  "block w-full max-w-none resize-y rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground shadow-sm outline-none placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring",
+                  cnTextareaPersian,
+                )}
               />
             </div>
           </div>

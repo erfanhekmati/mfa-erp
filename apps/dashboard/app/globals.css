@@ -418,4 +418,33 @@
   .dashboard-simplebar .simplebar-scrollbar.simplebar-visible::before {
     opacity: 0.95;
   }
+
+  /**
+   * فرم‌ها: مقدار فارسی راست‌چین؛ در فیلدهای عددی/تلفن مقدار از چپ، placeholder فارسی راست.
+   */
+  .input-text-fa {
+    direction: rtl;
+    text-align: right;
+  }
+  .input-text-fa::placeholder {
+    direction: rtl;
+    text-align: right;
+  }
+  .textarea-text-fa {
+    direction: rtl;
+    text-align: right;
+  }
+  .textarea-text-fa::placeholder {
+    direction: rtl;
+    text-align: right;
+  }
+  .input-ltr-fa-placeholder {
+    direction: ltr;
+    text-align: left;
+  }
+  .input-ltr-fa-placeholder::placeholder {
+    direction: rtl;
+    text-align: right;
+    unicode-bidi: isolate;
+  }
 }
