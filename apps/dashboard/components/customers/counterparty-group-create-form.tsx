@@ -71,7 +71,7 @@ export function CounterpartyGroupCreateForm() {
         <Card className="rounded-2xl border-border/70">
           <CardHeader className="pb-4">
             <CardTitle className="text-base font-semibold">
-              ایجاد گروه طرف حساب
+              فرم ایجاد گروه طرف حساب
             </CardTitle>
             <CardDescription>
               نام گروه را وارد کنید؛ حوزه‌های دسترسی را در تب‌ها باز کنید و با
