@@ -116,7 +116,7 @@ export function OverviewDashboard({ statsAll }: { statsAll: OverviewStats }) {
               variant="outline"
               className="border-nav-inventory/45 hover:bg-nav-inventory/8"
             >
-              <Link href="/inventory/purchases">پروژه‌های خرید</Link>
+              <Link href="/inventory/purchases">خرید ها</Link>
             </Button>
             <Button
               asChild
@@ -157,7 +157,7 @@ export function OverviewDashboard({ statsAll }: { statsAll: OverviewStats }) {
             icon={<Chart21 size={22} variant="Bulk" color="currentColor" />}
           />
           <KpiCard
-            title="تعداد پروژه خرید"
+            title="تعداد خرید ها"
             value={kpis.purchaseProjectCount.toLocaleString("fa-IR")}
             toneIndex={1}
             icon={<Box size={22} variant="Bulk" color="currentColor" />}

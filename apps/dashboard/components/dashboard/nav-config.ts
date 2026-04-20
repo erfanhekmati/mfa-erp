@@ -2,6 +2,7 @@ export type NavIconId =
   | "overview"
   | "sales"
   | "inventory"
+  | "warehouse"
   | "reports"
   | "base-info";
 
@@ -17,6 +18,19 @@ export type NavItem = {
 export const navItems: NavItem[] = [
   { id: "overview", label: "نمای کلی", href: "/", icon: "overview" },
   {
+    id: "inventory",
+    label: "تامین",
+    icon: "inventory",
+    children: [
+      { id: "purchases", label: "خرید ها", href: "/inventory/purchases" },
+      {
+        id: "purchase-project-add",
+        label: "ایجاد فاکتور خرید",
+        href: "/inventory/purchases/new",
+      },
+    ],
+  },
+  {
     id: "sales",
     label: "فروش",
     icon: "sales",
@@ -29,19 +43,7 @@ export const navItems: NavItem[] = [
       },
     ],
   },
-  {
-    id: "inventory",
-    label: "موجودی و خریدها",
-    icon: "inventory",
-    children: [
-      { id: "purchases", label: "پروژه‌ها", href: "/inventory/purchases" },
-      {
-        id: "purchase-project-add",
-        label: "پروژه خرید جدید",
-        href: "/inventory/purchases/new",
-      },
-    ],
-  },
+  { id: "warehouse", label: "انبار", href: "/warehouse", icon: "warehouse" },
   { id: "reports", label: "گزارش‌ها", href: "/reports", icon: "reports" },
   {
     id: "base-info",

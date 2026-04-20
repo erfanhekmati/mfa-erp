@@ -41,10 +41,10 @@ export function AddPurchaseProjectForm() {
     <Card className="w-full max-w-3xl border-border/80">
       <CardHeader className="text-right">
         <CardTitle className="text-xl font-semibold tracking-tight">
-          مشخصات پروژه خرید
+          مشخصات فاکتور خرید
         </CardTitle>
         <CardDescription>
-          اطلاعات پروژه خرید جدید را ثبت کنید.
+          اطلاعات فاکتور خرید را ثبت کنید.
         </CardDescription>
       </CardHeader>
       <form onSubmit={handleSubmit}>
@@ -261,7 +261,7 @@ export function AddPurchaseProjectForm() {
           </div>
 
           <div className="flex flex-wrap justify-end gap-3 border-t border-border pt-6">
-            <Button type="submit">ثبت پروژه خرید</Button>
+            <Button type="submit">ثبت فاکتور خرید</Button>
           </div>
         </CardContent>
       </form>

@@ -1,4 +1,5 @@
 import {
+  Archive,
   Box,
   Chart21,
   Element4,
@@ -12,6 +13,7 @@ const iconColorClass: Record<NavIconId, string> = {
   overview: "!text-nav-overview",
   sales: "!text-nav-sales",
   inventory: "!text-nav-inventory",
+  warehouse: "!text-nav-warehouse",
   reports: "!text-nav-reports",
   "base-info": "!text-nav-base-info",
 };
@@ -51,6 +53,8 @@ export function NavIcon({
       return <ShoppingCart {...props} />;
     case "inventory":
       return <Box {...props} />;
+    case "warehouse":
+      return <Archive {...props} />;
     case "reports":
       return <Chart21 {...props} />;
     case "base-info":

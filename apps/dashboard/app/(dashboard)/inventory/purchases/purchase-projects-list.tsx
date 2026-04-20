@@ -157,7 +157,7 @@ export function PurchaseProjectsList() {
     <>
       <DashboardPageActions>
         <Button asChild className="w-full shrink-0 sm:w-auto">
-          <Link href="/inventory/purchases/new">پروژه خرید جدید</Link>
+          <Link href="/inventory/purchases/new">ایجاد فاکتور خرید</Link>
         </Button>
       </DashboardPageActions>
       <div className="mx-auto w-full max-w-6xl space-y-6">

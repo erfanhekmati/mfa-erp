@@ -42,9 +42,9 @@ export const COUNTERPARTY_PERMISSION_SECTIONS = [
     title: "خرید و تأمین",
     permissions: [
       { id: "purchase_dashboard", label: "مشاهده داشبورد خرید" },
-      { id: "purchase_project_view", label: "مشاهده پروژه‌های خرید" },
-      { id: "purchase_project_edit", label: "ثبت و ویرایش پروژه خرید" },
-      { id: "purchase_project_approve", label: "تأیید بودجه و تغییر پروژه خرید" },
+      { id: "purchase_project_view", label: "مشاهده خرید ها" },
+      { id: "purchase_project_edit", label: "ثبت و ویرایش فاکتور خرید" },
+      { id: "purchase_project_approve", label: "تأیید بودجه و تغییر فاکتور خرید" },
       { id: "purchase_rfq", label: "استعلام قیمت چندتأمین‌کننده (RFQ)" },
       { id: "purchase_tender", label: "مناقصه، ارزیابی پیشنهاد و انتخاب برنده" },
       { id: "purchase_order", label: "ثبت سفارش خرید و پیگیری تأمین" },

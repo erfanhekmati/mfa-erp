@@ -253,7 +253,7 @@ export function OverviewRecentPurchasesSection({
   return (
     <SectionShell
       title="آخرین خریدها"
-      description="۵ مورد اخیر از پروژه‌های خرید"
+      description="۵ مورد اخیر از خرید ها"
       section="inventory"
       href="/inventory/purchases"
       linkLabel="همه"

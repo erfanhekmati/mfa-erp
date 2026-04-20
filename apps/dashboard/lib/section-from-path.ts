@@ -5,6 +5,7 @@ export const sectionIds = [
   "overview",
   "sales",
   "inventory",
+  "warehouse",
   "reports",
   "base-info",
   "settings",
@@ -28,6 +29,9 @@ export function getSectionFromPathname(pathname: string | null): SectionId {
   }
   if (p.startsWith("/sales")) {
     return "sales";
+  }
+  if (p.startsWith("/warehouse")) {
+    return "warehouse";
   }
   /* کالاها و دسته‌بندی کالا زیر «اطلاعات پایه»؛ مسیرهای /inventory/products و ... */
   if (

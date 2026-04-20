@@ -110,17 +110,17 @@ function purchaseTrendCopy(g: OverviewChartGranularity): { title: string; desc: 
     case "day":
       return {
         title: "روند مبلغ خرید به تفکیک روز",
-        desc: "جمع مبلغ کل پروژه‌های خرید در هر روز",
+        desc: "جمع مبلغ کل خرید ها در هر روز",
       };
     case "month":
       return {
         title: "روند مبلغ خرید به تفکیک ماه",
-        desc: "جمع مبلغ کل پروژه‌های خرید در هر ماه",
+        desc: "جمع مبلغ کل خرید ها در هر ماه",
       };
     case "year":
       return {
         title: "روند مبلغ خرید به تفکیک سال",
-        desc: "جمع مبلغ کل پروژه‌های خرید در هر سال",
+        desc: "جمع مبلغ کل خرید ها در هر سال",
       };
   }
 }

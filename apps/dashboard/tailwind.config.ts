@@ -57,6 +57,7 @@ const config: Config = {
         "nav-overview": "hsl(var(--nav-icon-overview))",
         "nav-sales": "hsl(var(--nav-icon-sales))",
         "nav-inventory": "hsl(var(--nav-icon-inventory))",
+        "nav-warehouse": "hsl(var(--nav-icon-warehouse))",
         "nav-reports": "hsl(var(--nav-icon-reports))",
         "nav-base-info": "hsl(var(--nav-icon-base-info))",
       },

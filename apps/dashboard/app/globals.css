@@ -34,6 +34,7 @@
     --nav-icon-overview: 0 0% 9%;
     --nav-icon-sales: 0 0% 9%;
     --nav-icon-inventory: 0 0% 9%;
+    --nav-icon-warehouse: 0 0% 9%;
     --nav-icon-reports: 0 0% 9%;
     --nav-icon-base-info: 0 0% 9%;
     --topbar-height: 3.5rem;
@@ -72,6 +73,7 @@
     --nav-icon-overview: 221 83% 53%;
     --nav-icon-sales: 142 71% 40%;
     --nav-icon-inventory: 45 97% 44%;
+    --nav-icon-warehouse: 188 78% 38%;
     --nav-icon-reports: 0 72% 51%;
     --nav-icon-base-info: 262 83% 56%;
   }
@@ -95,6 +97,16 @@
     --accent-foreground: 28 50% 22%;
     --secondary: 45 80% 94%;
     --secondary-foreground: 28 30% 12%;
+  }
+
+  html[data-theme="default"][data-section="warehouse"] {
+    --primary: 188 78% 38%;
+    --primary-foreground: 0 0% 100%;
+    --ring: 188 78% 38%;
+    --accent: 188 55% 92%;
+    --accent-foreground: 188 55% 22%;
+    --secondary: 188 35% 96%;
+    --secondary-foreground: 188 45% 18%;
   }
 
   html[data-theme="default"][data-section="reports"] {
@@ -157,6 +169,7 @@
     --nav-icon-overview: 0 0% 9%;
     --nav-icon-sales: 0 0% 9%;
     --nav-icon-inventory: 0 0% 9%;
+    --nav-icon-warehouse: 0 0% 9%;
     --nav-icon-reports: 0 0% 9%;
     --nav-icon-base-info: 0 0% 9%;
   }
@@ -190,6 +203,7 @@
     --nav-icon-overview: 222 47% 11%;
     --nav-icon-sales: 222 47% 11%;
     --nav-icon-inventory: 222 47% 11%;
+    --nav-icon-warehouse: 222 47% 11%;
     --nav-icon-reports: 222 47% 11%;
     --nav-icon-base-info: 222 47% 11%;
   }
@@ -223,6 +237,7 @@
     --nav-icon-overview: 144 61% 12%;
     --nav-icon-sales: 144 61% 12%;
     --nav-icon-inventory: 144 61% 12%;
+    --nav-icon-warehouse: 144 61% 12%;
     --nav-icon-reports: 144 61% 12%;
     --nav-icon-base-info: 144 61% 12%;
   }
@@ -256,6 +271,7 @@
     --nav-icon-overview: 346 50% 18%;
     --nav-icon-sales: 346 50% 18%;
     --nav-icon-inventory: 346 50% 18%;
+    --nav-icon-warehouse: 346 50% 18%;
     --nav-icon-reports: 346 50% 18%;
     --nav-icon-base-info: 346 50% 18%;
   }
@@ -289,6 +305,7 @@
     --nav-icon-overview: 28 25% 12%;
     --nav-icon-sales: 28 25% 12%;
     --nav-icon-inventory: 28 25% 12%;
+    --nav-icon-warehouse: 28 25% 12%;
     --nav-icon-reports: 28 25% 12%;
     --nav-icon-base-info: 28 25% 12%;
   }
@@ -322,6 +339,7 @@
     --nav-icon-overview: 262 40% 14%;
     --nav-icon-sales: 262 40% 14%;
     --nav-icon-inventory: 262 40% 14%;
+    --nav-icon-warehouse: 262 40% 14%;
     --nav-icon-reports: 262 40% 14%;
     --nav-icon-base-info: 262 40% 14%;
   }
