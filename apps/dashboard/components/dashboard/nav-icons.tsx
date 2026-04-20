@@ -1,9 +1,9 @@
 import {
-  Archive,
   Box,
   Chart21,
   Element4,
   Note,
+  Shop,
   ShoppingCart,
 } from "iconsax-react";
 import { cn } from "@repo/ui";
@@ -54,7 +54,7 @@ export function NavIcon({
     case "inventory":
       return <Box {...props} />;
     case "warehouse":
-      return <Archive {...props} />;
+      return <Shop {...props} />;
     case "reports":
       return <Chart21 {...props} />;
     case "base-info":
