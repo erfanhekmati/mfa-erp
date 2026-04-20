@@ -86,85 +86,90 @@ export function ProductGroupCreateForm() {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
-            <div className="space-y-2">
-              <label
-                htmlFor="product-group-name"
-                className="text-sm font-medium leading-none"
-              >
-                نام گروه کالا
-                <span className="mr-1 text-destructive">*</span>
-              </label>
-              <div className="relative">
-                <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">
-                  <Box size={17} variant="Bulk" aria-hidden />
-                </span>
-                <Input
-                  id="product-group-name"
-                  name="name"
-                  type="text"
-                  autoComplete="off"
-                  required
-                  placeholder="نام گروه کالا"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="!max-w-none pr-10"
-                />
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <label
-                htmlFor="product-group-parent"
-                className="text-sm font-medium leading-none"
-              >
-                گروه بالاتر
-              </label>
-              <p className="text-xs text-muted-foreground">
-                اگر این گروه زیرمجموعهٔ گروه دیگری است، گروه بالاتر را انتخاب
-                کنید.
-              </p>
-              <Select
-                value={parentId ?? PARENT_NONE}
-                onValueChange={(v) =>
-                  setParentId(v === PARENT_NONE ? null : v)
-                }
-              >
-                <SelectTrigger
-                  id="product-group-parent"
-                  className="w-full max-w-none"
-                  aria-label="گروه بالاتر"
+            <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:items-start lg:gap-4">
+              <div className="space-y-2">
+                <label
+                  htmlFor="product-group-name"
+                  className="text-sm font-medium leading-none"
                 >
-                  <span className="flex min-w-0 items-center gap-2">
-                    <Hierarchy2
-                      size={16}
-                      variant="Bulk"
-                      className="shrink-0 text-muted-foreground"
-                      aria-hidden
-                    />
-                    <SelectValue placeholder="بدون گروه بالاتر (ریشه)" />
+                  نام گروه کالا
+                  <span className="mr-1 text-destructive">*</span>
+                </label>
+                <div className="relative">
+                  <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">
+                    <Box size={17} variant="Bulk" aria-hidden />
                   </span>
-                </SelectTrigger>
-                <SelectContent dir="rtl">
-                  <SelectItem value={PARENT_NONE}>
-                    بدون گروه بالاتر (ریشه)
-                  </SelectItem>
-                  {parents.map((g) => {
-                    const depth = getProductGroupDepth(parents, g.id);
-                    return (
-                      <SelectItem key={g.id} value={g.id}>
-                        <span
-                          className="block truncate"
-                          style={{
-                            paddingRight: `${depth * 0.75}rem`,
-                          }}
-                        >
-                          {g.name}
-                        </span>
-                      </SelectItem>
-                    );
-                  })}
-                </SelectContent>
-              </Select>
+                  <Input
+                    id="product-group-name"
+                    name="name"
+                    type="text"
+                    autoComplete="off"
+                    required
+                    placeholder="نام گروه کالا"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="!max-w-none pr-10"
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label
+                  htmlFor="product-group-parent"
+                  className="text-sm font-medium leading-none"
+                >
+                  گروه بالاتر
+                </label>
+                <Select
+                  value={parentId ?? PARENT_NONE}
+                  onValueChange={(v) =>
+                    setParentId(v === PARENT_NONE ? null : v)
+                  }
+                >
+                  <SelectTrigger
+                    id="product-group-parent"
+                    className="w-full max-w-none text-right [&>div]:min-w-0 [&>div]:flex-1"
+                    dir="rtl"
+                    aria-label="گروه بالاتر"
+                  >
+                    <div className="flex min-w-0 flex-1 items-center gap-2">
+                      <Hierarchy2
+                        size={16}
+                        variant="Bulk"
+                        className="shrink-0 text-muted-foreground"
+                        aria-hidden
+                      />
+                      <span className="min-w-0 flex-1 truncate leading-none">
+                        <SelectValue placeholder="بدون گروه بالاتر (ریشه)" />
+                      </span>
+                    </div>
+                  </SelectTrigger>
+                  <SelectContent dir="rtl">
+                    <SelectItem value={PARENT_NONE}>
+                      بدون گروه بالاتر (ریشه)
+                    </SelectItem>
+                    {parents.map((g) => {
+                      const depth = getProductGroupDepth(parents, g.id);
+                      return (
+                        <SelectItem key={g.id} value={g.id}>
+                          <span
+                            className="block truncate"
+                            style={{
+                              paddingRight: `${depth * 0.75}rem`,
+                            }}
+                          >
+                            {g.name}
+                          </span>
+                        </SelectItem>
+                      );
+                    })}
+                  </SelectContent>
+                </Select>
+                <p className="text-xs text-muted-foreground">
+                  اگر این گروه زیرمجموعهٔ گروه دیگری است، گروه بالاتر را انتخاب
+                  کنید.
+                </p>
+              </div>
             </div>
 
             <div className="space-y-2">
