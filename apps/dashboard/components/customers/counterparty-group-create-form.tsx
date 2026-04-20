@@ -25,6 +25,7 @@ import {
   setSectionPermissionsAll,
   type CounterpartyGroupPermissions,
 } from "../../lib/counterparty-groups";
+import { formFieldIconClass } from "../../lib/form-field-icon";
 
 const permissionTabTriggerClassName =
   "rounded-none border-b-2 border-transparent px-3 py-2.5 text-xs font-medium text-muted-foreground transition-none data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:text-foreground data-[state=active]:shadow-none sm:px-4 sm:text-sm";
@@ -87,8 +88,14 @@ export function CounterpartyGroupCreateForm() {
                 <span className="mr-1 text-destructive">*</span>
               </label>
               <div className="relative">
-                <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">
-                  <People size={17} variant="Bulk" aria-hidden />
+                <span className="pointer-events-none absolute right-3 top-1/2 z-10 -translate-y-1/2">
+                  <People
+                    size={17}
+                    variant="Linear"
+                    color="currentColor"
+                    className={formFieldIconClass.baseInfo}
+                    aria-hidden
+                  />
                 </span>
                 <Input
                   id="group-name"

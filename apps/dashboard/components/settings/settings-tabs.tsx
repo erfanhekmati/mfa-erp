@@ -14,7 +14,9 @@ import {
   TabsList,
   TabsTrigger,
 } from "@repo/ui";
+import { Buildings, Lock1 } from "iconsax-react";
 
+import { formFieldIconClass } from "../../lib/form-field-icon";
 import { NavLayoutPicker } from "./nav-layout-picker";
 import { ThemePicker } from "./theme-picker";
 
@@ -50,11 +52,23 @@ export function SettingsTabs() {
                 <label className="text-sm font-medium" htmlFor="site-name">
                   نام سامانه
                 </label>
-                <Input
-                  id="site-name"
-                  placeholder="مدیران فولاد آذر"
-                  defaultValue="مدیران فولاد آذر"
-                />
+                <div className="relative">
+                  <span className="pointer-events-none absolute right-3 top-1/2 z-10 -translate-y-1/2">
+                    <Buildings
+                      size={17}
+                      variant="Linear"
+                      color="currentColor"
+                      className={formFieldIconClass.muted}
+                      aria-hidden
+                    />
+                  </span>
+                  <Input
+                    id="site-name"
+                    placeholder="مدیران فولاد آذر"
+                    defaultValue="مدیران فولاد آذر"
+                    className="!max-w-none pr-10"
+                  />
+                </div>
               </div>
               <Separator />
               <div className="flex justify-end">
@@ -79,19 +93,70 @@ export function SettingsTabs() {
                 <label className="text-sm font-medium" htmlFor="current-pass">
                   رمز عبور فعلی
                 </label>
-                <Input id="current-pass" type="password" placeholder="••••••••" />
+                <div className="relative">
+                  <span className="pointer-events-none absolute right-3 top-1/2 z-10 -translate-y-1/2">
+                    <Lock1
+                      size={17}
+                      variant="Linear"
+                      color="currentColor"
+                      className={formFieldIconClass.muted}
+                      aria-hidden
+                    />
+                  </span>
+                  <Input
+                    id="current-pass"
+                    type="password"
+                    placeholder="••••••••"
+                    dir="ltr"
+                    className="!max-w-none pr-10"
+                  />
+                </div>
               </div>
               <div className="space-y-2">
                 <label className="text-sm font-medium" htmlFor="new-pass">
                   رمز عبور جدید
                 </label>
-                <Input id="new-pass" type="password" placeholder="••••••••" />
+                <div className="relative">
+                  <span className="pointer-events-none absolute right-3 top-1/2 z-10 -translate-y-1/2">
+                    <Lock1
+                      size={17}
+                      variant="Linear"
+                      color="currentColor"
+                      className={formFieldIconClass.muted}
+                      aria-hidden
+                    />
+                  </span>
+                  <Input
+                    id="new-pass"
+                    type="password"
+                    placeholder="••••••••"
+                    dir="ltr"
+                    className="!max-w-none pr-10"
+                  />
+                </div>
               </div>
               <div className="space-y-2">
                 <label className="text-sm font-medium" htmlFor="confirm-pass">
                   تکرار رمز عبور جدید
                 </label>
-                <Input id="confirm-pass" type="password" placeholder="••••••••" />
+                <div className="relative">
+                  <span className="pointer-events-none absolute right-3 top-1/2 z-10 -translate-y-1/2">
+                    <Lock1
+                      size={17}
+                      variant="Linear"
+                      color="currentColor"
+                      className={formFieldIconClass.muted}
+                      aria-hidden
+                    />
+                  </span>
+                  <Input
+                    id="confirm-pass"
+                    type="password"
+                    placeholder="••••••••"
+                    dir="ltr"
+                    className="!max-w-none pr-10"
+                  />
+                </div>
               </div>
               <Separator />
               <div className="flex justify-end">

@@ -2,6 +2,7 @@
 
 import {
   Button,
+  cn,
   formatGregorianDateToPersianDisplay,
   Input,
   PersianDatePicker,
@@ -18,6 +19,7 @@ import {
   TableHeader,
   TableRow,
 } from "@repo/ui";
+import { SearchNormal } from "iconsax-react";
 import Link from "next/link";
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { DashboardPageActions } from "../../../../components/dashboard/dashboard-page-frame";
@@ -30,6 +32,7 @@ import {
   listTablePaginationClassName,
   listTableWrapperClassName,
 } from "../../../../components/dashboard/data-table-styles";
+import { formFieldIconClass } from "../../../../lib/form-field-icon";
 import {
   getUniqueBranchNames,
   MOCK_PURCHASE_PROJECTS,
@@ -165,15 +168,26 @@ export function PurchaseProjectsList() {
         <label htmlFor="project-search" className="text-sm font-medium">
           جستجو
         </label>
-        <Input
-          id="project-search"
-          type="search"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          placeholder="تامین‌کننده، کالا، شعبه..."
-          className="!max-w-none"
-          autoComplete="off"
-        />
+        <div className="relative">
+          <span className="pointer-events-none absolute right-3 top-1/2 z-10 -translate-y-1/2">
+            <SearchNormal
+              size={17}
+              variant="Linear"
+              color="currentColor"
+              className={formFieldIconClass.inventory}
+              aria-hidden
+            />
+          </span>
+          <Input
+            id="project-search"
+            type="search"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="تامین‌کننده، کالا، شعبه..."
+            className={cn("!max-w-none pr-10")}
+            autoComplete="off"
+          />
+        </div>
       </div>
 
       <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between lg:gap-6">

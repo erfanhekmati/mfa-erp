@@ -13,14 +13,21 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
+  cn,
 } from "@repo/ui";
-import { Code, Hierarchy2, NoteText } from "iconsax-react";
+import { Code, Hierarchy2, NoteText, Ruler } from "iconsax-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import {
   INITIAL_PRODUCT_FORM_VALUES,
   type ProductFormValues,
 } from "../../lib/product-form";
+import {
+  cnFieldTextareaBase,
+  cnTextareaPersian,
+  cnTextareaRtlIconPadding,
+} from "../../lib/form-input-direction";
+import { formFieldIconClass } from "../../lib/form-field-icon";
 import {
   PRODUCT_GROUPS_CHANGED_EVENT,
   getProductGroupDepth,
@@ -107,8 +114,14 @@ export function AddProductForm() {
                 <span className="mr-1 text-destructive">*</span>
               </label>
               <div className="relative">
-                <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">
-                  <Code size={17} variant="Bulk" aria-hidden />
+                <span className="pointer-events-none absolute right-3 top-1/2 z-10 -translate-y-1/2">
+                  <Code
+                    size={17}
+                    variant="Linear"
+                    color="currentColor"
+                    className={formFieldIconClass.inventory}
+                    aria-hidden
+                  />
                 </span>
                 <Input
                   id="prod-code"
@@ -134,8 +147,14 @@ export function AddProductForm() {
                 <span className="mr-1 text-destructive">*</span>
               </label>
               <div className="relative">
-                <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">
-                  <NoteText size={17} variant="Bulk" aria-hidden />
+                <span className="pointer-events-none absolute right-3 top-1/2 z-10 -translate-y-1/2">
+                  <NoteText
+                    size={17}
+                    variant="Linear"
+                    color="currentColor"
+                    className={formFieldIconClass.inventory}
+                    aria-hidden
+                  />
                 </span>
                 <Input
                   id="prod-name"
@@ -201,8 +220,9 @@ export function AddProductForm() {
                       <span className="flex min-w-0 items-center gap-2">
                         <Hierarchy2
                           size={16}
-                          variant="Bulk"
-                          className="shrink-0 text-muted-foreground"
+                          variant="Linear"
+                          color="currentColor"
+                          className={formFieldIconClass.inventory}
                           aria-hidden
                         />
                         <SelectValue placeholder="گروه کالا را انتخاب کنید" />
@@ -255,10 +275,22 @@ export function AddProductForm() {
               >
                 <SelectTrigger
                   id="prod-unit"
-                  className="!max-w-none text-right [&>span]:min-w-0 [&>span]:flex-1"
+                  className="!max-w-none text-right [&>span]:!flex [&>span]:min-w-0 [&>span]:flex-1 [&>span]:items-center [&>span]:gap-2"
                   dir="rtl"
                 >
-                  <SelectValue placeholder="واحد را انتخاب کنید" />
+                  <span className="!flex min-w-0 flex-1 flex-row items-center gap-2">
+                    <Ruler
+                      size={16}
+                      variant="Linear"
+                      color="currentColor"
+                      className={cn("size-4", formFieldIconClass.inventory)}
+                      aria-hidden
+                    />
+                    <SelectValue
+                      placeholder="واحد را انتخاب کنید"
+                      className="min-w-0 flex-1 truncate"
+                    />
+                  </span>
                 </SelectTrigger>
                 <SelectContent position="popper" dir="rtl" className="text-right">
                   <SelectItem value="__empty__">انتخاب کنید</SelectItem>
@@ -280,15 +312,32 @@ export function AddProductForm() {
             >
               توضیحات
             </label>
-            <textarea
-              id="prod-description"
-              name="description"
-              rows={4}
-              value={values.description}
-              onChange={(e) => setField("description", e.target.value)}
-              placeholder="توضیحات اختیاری درباره کالا..."
-              className="block w-full max-w-none resize-y rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground shadow-sm outline-none placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring"
-            />
+            <div className="relative">
+              <span className="pointer-events-none absolute right-3 top-3 z-10">
+                <NoteText
+                  size={17}
+                  variant="Linear"
+                  color="currentColor"
+                  className={formFieldIconClass.inventory}
+                  aria-hidden
+                />
+              </span>
+              <textarea
+                id="prod-description"
+                name="description"
+                dir="rtl"
+                rows={4}
+                value={values.description}
+                onChange={(e) => setField("description", e.target.value)}
+                placeholder="توضیحات اختیاری درباره کالا..."
+                className={cn(
+                  "min-h-[5.5rem] resize-y",
+                  cnFieldTextareaBase,
+                  cnTextareaPersian,
+                  cnTextareaRtlIconPadding,
+                )}
+              />
+            </div>
           </div>
         </CardContent>
       </Card>

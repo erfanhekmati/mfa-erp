@@ -31,6 +31,24 @@ function pickerDisplayString(displayValue: unknown): string {
   return String(displayValue).trim();
 }
 
+/** Leading icon for date fields (matches form inputs with start icons). */
+function PickerFieldIcon() {
+  return (
+    <svg
+      className="size-4 shrink-0 text-muted-foreground"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+    >
+      <path d="M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z" />
+    </svg>
+  );
+}
+
 /** Mirrors SelectTrigger chevron (see components/ui/select.tsx). */
 function PickerChevronIcon() {
   return (
@@ -181,13 +199,16 @@ export function PersianDatePicker({
               className={cn(triggerClassName, "text-foreground", inputClassName)}
               onClick={() => openCalendar()}
             >
-              <span
-                className={cn(
-                  "min-w-0 flex-1 truncate",
-                  !hasValue && "text-muted-foreground",
-                )}
-              >
-                {fieldLabel}
+              <span className="flex min-w-0 flex-1 items-center gap-2">
+                <PickerFieldIcon />
+                <span
+                  className={cn(
+                    "min-w-0 flex-1 truncate text-start",
+                    !hasValue && "text-muted-foreground",
+                  )}
+                >
+                  {fieldLabel}
+                </span>
               </span>
               <PickerChevronIcon />
             </button>
@@ -305,13 +326,16 @@ export function PersianDateTimePicker({
               className={cn(triggerClassName, "text-foreground", inputClassName)}
               onClick={() => openCalendar()}
             >
-              <span
-                className={cn(
-                  "min-w-0 flex-1 truncate",
-                  !hasValue && "text-muted-foreground",
-                )}
-              >
-                {fieldLabel}
+              <span className="flex min-w-0 flex-1 items-center gap-2">
+                <PickerFieldIcon />
+                <span
+                  className={cn(
+                    "min-w-0 flex-1 truncate text-start",
+                    !hasValue && "text-muted-foreground",
+                  )}
+                >
+                  {fieldLabel}
+                </span>
               </span>
               <PickerChevronIcon />
             </button>

@@ -18,14 +18,20 @@ import {
   cn,
 } from "@repo/ui";
 import {
+  cnFieldTextareaBase,
   cnInputLtrFaPlaceholder,
   cnInputPersian,
   cnTextareaPersian,
+  cnTextareaRtlIconPadding,
 } from "../../lib/form-input-direction";
+import { formFieldIconClass } from "../../lib/form-field-icon";
 import {
+  Briefcase,
+  Buildings2,
   Call,
   Camera,
   Card as CardIcon,
+  DocumentText1,
   Global,
   Location,
   Personalcard,
@@ -169,8 +175,14 @@ export function CompleteProfileForm() {
                 نام
               </label>
               <div className="relative">
-                <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">
-                  <User size={17} variant="Bulk" aria-hidden />
+                <span className="pointer-events-none absolute right-3 top-1/2 z-10 -translate-y-1/2">
+                  <User
+                    size={17}
+                    variant="Linear"
+                    color="currentColor"
+                    className={formFieldIconClass.muted}
+                    aria-hidden
+                  />
                 </span>
                 <Input
                   id="p-firstName"
@@ -192,8 +204,14 @@ export function CompleteProfileForm() {
                 نام خانوادگی
               </label>
               <div className="relative">
-                <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">
-                  <User size={17} variant="Bulk" aria-hidden />
+                <span className="pointer-events-none absolute right-3 top-1/2 z-10 -translate-y-1/2">
+                  <User
+                    size={17}
+                    variant="Linear"
+                    color="currentColor"
+                    className={formFieldIconClass.muted}
+                    aria-hidden
+                  />
                 </span>
                 <Input
                   id="p-lastName"
@@ -215,8 +233,14 @@ export function CompleteProfileForm() {
                 شماره موبایل
               </label>
               <div className="relative">
-                <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">
-                  <Call size={17} variant="Bulk" aria-hidden />
+                <span className="pointer-events-none absolute right-3 top-1/2 z-10 -translate-y-1/2">
+                  <Call
+                    size={17}
+                    variant="Linear"
+                    color="currentColor"
+                    className={formFieldIconClass.muted}
+                    aria-hidden
+                  />
                 </span>
                 <Input
                   id="p-phone"
@@ -239,8 +263,14 @@ export function CompleteProfileForm() {
                 کد ملی
               </label>
               <div className="relative">
-                <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">
-                  <CardIcon size={17} variant="Bulk" aria-hidden />
+                <span className="pointer-events-none absolute right-3 top-1/2 z-10 -translate-y-1/2">
+                  <CardIcon
+                    size={17}
+                    variant="Linear"
+                    color="currentColor"
+                    className={formFieldIconClass.muted}
+                    aria-hidden
+                  />
                 </span>
                 <Input
                   id="p-nationalId"
@@ -280,8 +310,20 @@ export function CompleteProfileForm() {
                 value={values.gender}
                 onValueChange={(val) => setField("gender", val)}
               >
-                <SelectTrigger className="w-full" dir="rtl">
-                  <SelectValue placeholder="جنسیت" />
+                <SelectTrigger
+                  className="w-full [&>span]:!flex [&>span]:min-w-0 [&>span]:flex-1 [&>span]:items-center [&>span]:gap-2"
+                  dir="rtl"
+                >
+                  <span className="!flex min-w-0 flex-1 flex-row items-center gap-2">
+                    <User
+                      size={16}
+                      variant="Linear"
+                      color="currentColor"
+                      className={cn("size-4", formFieldIconClass.muted)}
+                      aria-hidden
+                    />
+                    <SelectValue placeholder="جنسیت" className="min-w-0 flex-1 truncate" />
+                  </span>
                 </SelectTrigger>
                 <SelectContent>
                   {GENDERS.map((g) => (
@@ -310,35 +352,59 @@ export function CompleteProfileForm() {
             <label htmlFor="p-jobTitle" className="text-sm font-medium leading-none">
               عنوان شغلی
             </label>
-            <Input
-              id="p-jobTitle"
-              name="jobTitle"
-              type="text"
-              dir="rtl"
-              placeholder="عنوان شغلی"
-              value={values.jobTitle}
-              onChange={(e) => setField("jobTitle", e.target.value)}
-              className={cn("!max-w-none", cnInputPersian)}
-            />
+            <div className="relative">
+              <span className="pointer-events-none absolute right-3 top-1/2 z-10 -translate-y-1/2">
+                <Briefcase
+                  size={17}
+                  variant="Linear"
+                  color="currentColor"
+                  className={formFieldIconClass.muted}
+                  aria-hidden
+                />
+              </span>
+              <Input
+                id="p-jobTitle"
+                name="jobTitle"
+                type="text"
+                dir="rtl"
+                placeholder="عنوان شغلی"
+                value={values.jobTitle}
+                onChange={(e) => setField("jobTitle", e.target.value)}
+                className={cn("!max-w-none pr-10", cnInputPersian)}
+              />
+            </div>
           </div>
 
           <div className="space-y-2">
             <label htmlFor="p-bio" className="text-sm font-medium leading-none">
               معرفی کوتاه
             </label>
-            <textarea
-              id="p-bio"
-              name="bio"
-              dir="rtl"
-              rows={3}
-              placeholder="معرفی کوتاه"
-              value={values.bio}
-              onChange={(e) => setField("bio", e.target.value)}
-              className={cn(
-                "w-full resize-none rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
-                cnTextareaPersian,
-              )}
-            />
+            <div className="relative">
+              <span className="pointer-events-none absolute right-3 top-3 z-10">
+                <DocumentText1
+                  size={17}
+                  variant="Linear"
+                  color="currentColor"
+                  className={formFieldIconClass.muted}
+                  aria-hidden
+                />
+              </span>
+              <textarea
+                id="p-bio"
+                name="bio"
+                dir="rtl"
+                rows={3}
+                placeholder="معرفی کوتاه"
+                value={values.bio}
+                onChange={(e) => setField("bio", e.target.value)}
+                className={cn(
+                  "resize-none",
+                  cnFieldTextareaBase,
+                  cnTextareaPersian,
+                  cnTextareaRtlIconPadding,
+                )}
+              />
+            </div>
           </div>
         </CardContent>
       </Card>
@@ -365,8 +431,20 @@ export function CompleteProfileForm() {
                   setValues((prev) => ({ ...prev, province: p, city: "" }));
                 }}
               >
-                <SelectTrigger className="w-full" dir="rtl">
-                  <SelectValue placeholder="استان" />
+                <SelectTrigger
+                  className="w-full [&>span]:!flex [&>span]:min-w-0 [&>span]:flex-1 [&>span]:items-center [&>span]:gap-2"
+                  dir="rtl"
+                >
+                  <span className="!flex min-w-0 flex-1 flex-row items-center gap-2">
+                    <Global
+                      size={16}
+                      variant="Linear"
+                      color="currentColor"
+                      className={cn("size-4", formFieldIconClass.muted)}
+                      aria-hidden
+                    />
+                    <SelectValue placeholder="استان" className="min-w-0 flex-1 truncate" />
+                  </span>
                 </SelectTrigger>
                 <SelectContent dir="rtl" className="text-right">
                   <SelectItem value="__empty__">انتخاب استان</SelectItem>
@@ -391,8 +469,21 @@ export function CompleteProfileForm() {
                   setField("city", val === "__empty__" ? "" : val)
                 }
               >
-                <SelectTrigger id="p-city" className="w-full" dir="rtl">
-                  <SelectValue placeholder="شهر" />
+                <SelectTrigger
+                  id="p-city"
+                  className="w-full [&>span]:!flex [&>span]:min-w-0 [&>span]:flex-1 [&>span]:items-center [&>span]:gap-2"
+                  dir="rtl"
+                >
+                  <span className="!flex min-w-0 flex-1 flex-row items-center gap-2">
+                    <Buildings2
+                      size={16}
+                      variant="Linear"
+                      color="currentColor"
+                      className={cn("size-4", formFieldIconClass.muted)}
+                      aria-hidden
+                    />
+                    <SelectValue placeholder="شهر" className="min-w-0 flex-1 truncate" />
+                  </span>
                 </SelectTrigger>
                 <SelectContent dir="rtl" className="max-h-60 text-right">
                   <SelectItem value="__empty__">انتخاب شهر</SelectItem>
@@ -411,19 +502,32 @@ export function CompleteProfileForm() {
             <label htmlFor="p-address" className="text-sm font-medium leading-none">
               آدرس کامل
             </label>
-            <textarea
-              id="p-address"
-              name="address"
-              dir="rtl"
-              rows={2}
-              placeholder="آدرس کامل"
-              value={values.address}
-              onChange={(e) => setField("address", e.target.value)}
-              className={cn(
-                "w-full resize-none rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
-                cnTextareaPersian,
-              )}
-            />
+            <div className="relative">
+              <span className="pointer-events-none absolute right-3 top-3 z-10">
+                <Location
+                  size={17}
+                  variant="Linear"
+                  color="currentColor"
+                  className={formFieldIconClass.muted}
+                  aria-hidden
+                />
+              </span>
+              <textarea
+                id="p-address"
+                name="address"
+                dir="rtl"
+                rows={2}
+                placeholder="آدرس کامل"
+                value={values.address}
+                onChange={(e) => setField("address", e.target.value)}
+                className={cn(
+                  "resize-none",
+                  cnFieldTextareaBase,
+                  cnTextareaPersian,
+                  cnTextareaRtlIconPadding,
+                )}
+              />
+            </div>
           </div>
         </CardContent>
       </Card>

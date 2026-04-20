@@ -26,11 +26,13 @@ import {
   getProductGroupDepth,
   type ProductGroup,
 } from "../../lib/product-groups";
+import {
+  cnFieldTextareaBase,
+  cnTextareaPersian,
+  cnTextareaRtlIconPadding,
+} from "../../lib/form-input-direction";
 
 const PARENT_NONE = "__none__";
-
-const textareaClassName =
-  "min-h-[5.5rem] w-full max-w-none rounded-md border border-[#ccc] bg-[var(--background,#fff)] px-3 py-2 text-[0.9375rem] leading-relaxed text-[var(--foreground,#171717)] outline-none placeholder:text-muted-foreground";
 
 export function ProductGroupCreateForm() {
   const router = useRouter();
@@ -115,7 +117,7 @@ export function ProductGroupCreateForm() {
                     placeholder="نام گروه کالا"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="!max-w-none !pr-9"
+                    className="!max-w-none pr-10"
                   />
                 </div>
               </div>
@@ -188,15 +190,32 @@ export function ProductGroupCreateForm() {
               >
                 توضیحات
               </label>
-              <textarea
-                id="product-group-desc"
-                name="description"
-                rows={4}
-                placeholder="توضیح اختیاری ..."
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                className={textareaClassName}
-              />
+              <div className="relative">
+                <span className="pointer-events-none absolute right-3 top-3 z-10">
+                  <Box
+                    size={17}
+                    variant="Linear"
+                    color="currentColor"
+                    className={cn("shrink-0", "!text-nav-inventory")}
+                    aria-hidden
+                  />
+                </span>
+                <textarea
+                  id="product-group-desc"
+                  name="description"
+                  dir="rtl"
+                  rows={4}
+                  placeholder="توضیح اختیاری ..."
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  className={cn(
+                    "min-h-[5.5rem] resize-y",
+                    cnFieldTextareaBase,
+                    cnTextareaPersian,
+                    cnTextareaRtlIconPadding,
+                  )}
+                />
+              </div>
             </div>
           </CardContent>
         </Card>

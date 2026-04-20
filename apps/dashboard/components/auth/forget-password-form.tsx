@@ -10,9 +10,10 @@ import {
   CardTitle,
   Input,
 } from "@repo/ui";
-import { Call, Lock1, TickCircle } from "iconsax-react";
+import { Call, Lock1, Sms, TickCircle } from "iconsax-react";
 import Link from "next/link";
 import { useState } from "react";
+import { formFieldIconClass } from "../../lib/form-field-icon";
 
 type Step = "phone" | "otp" | "new-password" | "done";
 
@@ -83,8 +84,9 @@ export function ForgetPasswordForm() {
           <div className="flex h-20 w-20 items-center justify-center rounded-full bg-emerald-50 dark:bg-emerald-950/30">
             <TickCircle
               size={48}
-              variant="Bulk"
-              className="text-emerald-500"
+              variant="Linear"
+              color="currentColor"
+              className="!text-emerald-500"
               aria-hidden
             />
           </div>
@@ -113,8 +115,14 @@ export function ForgetPasswordForm() {
                     شماره موبایل
                   </label>
                   <div className="relative">
-                    <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">
-                      <Call size={18} variant="Bulk" aria-hidden />
+                    <span className="pointer-events-none absolute right-3 top-1/2 z-10 -translate-y-1/2">
+                      <Call
+                        size={18}
+                        variant="Linear"
+                        color="currentColor"
+                        className={formFieldIconClass.muted}
+                        aria-hidden
+                      />
                     </span>
                     <Input
                       id="fp-phone"
@@ -154,20 +162,31 @@ export function ForgetPasswordForm() {
                   >
                     کد تأیید
                   </label>
-                  <Input
-                    id="fp-otp"
-                    name="otp"
-                    type="text"
-                    dir="ltr"
-                    inputMode="numeric"
-                    autoComplete="one-time-code"
-                    placeholder="کد ۶ رقمی"
-                    maxLength={6}
-                    value={otp}
-                    onChange={(e) => setOtp(e.target.value.replace(/\D/g, ""))}
-                    className="!max-w-none text-center text-lg tracking-[0.35em]"
-                    autoFocus
-                  />
+                  <div className="relative">
+                    <span className="pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2">
+                      <Sms
+                        size={18}
+                        variant="Linear"
+                        color="currentColor"
+                        className={formFieldIconClass.muted}
+                        aria-hidden
+                      />
+                    </span>
+                    <Input
+                      id="fp-otp"
+                      name="otp"
+                      type="text"
+                      dir="ltr"
+                      inputMode="numeric"
+                      autoComplete="one-time-code"
+                      placeholder="کد ۶ رقمی"
+                      maxLength={6}
+                      value={otp}
+                      onChange={(e) => setOtp(e.target.value.replace(/\D/g, ""))}
+                      className="!max-w-none pl-10 text-center text-lg tracking-[0.35em]"
+                      autoFocus
+                    />
+                  </div>
                 </div>
                 <p className="text-center text-xs text-muted-foreground">
                   کد به شمارهٔ {phone} ارسال شد.{" "}
@@ -206,8 +225,14 @@ export function ForgetPasswordForm() {
                     رمز عبور جدید
                   </label>
                   <div className="relative">
-                    <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">
-                      <Lock1 size={18} variant="Bulk" aria-hidden />
+                    <span className="pointer-events-none absolute right-3 top-1/2 z-10 -translate-y-1/2">
+                      <Lock1
+                        size={18}
+                        variant="Linear"
+                        color="currentColor"
+                        className={formFieldIconClass.muted}
+                        aria-hidden
+                      />
                     </span>
                     <Input
                       id="fp-new-password"
@@ -235,8 +260,14 @@ export function ForgetPasswordForm() {
                     تکرار رمز عبور جدید
                   </label>
                   <div className="relative">
-                    <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">
-                      <Lock1 size={18} variant="Bulk" aria-hidden />
+                    <span className="pointer-events-none absolute right-3 top-1/2 z-10 -translate-y-1/2">
+                      <Lock1
+                        size={18}
+                        variant="Linear"
+                        color="currentColor"
+                        className={formFieldIconClass.muted}
+                        aria-hidden
+                      />
                     </span>
                     <Input
                       id="fp-confirm-password"
@@ -250,7 +281,7 @@ export function ForgetPasswordForm() {
                         setConfirmPassword(e.target.value);
                         setPasswordMismatch(false);
                       }}
-                      className={`!max-w-none pr-10 ${passwordMismatch ? "border-red-500 focus-visible:ring-red-500" : ""}`}
+                      className={`!max-w-none pr-10 ${passwordMismatch ? "border-destructive focus:ring-destructive" : ""}`}
                     />
                   </div>
                   {passwordMismatch && (

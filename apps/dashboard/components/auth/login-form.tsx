@@ -13,6 +13,7 @@ import {
 import { Call, Lock1, Sms } from "iconsax-react";
 import Link from "next/link";
 import { useState } from "react";
+import { formFieldIconClass } from "../../lib/form-field-icon";
 
 type AuthMethod = "otp" | "password";
 
@@ -66,7 +67,7 @@ export function LoginForm() {
                   : "text-muted-foreground hover:text-foreground"
               }`}
             >
-              <Sms size={18} variant="Bulk" aria-hidden />
+              <Sms size={18} variant="Linear" color="currentColor" className="shrink-0" aria-hidden />
               کد یکبار مصرف
             </button>
             <button
@@ -84,7 +85,7 @@ export function LoginForm() {
                   : "text-muted-foreground hover:text-foreground"
               }`}
             >
-              <Lock1 size={18} variant="Bulk" aria-hidden />
+              <Lock1 size={18} variant="Linear" color="currentColor" className="shrink-0" aria-hidden />
               رمز عبور
             </button>
           </div>
@@ -97,8 +98,14 @@ export function LoginForm() {
               شماره موبایل
             </label>
             <div className="relative">
-              <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">
-                <Call size={18} variant="Bulk" aria-hidden />
+              <span className="pointer-events-none absolute right-3 top-1/2 z-10 -translate-y-1/2">
+                <Call
+                  size={18}
+                  variant="Linear"
+                  color="currentColor"
+                  className={formFieldIconClass.muted}
+                  aria-hidden
+                />
               </span>
               <Input
                 id="login-phone"
@@ -126,8 +133,14 @@ export function LoginForm() {
                   رمز عبور
                 </label>
                 <div className="relative">
-                  <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">
-                    <Lock1 size={18} variant="Bulk" aria-hidden />
+                  <span className="pointer-events-none absolute right-3 top-1/2 z-10 -translate-y-1/2">
+                    <Lock1
+                      size={18}
+                      variant="Linear"
+                      color="currentColor"
+                      className={formFieldIconClass.muted}
+                      aria-hidden
+                    />
                   </span>
                   <Input
                     id="login-password"
@@ -162,21 +175,32 @@ export function LoginForm() {
                       >
                         کد تأیید
                       </label>
-                      <Input
-                        id="login-otp"
-                        name="otp"
-                        type="text"
-                        dir="ltr"
-                        inputMode="numeric"
-                        autoComplete="one-time-code"
-                        placeholder="کد ۶ رقمی"
-                        maxLength={6}
-                        value={otp}
-                        onChange={(e) =>
-                          setOtp(e.target.value.replace(/\D/g, ""))
-                        }
-                        className="!max-w-none text-center text-lg tracking-[0.35em]"
-                      />
+                      <div className="relative">
+                        <span className="pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2">
+                          <Sms
+                            size={18}
+                            variant="Linear"
+                            color="currentColor"
+                            className={formFieldIconClass.muted}
+                            aria-hidden
+                          />
+                        </span>
+                        <Input
+                          id="login-otp"
+                          name="otp"
+                          type="text"
+                          dir="ltr"
+                          inputMode="numeric"
+                          autoComplete="one-time-code"
+                          placeholder="کد ۶ رقمی"
+                          maxLength={6}
+                          value={otp}
+                          onChange={(e) =>
+                            setOtp(e.target.value.replace(/\D/g, ""))
+                          }
+                          className="!max-w-none pl-10 text-center text-lg tracking-[0.35em]"
+                        />
+                      </div>
                     </div>
                     <p className="text-center text-xs text-muted-foreground">
                       کد به شمارهٔ بالا ارسال شد.{" "}

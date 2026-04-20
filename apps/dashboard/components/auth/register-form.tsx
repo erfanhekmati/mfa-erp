@@ -13,6 +13,7 @@ import {
 import { Call, Lock1, User } from "iconsax-react";
 import Link from "next/link";
 import { useState } from "react";
+import { formFieldIconClass } from "../../lib/form-field-icon";
 
 export function RegisterForm() {
   const [fullName, setFullName] = useState("");
@@ -44,8 +45,14 @@ export function RegisterForm() {
               نام و نام خانوادگی
             </label>
             <div className="relative">
-              <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">
-                <User size={18} variant="Bulk" aria-hidden />
+              <span className="pointer-events-none absolute right-3 top-1/2 z-10 -translate-y-1/2">
+                <User
+                  size={18}
+                  variant="Linear"
+                  color="currentColor"
+                  className={formFieldIconClass.muted}
+                  aria-hidden
+                />
               </span>
               <Input
                 id="register-name"
@@ -68,8 +75,14 @@ export function RegisterForm() {
               شماره موبایل
             </label>
             <div className="relative">
-              <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">
-                <Call size={18} variant="Bulk" aria-hidden />
+              <span className="pointer-events-none absolute right-3 top-1/2 z-10 -translate-y-1/2">
+                <Call
+                  size={18}
+                  variant="Linear"
+                  color="currentColor"
+                  className={formFieldIconClass.muted}
+                  aria-hidden
+                />
               </span>
               <Input
                 id="register-phone"
@@ -94,8 +107,14 @@ export function RegisterForm() {
               رمز عبور
             </label>
             <div className="relative">
-              <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">
-                <Lock1 size={18} variant="Bulk" aria-hidden />
+              <span className="pointer-events-none absolute right-3 top-1/2 z-10 -translate-y-1/2">
+                <Lock1
+                  size={18}
+                  variant="Linear"
+                  color="currentColor"
+                  className={formFieldIconClass.muted}
+                  aria-hidden
+                />
               </span>
               <Input
                 id="register-password"
@@ -119,8 +138,14 @@ export function RegisterForm() {
               تکرار رمز عبور
             </label>
             <div className="relative">
-              <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">
-                <Lock1 size={18} variant="Bulk" aria-hidden />
+              <span className="pointer-events-none absolute right-3 top-1/2 z-10 -translate-y-1/2">
+                <Lock1
+                  size={18}
+                  variant="Linear"
+                  color="currentColor"
+                  className={formFieldIconClass.muted}
+                  aria-hidden
+                />
               </span>
               <Input
                 id="register-confirm"
