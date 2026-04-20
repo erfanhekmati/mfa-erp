@@ -25,7 +25,7 @@ export const COUNTERPARTY_PERMISSION_SECTIONS = [
   },
   {
     id: "purchase",
-    title: "خرید و تأمین",
+    title: "تأمین",
     permissions: [
       { id: "purchase_dashboard", label: "مشاهده داشبورد خرید" },
       { id: "purchase_project_view", label: "مشاهده خریدها و فاکتور خرید" },
@@ -37,7 +37,7 @@ export const COUNTERPARTY_PERMISSION_SECTIONS = [
   },
   {
     id: "inventory",
-    title: "انبار و موجودی",
+    title: "انبار",
     permissions: [
       { id: "inv_stock_view", label: "مشاهده موجودی" },
       { id: "inv_batch", label: "ردیابی بچ و شماره ذوب" },
