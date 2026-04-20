@@ -67,7 +67,7 @@
     --sidebar-foreground: 0 0% 9%;
     --sidebar-accent: 0 0% 96.1%;
     --sidebar-border: 0 0% 90%;
-    /* نوار بالا و هدر سایدبار: سبز با کنتراست مناسب برای متن سفید */
+    /* نوار بالا / هدر سایدبار: پیش‌فرض فروش (سبز)؛ در بخش‌های دیگر و نمای کلی با selectorهای بعدی عوض می‌شود */
     --brand-bar: 142 71% 36%;
     --brand-bar-foreground: 0 0% 100%;
     --nav-icon-overview: 221 83% 53%;
@@ -76,6 +76,14 @@
     --nav-icon-warehouse: 188 78% 38%;
     --nav-icon-reports: 0 72% 51%;
     --nav-icon-base-info: 262 83% 56%;
+  }
+
+  /**
+   * نمای کلی و مسیرهای بدون data-section: نوار بالا / هدر سایدبار هم‌رنگ آیکن نمای کلی.
+   */
+  html[data-theme="default"]:not([data-section]) {
+    --brand-bar: 221 83% 48%;
+    --brand-bar-foreground: 0 0% 100%;
   }
 
   /* تم پیش‌فرض: رنگ دکمه‌ها و accent بر اساس بخش فعلی (data-section روی html) */
@@ -87,6 +95,8 @@
     --accent-foreground: 142 65% 22%;
     --secondary: 142 35% 96%;
     --secondary-foreground: 142 65% 18%;
+    --brand-bar: 142 71% 36%;
+    --brand-bar-foreground: 0 0% 100%;
   }
 
   html[data-theme="default"][data-section="inventory"] {
@@ -97,6 +107,8 @@
     --accent-foreground: 28 50% 22%;
     --secondary: 45 80% 94%;
     --secondary-foreground: 28 30% 12%;
+    --brand-bar: 45 90% 38%;
+    --brand-bar-foreground: 0 0% 100%;
   }
 
   html[data-theme="default"][data-section="warehouse"] {
@@ -107,6 +119,8 @@
     --accent-foreground: 188 55% 22%;
     --secondary: 188 35% 96%;
     --secondary-foreground: 188 45% 18%;
+    --brand-bar: 188 72% 34%;
+    --brand-bar-foreground: 0 0% 100%;
   }
 
   html[data-theme="default"][data-section="reports"] {
@@ -117,6 +131,8 @@
     --accent-foreground: 0 65% 28%;
     --secondary: 0 35% 96%;
     --secondary-foreground: 0 40% 18%;
+    --brand-bar: 0 72% 46%;
+    --brand-bar-foreground: 0 0% 100%;
   }
 
   html[data-theme="default"][data-section="base-info"] {
@@ -127,6 +143,8 @@
     --accent-foreground: 262 50% 28%;
     --secondary: 262 40% 96%;
     --secondary-foreground: 262 40% 18%;
+    --brand-bar: 262 78% 48%;
+    --brand-bar-foreground: 0 0% 100%;
   }
 
   html[data-theme="default"][data-section="settings"] {
@@ -137,6 +155,8 @@
     --accent-foreground: 0 0% 9%;
     --secondary: 0 0% 96.1%;
     --secondary-foreground: 0 0% 9%;
+    --brand-bar: 0 0% 22%;
+    --brand-bar-foreground: 0 0% 100%;
   }
 
   html[data-theme="slate"] {
