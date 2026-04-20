@@ -7,6 +7,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
+  cn,
   Input,
   Select,
   SelectContent,
@@ -96,8 +97,14 @@ export function ProductGroupCreateForm() {
                   <span className="mr-1 text-destructive">*</span>
                 </label>
                 <div className="relative">
-                  <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">
-                    <Box size={17} variant="Bulk" aria-hidden />
+                  <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2">
+                    <Box
+                      size={17}
+                      variant="Linear"
+                      color="currentColor"
+                      className={cn("shrink-0", "!text-nav-inventory")}
+                      aria-hidden
+                    />
                   </span>
                   <Input
                     id="product-group-name"
@@ -128,21 +135,23 @@ export function ProductGroupCreateForm() {
                 >
                   <SelectTrigger
                     id="product-group-parent"
-                    className="w-full max-w-none text-right [&>div]:min-w-0 [&>div]:flex-1"
+                    className="w-full max-w-none text-right [&>span]:min-w-0 [&>span]:flex-1"
                     dir="rtl"
                     aria-label="گروه بالاتر"
                   >
-                    <div className="flex min-w-0 flex-1 items-center gap-2">
+                    <span className="!flex min-w-0 flex-1 flex-row items-center gap-2">
                       <Hierarchy2
                         size={16}
-                        variant="Bulk"
-                        className="shrink-0 text-muted-foreground"
+                        variant="Linear"
+                        color="currentColor"
+                        className={cn("size-4 shrink-0", "!text-nav-inventory")}
                         aria-hidden
                       />
-                      <span className="min-w-0 flex-1 truncate leading-none">
-                        <SelectValue placeholder="بدون گروه بالاتر (ریشه)" />
-                      </span>
-                    </div>
+                      <SelectValue
+                        placeholder="بدون گروه بالاتر (ریشه)"
+                        className="min-w-0 flex-1 truncate leading-none"
+                      />
+                    </span>
                   </SelectTrigger>
                   <SelectContent dir="rtl">
                     <SelectItem value={PARENT_NONE}>
